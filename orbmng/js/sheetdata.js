@@ -14,7 +14,6 @@
 
     Board.prototype = {
         cells: [],          // 石板マトリクス
-        deployList: [],    // 配置座標リスト
         /**
         * 複製を作成する
         * @return 複製された石板
@@ -67,7 +66,6 @@
         * @return 配置した座標リスト
         */
         deploy: function (orb, x, y) {
-            var pointList = [];
             for (var h = 0; h < orb.height; h++) {
                 var row = this.cells[y + h];
                 for (var w = 0; w < orb.width; w++) {
@@ -75,14 +73,13 @@
                     var status = parseInt(row[x + w], 10);
                     if (status == Board.Hole) {
                         this.cells[y + h][x + w] = Board.Placed;
-                        pointList.push({ x: x + w, y: y + h });
                     } else {
                         throw new Error("X:" + (x + w) + " Y:" + (y + h) + " には配置できません。");
                     }
                 }
             }
-            this.deployList.push(pointList);
-            return pointList;
+            var deployed = { number: orb.number, x: x, y: y };
+            return deployed;
         },
         /**
         * 配置可能な位置リストを検索する
@@ -108,13 +105,15 @@
     * @param name 宝珠名
     * @param type 形状種別
     **********************************************************************************************************/
-    function Orb(name, type) {
+    function Orb(number, name, type) {
+        this.number = number;
         this.name = name;
         this.type = type;
         this.initCells();
     }
 
     Orb.prototype = {
+        number: 0,         // 番号
         name: "",           // 宝珠名
         disabled: 0,        // 対象外フラグ
         type: 0,            // 形状種別
@@ -163,8 +162,6 @@
         }
     };
 
-    window.Orb = Orb;
-
     /*********************************************************************************************************
     * シート内に表示するデータ
     **********************************************************************************************************/
@@ -173,7 +170,8 @@
     }
     SheetData.prototype = {
         orbList: [],    // 宝珠リスト
-        board: []       // 石板データ
+        board: [],      // 石板データ
+        deployList: [] // 配置された宝珠リスト
     };
 
     /**
@@ -200,6 +198,108 @@
     window.SheetData = SheetData;
 
     /*********************************************************************************************************
+    * 石板セルクラス
+    * @param x X座標
+    * @param y Y座標
+    **********************************************************************************************************/
+    function BoardCell(x, y) {
+        createjs.Shape.call(this);
+        this.x = OrbPanel.CellSize * x;
+        this.y = OrbPanel.CellSize * y;
+        this.px = x;
+        this.py = y;
+        this.status = Board.None;
+        this.initCell();
+    }
+
+    BoardCell.prototype = {
+        status: Board.None,
+
+        initCell: function () {
+            this.drawCell(false);
+            this.addEventListener('mouseover', function (event) {
+                document.body.style.cursor = "pointer";
+                event.target.drawCell(true, true);
+            });
+            this.addEventListener('mouseout', function (event) {
+                document.body.style.cursor = "default";
+                event.target.drawCell(false, true);
+            });
+            this.addEventListener('click', function (event) {
+                var cell = event.target;
+                if (cell.status == Board.None) {
+                    cell.status = Board.Hole;
+                } else if (cell.status == Board.Hole) {
+                    cell.status = Board.None;
+                }
+                cell.drawCell(true, true);
+            });
+        },
+
+        drawCell: function (active, update) {
+            var g = this.graphics.clear();
+            var color = "#FEFEFE";
+            if (this.status == Board.None && active) {
+                color = "#DDDDDD";
+            } else if (this.status == Board.Hole) {
+                color = "#888888";
+            }
+            g.beginFill(color).beginStroke("#999");
+            g.drawCircle(OrbPanel.CellSize / 2, OrbPanel.CellSize / 2, OrbPanel.CellSize / 2 - 4);
+            if (update) this.getStage().update();
+        }
+    };
+
+    BoardCell.prototype = $.extend(BoardCell.prototype, createjs.Shape.prototype);
+
+    /*********************************************************************************************************
+    * 配置された宝珠クラス
+    * @param x X座標
+    * @param y Y座標
+    * @param orb Orbオブジェクト
+    **********************************************************************************************************/
+    function DeployedOrb(x, y, orb) {
+        createjs.Shape.call(this);
+        this.x = OrbPanel.CellSize * x;
+        this.y = OrbPanel.CellSize * y;
+        this.px = x;
+        this.py = y;
+        this.orb = orb;
+        this.initOrb();
+    }
+
+    DeployedOrb.prototype = {
+        orb: null,
+
+        initOrb: function () {
+            this.drawCell(false);
+            this.addEventListener('mouseover', function (event) {
+                document.body.style.cursor = "pointer";
+                event.target.drawCell(true, true);
+            });
+            this.addEventListener('mouseout', function (event) {
+                document.body.style.cursor = "default";
+                event.target.drawCell(false, true);
+            });
+        },
+
+        drawCell: function (active, update) {
+            var g = this.graphics.clear();
+            var color = "#FEFEFE";
+            if (this.status == Board.None && active) {
+                color = "#DDDDDD";
+            } else if (this.status == Board.Hole) {
+                color = "#888888";
+            }
+            g.beginFill(color).beginStroke("#999");
+            g.drawCircle(OrbPanel.CellSize / 2, OrbPanel.CellSize / 2, OrbPanel.CellSize / 2 - 4);
+            if (update) this.getStage().update();
+        }
+    };
+
+    DeployedOrb.prototype = $.extend(DeployedOrb.prototype, createjs.Shape.prototype);
+
+    /*********************************************************************************************************
     * 宝珠シート管理クラス
     * @param index インデックス
     **********************************************************************************************************/
@@ -217,6 +317,8 @@
         index: null,   // インデックス
         tabId: null,   // タブID
         _stage: null,
+        deployList: null,
+        cells: null,
         /**
         * 宝珠シートを初期化する
         */
@@ -257,7 +359,10 @@
         initOrbPanel: function () {
             var $target = $(this.tabId + " .orb_panel");
             $target.attr("id", "canvas_" + this.index);
-            this._stage = new createjs.Stage("canvas_" + this.index);
+            var stage = new createjs.Stage("canvas_" + this.index);
+            this._stage = stage;
+            stage.enableMouseOver(50);
+
             var maxSize = OrbPanel.CellSize * 6;
             // 罫線を描画する
             var line = new createjs.Shape();
@@ -273,16 +378,19 @@
             g.moveTo(0, maxSize / 2).lineTo(maxSize, maxSize / 2);
             g.moveTo(maxSize / 2, 0).lineTo(maxSize / 2, maxSize);
             g.endStroke();
-            this._stage.addChild(line);
+            stage.addChild(line);
 
-            for (var r = 1; r < 6; r++) {
-                for (var c = 1; c < 6; c++) {
-                    var cell = new createjs.Shape();
-                    g.moveTo(c * OrbPanel.CellSize, 0).lineTo(c * OrbPanel.CellSize, maxSize);
+            this.cells = [];
+            for (var r = 0; r < 6; r++) {
+                var row = [];
+                for (var c = 0; c < 6; c++) {
+                    var cell = new BoardCell(c, r);
+                    stage.addChild(cell);
+                    row.push(cell);
                 }
+                this.cells.push(row);
             }
-
-            this._stage.update();
+            stage.update();
         },
 
         /**
@@ -294,7 +402,7 @@
             if (!count) count = 0;
             count += 1;
 
-            if (!orb) orb = new Orb("宝珠" + count, 4);
+            if (!orb) orb = new Orb(count - 1, "宝珠" + count, 4);
 
             var selectFormTag =
                 "<div class='orb_select'>" +
@@ -303,7 +411,7 @@
                 "</div>";
 
             var $row = $(
-                "<tr" + ((orb.disabled == 1) ? " class='disabled'" : "") + ">" +
+                "<tr" + ((orb.disabled == 1) ? " class='disabled'" : "") + " number='" + orb.number + "'>" +
                 "    <th><input type='text' value='" + orb.name + "' class='orb_name'/></th>" +
                 "    <td><img class='img_orb_form' src='img/orb" + orb.type + ".png' name='" + orb.type + "'/> <button class='btn_orb'><i class='icon-th'></i></button></td>" +
                 "    <td><button class='btn_disable'><i class='icon-ban-circle'></i></button></td>" +
@@ -329,16 +437,34 @@
                 addOrbRow(sheetData.orbList[i]);
             }
             // 石板データを反映させる
-            for (var y = 0; y < sheetData.board.cells.length; y++) {
+            for (var r = 0; r < 6; r++) {
                 var row = sheetData.board.cells[y];
-                for (var x = 0; x < row.length; x++) {
-                    var $icon = $(this.tabId + " .x_" + x + ".y_" + y).children(".orb_icon");
-                    if (row[x] == Board.Hole) {
-                        $icon.addClass("hole");
-                    } else {
-                        $icon.removeClass("hole");
+                for (var c = 0; c < 6; c++) {
+                    this.cells[r, c].status = sheetData.board.cells[r][c];
+                    this.cells[r, c].draw(false, false);
+                }
+            }
+            this._stage.update();
+        },
+
+        drawDeployedOrb: function (orbList, deployPosList) {
+            if (this.deployList) {
+                for (var d = 0; d < this.deployList.length; d++) {
+                    this._stage.removeChild(this.deployList[d]);
+                }
+            }
+            this.deployList = [];
+            for (var d = 0; d < deployPosList.length; d++) {
+                var deploy = deployPosList[d];
+                var orb = null;
+                for (var o = 0; o < orbList.length; o++) {
+                    if (orbList[o].number == deploy.number) {
+                        orb = orbList[o];
+                        break;
                     }
                 }
+                if (orb == null) continue;
+
             }
         },
 
@@ -348,20 +474,9 @@
         */
         getSheetData: function () {
             var data = new SheetData();
-            //            data.holeCount = $(this.tabId + " .orb_result").find(".orb_icon.hole").length;
-            //            data.orbCount = 0;
-            //            $.each($(this.tabId + " orb_list .img_orb_form"), function () {
-            //                var type = $(this).attr("name");
-            //                if (type == "2" || type == "3") {
-            //                    // 縦横２玉宝珠の場合
-            //                    data.orbCount += 2;
-            //                } else {
-            //                    data.orbCount += 3;
-            //                }
-            //            });
-
             data.board = this.getBoardData();
             data.orbList = this.getOrbListData();
+            data.deployList = this.deployList;
             return data;
         },
 
@@ -372,9 +487,10 @@
         getOrbListData: function () {
             var orbList = [];
             $.each($(this.tabId + " orb_list tbody tr"), function (i, row) {
+                var number = parseInt($(row).attr("number"), 10);
                 var name = $(row).find(".orb_name").val();
                 var type = parseInt($(row).find(".img_orb_form").attr("name"), 10);
-                var orb = new Orb(name, type);
+                var orb = new Orb(number, name, type);
                 orb.disabled = $(row).hasClass("disabled") ? 1 : 0;
                 orbList.push(orb);
             });
@@ -390,8 +506,7 @@
             for (var r = 0; r < 6; r++) {
                 var row = [];
                 for (var c = 0; c < 6; c++) {
-                    var hole = $(this.tabId + " .x_" + c + ".y_" + r).children(".orb_icon").hasClass("hole") ? Board.Hole : Board.None;
-                    row[c] = hole;
+                    row[c] = this.cells[r][c].status;
                 }
                 cells.push(row);
             }
@@ -405,6 +520,7 @@
             if (this.onStartOrbPlacing) {
                 this.onStartOrbPlacing();
             }
+            this.deployList = [];
 
             var orbGrpList = [];
             for (var i = 0; i < data.orbList.length; i++) {
@@ -436,7 +552,7 @@
                     return true;
                 }
                 var orbGrp = orbGrpList[index];
-                var pointList = null;
+                var deployed = null;
                 // グループ内でループする
                 for (var g = 0; g < orbGrp.length; g++) {
                     var newBoard = board.clone();
@@ -447,7 +563,7 @@
                         // 配置可能かチェックする
                         if (newBoard.isPlacable(orb, place.x, place.y) == true) {
                             // 可能であれば配置する
-                            pointList = newBoard.deploy(orb, place.x, place.y);
+                            deployed = newBoard.deploy(orb, place.x, place.y);
                             // 次の宝珠をチェックする
                             if (search(newBoard, deployList, index + 1) == false) {
                                 continue;
@@ -457,8 +573,8 @@
                         }
                     }
                 }
-                if (pointList != null) {
-                    deployList[index] = pointList;
+                if (deployed != null) {
+                    deployList[index] = deployed;
                 }
                 if (deployList.length > deployListAll.length) {
                     deployListAll = deployList;
@@ -466,6 +582,7 @@
                 return false;
             };
             search(board, [], data.board);
+
         }
     };
 
