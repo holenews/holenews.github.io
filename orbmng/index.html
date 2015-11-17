@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Page</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/tinylz77.js"></script>
+    <script type="text/javascript" src="js/base64.js"></script>
+    <script type="text/javascript" src="js/easeljs-0.8.1.min.js"></script>
+    <script type="text/javascript" src="js/sheetdata.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <script type="text/javascript">
+    (function () {
+
+        $(function () {
+            var sheetDataList = loadParam();
+            for (var i = 0; i < 5; i++) {
+                var orbPanel = new OrbPanel(i);
+                if (sheetDataList != null) {
+                    orbPanel.loadSheetData(sheetDataList[i]);
+                }
+            }
+        });
+
+        function loadParam() {
+            var sheetDataList = null;
+            try {
+                var vars = {};
+                var param = location.search.substring(1).split('&');
+                for (var i = 0; i < param.length; i++) {
+                    var keySearch = param[i].search(/=/);
+                    var key = '';
+                    if (keySearch != -1) key = param[i].slice(0, keySearch);
+                    var val = param[i].slice(param[i].indexOf('=', 0) + 1);
+                    if (key != '') vars[key] = decodeURI(val);
+                }
+                if (vars["d"]) {
+                    sheetDataList = SheetData.decode(vars["d"]);
+                }
+            } catch (e) {
+
+            }
+            if (sheetDataList == null || sheetDataList.length != 5) {
+                sheetDataList = null;
+            }
+            return sheetDataList;
+        }
+
+    })();
+    </script>
+    <style>
+        .container { margin : 20px; }
+        .container-fluid { margin : 20px; }
+        
+        .orb_panel { margin : auto; width : 312px; height : 312px; }
+        .label-success { margin-left : 0.5em; margin-right : 0.5em; }
+        
+        h2 { font-size : 1.2em; line-height : 20px; }
+        .div_orb_result { width : 350px; margin-bottom : 20px; float: left; position : relative; }
+        .div_orb_list { width : 400px; margin-left : 20px; position : relative; float: left;  }
+        
+        .orb_hole_count { margin : 10px auto; text-align : center; font-size : 0.9em; }
+
+        .orb_list { margin-top : 20px; margin-bottom : 20px; }
+        .orb_list tr { background : #FFF; }
+        .orb_list tr:active { cursor : move; }
+        .orb_list tr.disabled input { background : #BBB; color : #EEE }
+        .orb_list thead { font-size : 0.9em; }
+        .orb_list th, .orb_list td { font-weight : normal; border-top : none; vertical-align : middle; padding : 1px; }
+        .orb_list td { text-align : center; }
+        .orb_list input { margin-bottom : 0px; }
+        
+        .orb_select { width : 180px; }
+        .orb_select img { width : 40px; height : 40px; cursor : pointer; margin : 1px; border : 1px solid #FFF; }
+        .orb_select img:hover { border : 1px solid #b94a48; }
+        .orb_list_add {  }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <article class="alert alert-info">
+                <h2>使い方</h2>
+                <ul>
+                    <li>左側の石板をクリックすると、穴を開けることができます。</li>
+                    <li>右側の宝珠リストに、配置したい宝珠を追加していきます。</li>
+                    <ul>
+                        <li>上にある宝珠を優先して配置します。ドラッグ＆ドロップで順番を入れ替えることも出来ます。</li>
+                        <li>形の違う同じ宝珠があるときは、宝珠名を同じにして複数並べてください。その中から型にハマる宝珠を自動で選んでくれます。</li>
+                    </ul>
+                </ul>
+            </article>
+        </header>
+        <ul class="nav nav-tabs" id="orb_tabs">
+            <li class="active"><a href="#orbtab0" data-toggle="tab">炎</a></li>
+            <li><a href="#orbtab1" data-toggle="tab">水</a></li>
+            <li><a href="#orbtab2" data-toggle="tab">風</a></li>
+            <li><a href="#orbtab3" data-toggle="tab">光</a></li>
+            <li><a href="#orbtab4" data-toggle="tab">闇</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active orb_tab" id="orbtab0"></div>
+          <div class="tab-pane orb_tab" id="orbtab1"></div>
+          <div class="tab-pane orb_tab" id="orbtab2"></div>
+          <div class="tab-pane orb_tab" id="orbtab3"></div>
+          <div class="tab-pane orb_tab" id="orbtab4"></div>
+        </div>
+        <div id="orb_tab_template" class="hidden">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="div_orb_result">
+                        <canvas class="orb_panel" width="316" height="316">
+            
+                        </canvas>
+                        <div class="orb_deploy"></div>
+                    </div>
+                    <div class="div_orb_list">
+                        <button type="button" class="orb_list_add btn btn-small"><i class="icon-plus icon-align-left"></i> 宝珠の追加</button>
+                        <button type="button" class="btn btn-small btn-success orb_list_setting"><i class="icon-check icon-white"></i> 配置開始</button>
+                        <table class="table orb_list">
+                            <thead><tr><th>宝珠名</th><td>形状</td><td>対象外</td><td>削除</td></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <input type="text" id="url"/>
+    </div>
+</body>
+</html>
