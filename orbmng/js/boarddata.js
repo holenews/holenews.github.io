@@ -127,12 +127,12 @@
             // マウスオーバー時
             this.addEventListener('mouseover', function (event) {
                 document.body.style.cursor = "pointer";
-                event.target.drawCell(true, true);
+                //event.target.drawCell(true, true);
             });
             // マウスアウト時
             this.addEventListener('mouseout', function (event) {
                 document.body.style.cursor = "default";
-                event.target.drawCell(false, true);
+                //event.target.drawCell(false, true);
             });
             // クリック時
             this.addEventListener('click', function (event) {
