@@ -74,7 +74,9 @@
                     $target.parents("tr").toggleClass("disabled");
                 }
                 if ($target.hasClass("btn_delete") || $target.parent().hasClass("btn_delete")) {
-                    $target.parents("tr").fadeOut();
+                    $target.parents("tr").fadeOut(function(){
+                    	$(this).remove();
+                    });
                 }
                 if ($target.is("img") && $target.parent().hasClass("orb_select")) {
                     var $img = $target.parents("td").children("img");
@@ -139,11 +141,12 @@
         * @param orb Orbオブジェクト
         */
         addOrbRow: function (orb) {
-            var count = $.data($(this.tabId + " .orb_list").get(0), "count");
-            if (!count) count = 0;
-            count += 1;
+            var number = 1;
+            while($(this.tabId + " .orb_list tbody tr[number=" + number + "]").length > 0){
+            	number++;
+            }
 
-            if (!orb) orb = new orbmng.Orb(count - 1, "宝珠" + count, 4);
+            if (!orb) orb = new orbmng.Orb(number, "宝珠" + number, 4);
 
             var selectFormTag =
                 "<div class='orb_select'>" +
@@ -155,14 +158,14 @@
                 "<tr" + ((orb.disabled == 1) ? " class='disabled'" : "") + " number='" + orb.number + "'>" +
                 "    <th><input type='text' value='" + orb.name + "' class='orb_name'/></th>" +
                 "    <td><img class='img_orb_form' src='img/orb" + orb.type + ".png' name='" + orb.type + "'/> <button class='btn_orb'><i class='icon-th'></i></button></td>" +
-                "    <td><button class='btn_disable'><i class='icon-ban-circle'></i></button></td>" +
-                "    <td><button class='btn_delete'><i class='icon-remove'></i></button></td>" +
+                "    <td><button class='btn btn_disable'><i class='icon-ban-circle'></i></button></td>" +
+                "    <td><button class='btn btn_delete'><i class='icon-remove'></i></button></td>" +
                 "</tr>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list tbody").append($row).sortable();
             $row.find(".orb_name").focus(function () { $(this).select(); });
             $row.find(".btn_orb").click(function () { $(tabId + ".popover").hide(); }).popover({ trigger: 'click', html: true, placement: 'left', content: selectFormTag });
-            $.data($(this.tabId + " .orb_list").get(0), "count", count);
+
         },
 
         /**
@@ -325,7 +328,7 @@
             }
 
             var deployListAll = [];
-
+			var maxDeployedCount = 0;
             var search = function (board, deployList, index) {
                 if (index >= orbGrpList.length) {
                     // 最後まで検索出来ていれば成功とする
@@ -345,13 +348,13 @@
                             var newBoard = board.clone();
                             // 可能であれば配置する
                             deployed = newBoard.deploy(orb, place.x, place.y);
+                            deployList.length = index + 1;
                             deployList[index] = deployed;
                             var nowDeployedCount = 0;
-                            var maxDeployedCount = 0;
                             $.each(deployList, function (i, d) { if (d) nowDeployedCount++; });
-                            $.each(deployListAll, function (i, d) { if (d) maxDeployedCount++; });
                             if (nowDeployedCount > maxDeployedCount) {
                                 deployListAll = [].concat(deployList);
+                                maxDeployedCount = nowDeployedCount;
                             }
                             // 次の宝珠をチェックする
                             if (search(newBoard, deployList, index + 1) == false) {
@@ -367,7 +370,8 @@
                     }
                 }
                 if (complete == false && deployed == null && (index + 1) < orbGrpList.length) {
-                    return search(board.clone(), deployList, index + 1);
+                    search(board.clone(), deployList, index + 1);
+                    return false;
                 }
                 return complete;
             };
