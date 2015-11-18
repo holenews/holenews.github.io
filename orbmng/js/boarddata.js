@@ -1,0 +1,169 @@
+(function () {
+
+    if (!window.orbmng) window.orbmng = {};
+
+    /*********************************************************************************************************
+    * 石板データ
+    * @param cells 石板マトリクス
+    **********************************************************************************************************/
+    function Board(cells) {
+        this.cells = cells;
+    }
+
+    Board.None = 0;
+    Board.Hole = 1;
+    Board.Placed = 2;
+
+    Board.prototype = {
+        cells: [],          // 石板マトリクス
+        /**
+        * 複製を作成する
+        * @return 複製された石板
+        */
+        clone: function () {
+            var board = new orbmng.Board();
+            board.cells = [];
+            for (var r = 0; r < 6; r++) {
+                var row = [];
+                for (var c = 0; c < 6; c++) {
+                    row[c] = this.cells[r][c];
+                }
+                board.cells.push(row);
+            }
+            return board;
+        },
+        /**
+        * 指定した位置に配置できるかどうかチェックする
+        * @param orb 宝珠データ
+        * @param x X座標
+        * @param y Y座標
+        * @retrun 配置可能ならtrue
+        */
+        isPlacable: function (orb, x, y) {
+            var placeList = [];
+            for (var c = 0; c < orb.cells.lengs; c++) {
+                var cell = orb.cells[c];
+                var row = this.cells[y + cell.y];
+                if (!row) return false;
+
+                var status = parseInt(row[x + cell.x], 10);
+                if (status == Board.Hole) {
+                    placeList.push({ x: x + cell.x, y: y + cell.y });
+                } else {
+                    return false;
+                }
+            }
+            if (placeList.length == orb.cells.length) {
+                return true;
+            }
+            return false;
+        },
+
+        /**
+        * 指定した位置に宝珠を配置する
+        * @param orb 宝珠データ
+        * @param x X座標
+        * @param y Y座標
+        * @return 配置した座標リスト
+        */
+        deploy: function (orb, x, y) {
+            for (var c = 0; c < orb.cells.lengs; c++) {
+                var cell = orb.cells[c];
+                var status = parseInt(this.cells[y + cell.y][x + cell.x], 10);
+                if (status == Board.Hole) {
+                    this.cells[y + h][x + w] = Board.Placed;
+                } else {
+                    throw new Error("X:" + (x + cell.x) + " Y:" + (y + cell.y) + " には配置できません。");
+                }
+            }
+            var deployed = { number: orb.number, x: x, y: y };
+            return deployed;
+        },
+        /**
+        * 配置可能な位置リストを検索する
+        * @param orb 宝珠データ
+        * @return 配置可能な位置リスト
+        */
+        searchPlacableList: function (orb) {
+            var placableList = [];
+            for (var y = 0; y < this.cells.length; y++) {
+                var row = this.cells[y];
+                for (var x = 0; x < row.length; x++) {
+                    if (this.isPlacable(orb, x, y)) {
+                        placableList.push({ x: x, y: y });
+                    }
+                }
+            }
+            return placableList;
+        }
+    };
+
+    window.orbmng.Board = Board;
+
+    /*********************************************************************************************************
+    * 石板Shapeクラス
+    * @param x X座標
+    * @param y Y座標
+    **********************************************************************************************************/
+    function BoardCell(x, y) {
+        createjs.Shape.call(this);
+        this.x = BoardCell.CellSize * x;
+        this.y = BoardCell.CellSize * y;
+        this.px = x;
+        this.py = y;
+        this.status = Board.None;
+        this.initCell();
+    }
+
+    BoardCell.CellSize = 52;
+
+    BoardCell.prototype = {
+        status: Board.None,
+        /**
+        * 初期化する
+        */
+        initCell: function () {
+            this.drawCell(false);
+            // マウスオーバー時
+            this.addEventListener('mouseover', function (event) {
+                document.body.style.cursor = "pointer";
+                event.target.drawCell(true, true);
+            });
+            // マウスアウト時
+            this.addEventListener('mouseout', function (event) {
+                document.body.style.cursor = "default";
+                event.target.drawCell(false, true);
+            });
+            // クリック時
+            this.addEventListener('click', function (event) {
+                var cell = event.target;
+                if (cell.status == Board.None) {
+                    cell.status = Board.Hole;
+                } else if (cell.status == Board.Hole) {
+                    cell.status = Board.None;
+                }
+                cell.drawCell(true, true);
+            });
+        },
+        /**
+        * 描画する
+        * @param active 選択中かどうか
+        * @param update Stageを更新するかどうか
+        */
+        drawCell: function (active, update) {
+            var g = this.graphics.clear();
+            var color = "#FEFEFE";
+            if (this.status == Board.None && active) {
+                color = "#DDDDDD";
+            } else if (this.status == Board.Hole) {
+                color = "#888888";
+            }
+            g.beginFill(color).beginStroke("#999");
+            g.drawCircle(BoardCell.CellSize / 2, BoardCell.CellSize / 2, BoardCell.CellSize / 2 - 4);
+            if (update) this.getStage().update();
+        }
+    };
+
+    BoardCell.prototype = $.extend(BoardCell.prototype, createjs.Shape.prototype);
+    window.orbmng.BoardCell = BoardCell;
+})();
