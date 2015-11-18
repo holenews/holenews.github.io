@@ -96,6 +96,9 @@
         this.initOrb();
     }
 
+    DeployedOrb.Colors = [];
+    DeployedOrb.Colors[0] = { circle : "#F99", border : "#C33", highlight : "#FCC" };
+
     DeployedOrb.prototype = {
         px: 0,
         py: 0,

@@ -214,6 +214,7 @@
 
             for (var d = 0; d < deployPosList.length; d++) {
                 var deploy = deployPosList[d];
+                if (!deploy) continue;
                 var orb = null;
                 for (var o = 0; o < orbList.length; o++) {
                     // リストから番号が一致する宝珠データを取得する
@@ -332,7 +333,7 @@
                 }
                 var orbGrp = orbGrpList[index];
                 var deployed = null;
-                var find = false;
+                var complete = false;
                 // グループ内でループする
                 for (var g = 0; g < orbGrp.length; g++) {
                     var orb = orbGrp[g];
@@ -345,24 +346,30 @@
                             // 可能であれば配置する
                             deployed = newBoard.deploy(orb, place.x, place.y);
                             deployList[index] = deployed;
-                            if (deployList.length > deployListAll.length) {
-                                deployListAll = [].concat(deployList); 
+                            var nowDeployedCount = 0;
+                            var maxDeployedCount = 0;
+                            $.each(deployList, function (i, d) { if (d) nowDeployedCount++; });
+                            $.each(deployListAll, function (i, d) { if (d) maxDeployedCount++; });
+                            if (nowDeployedCount > maxDeployedCount) {
+                                deployListAll = [].concat(deployList);
                             }
                             // 次の宝珠をチェックする
                             if (search(newBoard, deployList, index + 1) == false) {
                                 continue;
                             } else {
-                                find = true;
+                                complete = true;
                                 break;
                             }
                         }
                     }
-                    if (find == true) {
+                    if (complete == true) {
                         break;
                     }
                 }
-
-                return find;
+                if (complete == false && deployed == null && (index + 1) < orbGrpList.length) {
+                    return search(board.clone(), deployList, index + 1);
+                }
+                return complete;
             };
             search(baseBoard, [], 0);
             this.drawDeployedOrb(data.orbList, deployListAll);

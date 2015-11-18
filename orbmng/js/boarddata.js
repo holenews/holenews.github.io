@@ -142,7 +142,7 @@
                 } else if (cell.status == Board.Hole) {
                     cell.status = Board.None;
                 }
-                cell.drawCell(true, true);
+                cell.drawCell(false, true);
             });
         },
         /**
@@ -158,7 +158,7 @@
             } else if (this.status == Board.Hole) {
                 color = "#888888";
             }
-            g.beginFill(color).beginStroke("#999").setStrokeStyle(1);
+            g.beginFill(color).beginStroke("#999").setStrokeStyle(1.5);
             g.drawCircle(BoardCell.CellSize / 2, BoardCell.CellSize / 2, BoardCell.CellSize / 2 - 4);
             if (update) this.getStage().update();
         }
