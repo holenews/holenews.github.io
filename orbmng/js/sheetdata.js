@@ -11,7 +11,7 @@
     SheetData.prototype = {
         orbList: [],    // 宝珠リスト
         board: [],      // 石板データ
-        deployList: [] // 配置された宝珠リスト
+        deployList: []  // 配置された宝珠リスト
     };
 
     /**
@@ -52,7 +52,7 @@
     OrbPanel.prototype = {
         index: null,   // インデックス
         tabId: null,   // タブID
-        _stage: null,
+        stage: null,
         deployList: null,
         cells: null,
         /**
@@ -85,7 +85,7 @@
             });
             // 宝珠配置ボタンがクリックされたときのイベントを設定する
             $(this.tabId + " .orb_list_setting").click(function () {
-                _this.startOrbPlacing();
+                _this.startOrbDeploying();
             });
         },
 
@@ -96,7 +96,7 @@
             var $target = $(this.tabId + " .orb_panel");
             $target.attr("id", "canvas_" + this.index);
             var stage = new createjs.Stage("canvas_" + this.index);
-            this._stage = stage;
+            this.stage = stage;
             stage.enableMouseOver(50);
 
             var cellSize = orbmng.BoardCell.CellSize;
@@ -167,27 +167,35 @@
         */
         loadSheetData: function (sheetData) {
             // 宝珠リストをリセット
-            $(this.tabId + " .orb_list").remove();
+            $(this.tabId + " .orb_list tbody").empty();
             $.data($(this.tabId + " .orb_list").get(0), "count", 0);
             // 宝珠リストを追加する
             for (var i = 0; i < sheetData.orbList.length; i++) {
-                addOrbRow(sheetData.orbList[i]);
+                this.addOrbRow(sheetData.orbList[i]);
             }
-            // 石板データを反映させる
+            // 石板データを描画する
             for (var r = 0; r < 6; r++) {
-                var row = sheetData.board.cells[y];
+                var row = sheetData.board[r];
                 for (var c = 0; c < 6; c++) {
-                    this.cells[r, c].status = sheetData.board.cells[r][c];
-                    this.cells[r, c].draw(false, false);
+                    this.cells[r][c].status = sheetData.board[r][c];
+                    this.cells[r][c].drawCell(false, false);
                 }
             }
-            this._stage.update();
+            // 配置された宝珠を描画する
+            this.drawDeployedOrb(sheetData.orbList, sheetData.deployList);
+
+            this.stage.update();
         },
 
+        /**
+        * 配置された宝珠を描画する
+        * @param orbList 宝珠リスト
+        * @param deployPosList 宝珠番号と位置のリスト
+        */
         drawDeployedOrb: function (orbList, deployPosList) {
             if (this.deployList) {
                 for (var d = 0; d < this.deployList.length; d++) {
-                    this._stage.removeChild(this.deployList[d]);
+                    this.stage.removeChild(this.deployList[d]);
                 }
             }
             this.deployList = [];
@@ -204,9 +212,9 @@
 
                 var deployedOrb = new orbmng.DeployedOrb("#F99", "#FCC", deploy.x, deploy.y, orb);
                 this.deployList.push(deployedOrb);
-                this._stage.addChild(deployedOrb);
+                this.stage.addChild(deployedOrb);
             }
-            this._stage.update();
+            this.stage.update();
         },
 
         /**
@@ -215,9 +223,15 @@
         */
         getSheetData: function () {
             var data = new orbmng.SheetData();
-            data.board = this.getBoardData();
+            data.board = this.getBoardCell();
             data.orbList = this.getOrbListData();
-            data.deployList = this.deployList;
+            data.deployList = [];
+            if (this.deployList) {
+                for (var d = 0; d < this.deployList.length; d++) {
+                    var deploy = this.deployList[d];
+                    data.deployList.push({ number: deploy.number, x: deploy.px, y: deploy.py });
+                }
+            }
             return data;
         },
 
@@ -227,7 +241,7 @@
         */
         getOrbListData: function () {
             var orbList = [];
-            $.each($(this.tabId + " orb_list tbody tr"), function (i, row) {
+            $.each($(this.tabId + " .orb_list tbody tr"), function (i, row) {
                 var number = parseInt($(row).attr("number"), 10);
                 var name = $(row).find(".orb_name").val();
                 var type = parseInt($(row).find(".img_orb_form").attr("name"), 10);
@@ -242,7 +256,7 @@
         * 石板データを取得する
         * @return 石板データ
         */
-        getBoardData: function () {
+        getBoardCell: function () {
             var cells = [];
             for (var r = 0; r < 6; r++) {
                 var row = [];
@@ -251,25 +265,29 @@
                 }
                 cells.push(row);
             }
-            return new orbmng.Board(cells);
+            return cells;
         },
 
-        onStartOrbPlacing: null,
+        /**
+        * 宝珠配置後のイベント
+        */
+        onAfterOrbDeploying: null,
 
-        startOrbPlacing: function () {
-            var data = this.getPageData();
-            if (this.onStartOrbPlacing) {
-                this.onStartOrbPlacing();
-            }
+        /**
+        * 宝珠を配置する
+        */
+        startOrbDeploying: function () {
             this.deployList = [];
 
+            var data = this.getSheetData();
+            var baseBoard = new orbmng.Board(data.board);
             var orbGrpList = [];
             for (var i = 0; i < data.orbList.length; i++) {
                 var orb = new orbmng.OrbCells(data.orbList[i]);
                 if (orb.disabled == 1) continue;
 
                 // 未配置状態で配置可能な位置のリストを作成する
-                orb.placableList = data.board.searchPlacableList(orb);
+                orb.placableList = baseBoard.searchPlacableList(orb);
 
                 // 同じ名称でグループ化する
                 var find = false;
@@ -294,6 +312,7 @@
                 }
                 var orbGrp = orbGrpList[index];
                 var deployed = null;
+                var find = false;
                 // グループ内でループする
                 for (var g = 0; g < orbGrp.length; g++) {
                     var newBoard = board.clone();
@@ -309,7 +328,7 @@
                             if (search(newBoard, deployList, index + 1) == false) {
                                 continue;
                             } else {
-                                return true;
+                                find = true;
                             }
                         }
                     }
@@ -320,10 +339,14 @@
                 if (deployList.length > deployListAll.length) {
                     deployListAll = deployList;
                 }
-                return false;
+                return find;
             };
-            search(board, [], data.board);
+            search(baseBoard, [], 0);
+            this.drawDeployedOrb(data.orbList, deployListAll);
 
+            if (this.onAfterOrbDeploying) {
+                this.onAfterOrbDeploying();
+            }
         }
     };
 

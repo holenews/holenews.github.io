@@ -41,7 +41,7 @@
         */
         isPlacable: function (orb, x, y) {
             var placeList = [];
-            for (var c = 0; c < orb.cells.lengs; c++) {
+            for (var c = 0; c < orb.cells.length; c++) {
                 var cell = orb.cells[c];
                 var row = this.cells[y + cell.y];
                 if (!row) return false;
@@ -67,11 +67,11 @@
         * @return 配置した座標リスト
         */
         deploy: function (orb, x, y) {
-            for (var c = 0; c < orb.cells.lengs; c++) {
+            for (var c = 0; c < orb.cells.length; c++) {
                 var cell = orb.cells[c];
                 var status = parseInt(this.cells[y + cell.y][x + cell.x], 10);
                 if (status == Board.Hole) {
-                    this.cells[y + h][x + w] = Board.Placed;
+                    this.cells[y + cell.y][x + cell.x] = Board.Placed;
                 } else {
                     throw new Error("X:" + (x + cell.x) + " Y:" + (y + cell.y) + " には配置できません。");
                 }

@@ -20,19 +20,23 @@
 
         $(function () {
             var sheetDataList = loadParam();
+            var orbPanelList = [];
             for (var i = 0; i < 5; i++) {
                 var orbPanel = new orbmng.OrbPanel(i);
-                if (sheetDataList != null) {
-                    orbPanel.loadSheetData(sheetDataList[i]);
+                orbPanelList.push(orbPanel);
 
+                if (sheetDataList[i] != null) {
+                    orbPanel.loadSheetData(sheetDataList[i]);
                 }
-                var orbList = [
-                        new orbmng.Orb(1, "AAA", 4)
-                    ];
-                var deployList = [
-                        { number: 1, x: 2, y: 4 }
-                    ];
-                orbPanel.drawDeployedOrb(orbList, deployList);
+                orbPanel.onAfterOrbDeploying = function () {
+                    var newSheetDataList = [];
+                    for (var p = 0; p < orbPanelList.length; p++) {
+                        // シート内のデータを取得する
+                        newSheetDataList.push(orbPanelList[p].getSheetData());
+                    }
+                    var string = orbmng.SheetData.encode(newSheetDataList);
+                    $("#url").val(location.protocol + location.hostname + location.pathname + "?d=" + string);
+                };
             }
         });
 
@@ -49,13 +53,13 @@
                     if (key != '') vars[key] = decodeURI(val);
                 }
                 if (vars["d"]) {
-                    sheetDataList = SheetData.decode(vars["d"]);
+                    sheetDataList = orbmng.SheetData.decode(vars["d"]);
                 }
             } catch (e) {
 
             }
             if (sheetDataList == null || sheetDataList.length != 5) {
-                sheetDataList = null;
+                sheetDataList = [];
             }
             return sheetDataList;
         }
