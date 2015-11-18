@@ -157,14 +157,14 @@
             var $row = $(
                 "<tr" + ((orb.disabled == 1) ? " class='disabled'" : "") + " number='" + orb.number + "'>" +
                 "    <th><input type='text' value='" + orb.name + "' class='orb_name'/></th>" +
-                "    <td><img class='img_orb_form' src='img/orb" + orb.type + ".png' name='" + orb.type + "'/> <button class='btn_orb'><i class='icon-th'></i></button></td>" +
+                "    <td><img class='img_orb_form' src='img/orb" + orb.type + ".png' name='" + orb.type + "'/></td>" +
                 "    <td><button class='btn btn_disable'><i class='icon-ban-circle'></i></button></td>" +
                 "    <td><button class='btn btn_delete'><i class='icon-remove'></i></button></td>" +
                 "</tr>");
             var tabId = this.tabId;
-            $(this.tabId + " .orb_list tbody").append($row).sortable();
+            $(this.tabId + " .orb_list tbody").append($row).sortable({ delay : 300 });
             $row.find(".orb_name").focus(function () { $(this).select(); });
-            $row.find(".btn_orb").click(function () { $(tabId + ".popover").hide(); }).popover({ trigger: 'click', html: true, placement: 'left', content: selectFormTag });
+            $row.find(".img_orb_form").click(function () { $(".popover").hide(); }).popover({ trigger: 'click', html: true, placement: 'left', content: selectFormTag });
 
         },
 
