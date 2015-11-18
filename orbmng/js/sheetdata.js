@@ -201,6 +201,7 @@
                 }
             }
             this.deployList = [];
+            this.stage.update();
         },
 
         /**
@@ -334,15 +335,19 @@
                 var find = false;
                 // グループ内でループする
                 for (var g = 0; g < orbGrp.length; g++) {
-                    var newBoard = board.clone();
                     var orb = orbGrp[g];
                     // 配置可能位置のリストでループする
                     for (var p = 0; p < orb.placableList.length; p++) {
                         var place = orb.placableList[p];
                         // 配置可能かチェックする
-                        if (newBoard.isPlacable(orb, place.x, place.y) == true) {
+                        if (board.isPlacable(orb, place.x, place.y) == true) {
+                            var newBoard = board.clone();
                             // 可能であれば配置する
                             deployed = newBoard.deploy(orb, place.x, place.y);
+                            deployList[index] = deployed;
+                            if (deployList.length > deployListAll.length) {
+                                deployListAll = [].concat(deployList); 
+                            }
                             // 次の宝珠をチェックする
                             if (search(newBoard, deployList, index + 1) == false) {
                                 continue;
@@ -356,12 +361,7 @@
                         break;
                     }
                 }
-                if (deployed) {
-                    deployList[index] = deployed;
-                    if (deployList.length > deployListAll.length) {
-                        deployListAll = deployList;
-                    }
-                }
+
                 return find;
             };
             search(baseBoard, [], 0);
