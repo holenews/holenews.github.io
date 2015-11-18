@@ -1,7 +1,8 @@
 (function () {
 
     if (!window.orbmng) window.orbmng = {};
-
+	var _touch = ('ontouchstart' in document) ? 'touchstart' : 'click';
+	
     /*********************************************************************************************************
     * シート内に表示するデータ
     **********************************************************************************************************/
@@ -64,11 +65,11 @@
             $(this.tabId).html($("#orb_tab_template").html());
             var _this = this;
             // 宝珠追加ボタンがクリックされたときのイベントを設定する
-            $(this.tabId + " .orb_list_add").click(function () {
+            $(this.tabId + " .orb_list_add").on(_touch, function () {
                 _this.addOrbRow(null);
             });
             // 宝珠リスト内のボタンがクリックされたときのイベントを設定する
-            $(this.tabId + " .orb_list").click(function (event) {
+            $(this.tabId + " .orb_list").on(_touch, function (event) {
                 var $target = $(event.target);
                 if ($target.hasClass("btn_disable") || $target.parent().hasClass("btn_disable")) {
                     $target.parents("tr").toggleClass("disabled");
@@ -164,7 +165,7 @@
             var tabId = this.tabId;
             $(this.tabId + " .orb_list tbody").append($row).sortable({ delay : 300 });
             $row.find(".orb_name").focus(function () { $(this).select(); });
-            $row.find(".img_orb_form").click(function () { $(".popover").hide(); }).popover({ trigger: 'click', html: true, placement: 'left', content: selectFormTag });
+            $row.find(".img_orb_form").on(_touch, function () { $(".popover").hide(); }).popover({ trigger: 'click', html: true, placement: 'left', content: selectFormTag });
 
         },
 
