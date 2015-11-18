@@ -89,7 +89,7 @@
             });
             // 宝珠配置ボタンがクリックされたときのイベントを設定する
             $(this.tabId + " .orb_list_reset").click(function () {
-                _this.drawDeployedOrb([], []);
+                _this.clearDepoloyedOrb();
             });
         },
 
@@ -192,17 +192,25 @@
         },
 
         /**
-        * 配置された宝珠を描画する
-        * @param orbList 宝珠リスト
-        * @param deployPosList 宝珠番号と位置のリスト
+        * 配置された宝珠をクリアする
         */
-        drawDeployedOrb: function (orbList, deployPosList) {
+        clearDepoloyedOrb: function () {
             if (this.deployList) {
                 for (var d = 0; d < this.deployList.length; d++) {
                     this.stage.removeChild(this.deployList[d]);
                 }
             }
             this.deployList = [];
+        },
+
+        /**
+        * 配置された宝珠を描画する
+        * @param orbList 宝珠リスト
+        * @param deployPosList 宝珠番号と位置のリスト
+        */
+        drawDeployedOrb: function (orbList, deployPosList) {
+            this.clearDepoloyedOrb();
+
             for (var d = 0; d < deployPosList.length; d++) {
                 var deploy = deployPosList[d];
                 var orb = null;
@@ -289,8 +297,7 @@
         * 宝珠を配置する
         */
         startOrbDeploying: function () {
-            this.deployList = [];
-
+            this.clearDepoloyedOrb();
             var data = this.getSheetData();
             var baseBoard = new orbmng.Board(data.board);
             var orbGrpList = [];
@@ -341,11 +348,15 @@
                                 continue;
                             } else {
                                 find = true;
+                                break;
                             }
                         }
                     }
+                    if (find == true) {
+                        break;
+                    }
                 }
-                if (find) {
+                if (deployed) {
                     deployList[index] = deployed;
                     if (deployList.length > deployListAll.length) {
                         deployListAll = deployList;
