@@ -115,7 +115,7 @@
         this.initCell();
     }
 
-    BoardCell.CellSize = 52;
+    BoardCell.CellSize = 45;
 
     BoardCell.prototype = {
         status: Board.None,
@@ -158,7 +158,7 @@
             } else if (this.status == Board.Hole) {
                 color = "#888888";
             }
-            g.beginFill(color).beginStroke("#999");
+            g.beginFill(color).beginStroke("#999").setStrokeStyle(1);
             g.drawCircle(BoardCell.CellSize / 2, BoardCell.CellSize / 2, BoardCell.CellSize / 2 - 4);
             if (update) this.getStage().update();
         }

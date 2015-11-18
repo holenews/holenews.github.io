@@ -70,7 +70,7 @@
         .container { margin : 20px; }
         .container-fluid { margin : 20px; }
         
-        .orb_panel { margin : auto; width : 312px; height : 312px; }
+        .orb_panel { margin : auto; }
         .label-success { margin-left : 0.5em; margin-right : 0.5em; }
         
         h2 { font-size : 1.2em; line-height : 20px; }
@@ -92,6 +92,17 @@
         .orb_select img { width : 40px; height : 40px; cursor : pointer; margin : 1px; border : 1px solid #FFF; }
         .orb_select img:hover { border : 1px solid #b94a48; }
         .orb_list_add {  }
+        
+        @media (max-width: 767px)  
+        {
+            body { padding-right: 0px; padding-left: 0px; }
+            .container { margin : 10px; }
+            .container-fluid { margin : 0px; }
+            .div_orb_list { margin-left : 0px; }
+            .div_orb_result { width : 300px; }
+            .div_orb_list { width : 300px; }
+            .div_orb_list input { width: 106px; }
+        }
         
     </style>
 </head>
@@ -128,14 +139,14 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="div_orb_result">
-                        <canvas class="orb_panel" width="316" height="316">
+                        <canvas class="orb_panel" width="270" height="270">
             
                         </canvas>
-                        <div class="orb_deploy"></div>
+                        <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 配置をリセットする</button>
                     </div>
                     <div class="div_orb_list">
-                        <button type="button" class="orb_list_add btn btn-small"><i class="icon-plus icon-align-left"></i> 宝珠の追加</button>
-                        <button type="button" class="btn btn-small btn-success orb_list_setting"><i class="icon-check icon-white"></i> 配置開始</button>
+                        <button type="button" class="btn btn-small btn-info orb_list_add "><i class="icon-plus icon-align-left icon-white"></i> 宝珠の追加</button>
+                        <button type="button" class="btn btn-small btn-success orb_list_deploy"><i class="icon-check icon-white"></i> 配置開始</button>
                         <table class="table orb_list">
                             <thead><tr><th>宝珠名</th><td>形状</td><td>対象外</td><td>削除</td></tr></thead>
                             <tbody></tbody>

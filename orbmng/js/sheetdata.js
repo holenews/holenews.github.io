@@ -84,8 +84,12 @@
                 }
             });
             // 宝珠配置ボタンがクリックされたときのイベントを設定する
-            $(this.tabId + " .orb_list_setting").click(function () {
+            $(this.tabId + " .orb_list_deploy").click(function () {
                 _this.startOrbDeploying();
+            });
+            // 宝珠配置ボタンがクリックされたときのイベントを設定する
+            $(this.tabId + " .orb_list_reset").click(function () {
+                _this.drawDeployedOrb([], []);
             });
         },
 
@@ -103,7 +107,7 @@
             var maxSize = orbmng.BoardCell.CellSize * 6;
             // 罫線を描画する
             var line = new createjs.Shape();
-            var g = line.graphics.setStrokeDash([3, 3]).s("#666").setStrokeStyle(0.5);
+            var g = line.graphics.setStrokeDash([3, 3]).beginStroke("#666").setStrokeStyle(1);
             for (var r = 1; r < 6; r++) {
                 g.moveTo(0, r * cellSize).lineTo(maxSize, r * cellSize);
             }
@@ -203,6 +207,7 @@
                 var deploy = deployPosList[d];
                 var orb = null;
                 for (var o = 0; o < orbList.length; o++) {
+                    // リストから番号が一致する宝珠データを取得する
                     if (orbList[o].number == deploy.number) {
                         orb = orbList[o];
                         break;
@@ -213,6 +218,13 @@
                 var deployedOrb = new orbmng.DeployedOrb("#F99", "#FCC", deploy.x, deploy.y, orb);
                 this.deployList.push(deployedOrb);
                 this.stage.addChild(deployedOrb);
+                var tabId = this.tabId;
+                deployedOrb.onMouseOver = function (orb) {
+                    $(tabId + " .orb_list tr[number=" + orb.number + "]").addClass("warning");
+                };
+                deployedOrb.onMouseOut = function (orb) {
+                    $(tabId + " .orb_list tr[number=" + orb.number + "]").removeClass("warning");
+                };
             }
             this.stage.update();
         },
@@ -333,11 +345,11 @@
                         }
                     }
                 }
-                if (deployed != null) {
+                if (find) {
                     deployList[index] = deployed;
-                }
-                if (deployList.length > deployListAll.length) {
-                    deployListAll = deployList;
+                    if (deployList.length > deployListAll.length) {
+                        deployListAll = deployList;
+                    }
                 }
                 return find;
             };

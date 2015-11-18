@@ -104,6 +104,8 @@
         highlight: null,
         // マウスオーバー時のイベント
         onMouseOver: null,
+        // マウスアウト時のイベント
+        onMouseOut: null,
         /**
         * 初期化する
         */
@@ -119,7 +121,11 @@
             });
             // マウスアウト時
             this.addEventListener('mouseout', function (event) {
-                event.target.drawOrb(false, true);
+                var self = event.target;
+                self.drawOrb(false, true);
+                if (self.onMouseOut) {
+                    self.onMouseOut(self.orb);
+                }
             });
         },
         /**
