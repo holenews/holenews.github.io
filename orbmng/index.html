@@ -96,6 +96,7 @@
         .orb_list thead { font-size : 0.9em; }
         .orb_list th, .orb_list thead th, .orb_list td { font-weight : normal; border-top : none; vertical-align : middle; padding : 1px; }
         .orb_list td { text-align : center; }
+        .orb_list td>img { cursor : pointer; }
         .orb_list input { margin-bottom : 0px; }
         .orb_list .not_deployed input { background : #ee7800; }
         
@@ -104,7 +105,7 @@
         .orb_select img:hover { border : 1px solid #b94a48; }
         .orb_list_add {  }
         
-        .alert_not_deployed { display : none; margin-top : 10px; margin-bottom : 10px; }
+        .alert_deployed { display : none; margin-top : 5px; margin-bottom : 5px; }
         
         @media (max-width: 979px)  
         {
@@ -166,8 +167,10 @@
                             <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 宝珠をリセットする</button>
                             <button type="button" class="btn btn-small panel_reset"><i class="icon-remove-sign"></i> 全てリセットする</button>
                         </div>
-                        <div class="alert alert-error alert_not_deployed">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <div class="alert alert-info alert_all_deployed alert_deployed">
+                            おめでとう！宝珠が全てハマりました！
+                        </div>
+                        <div class="alert alert-error alert_not_deployed alert_deployed">
                             配置できなかった宝珠があります。<br />順番を入れ替えたり穴を増やしたりしてみてください。
                         </div>
                     </div>

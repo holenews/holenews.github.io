@@ -191,7 +191,7 @@
             .popover({
                 trigger: 'manual',
                 html: true,
-                placement: 'left',
+                placement: 'top',
                 content: selectFormTag
             });
             // 非活性ボタンクリック
@@ -340,6 +340,8 @@
             this.clearDepoloyedOrb();
             // 配置できなかった宝珠へのクラスを削除する
             $(this.tabId + " .orb_list tbody tr").removeClass("not_deployed");
+            // メッセージを非表示にする
+            $(this.tabId + " .alert_deployed").hide();
             // シート内データを取得する
             var data = this.getSheetData();
             var baseBoard = new orbmng.Board(data.board);
@@ -427,6 +429,8 @@
                         }
                     }
                 }
+            } else {
+                $(this.tabId + " .alert_all_deployed").show();
             }
 
             this.drawDeployedOrb(data.orbList, deployListAll);
