@@ -34,24 +34,34 @@
                     }
                 }
                 orbPanel.onAfterOrbDeploying = function () {
-                    var newSheetDataList = [];
-                    for (var p = 0; p < orbPanelList.length; p++) {
-                        // シート内のデータを取得する
-                        newSheetDataList.push(orbPanelList[p].getSheetData());
-                    }
-                    var string = orbmng.SheetData.encode(newSheetDataList);
-                    var url = location.protocol + location.hostname + location.pathname + "?d=" + string;
+                    var string = getSheetDataString(orbPanelList);
+                    var url = location.protocol + location.hostname + location.pathname + string;
                     $("#url").val(url);
                     if (location.protocol != "file:") {
-                        history.replaceState('', '', "?d=" + string);
+                        history.replaceState('', '', string);
                     }
                 };
             }
             if (location.protocol != "file:") {
                 $("#url").hide();
             }
+            $(".btn_tweet").on("tap", function(){
+            	var string = getSheetDataString(orbPanelList);
+            	$(this).attr("href", "http://twitter.com/share?text=" + location.protocol + location.hostname + location.pathname + string);
+            });
         });
-
+        
+        function getSheetDataString(orbPanelList){
+        	var newSheetDataList = [];
+            for (var p = 0; p < orbPanelList.length; p++) {
+                // シート内のデータを取得する
+                newSheetDataList.push(orbPanelList[p].getSheetData());
+            }
+            var string = orbmng.SheetData.encode(newSheetDataList);
+            return "?d=" + string;
+        }
+        
+        
         function loadParam() {
             var sheetDataList = null;
             try {
@@ -139,6 +149,7 @@
                         <li>上にある宝珠を優先して配置します。ドラッグ＆ドロップで順番を入れ替えることも出来ます。</li>
                     </ul>
                 </ul>
+                <a href="http://twitter.com/share?url=" rel="nofollow" class="btn btn-info btn-small btn_tweet" target="_tweet"><i class="icon-comment icon-white"></i> ツイート</a>
             </article>
         </header>
         <ul class="nav nav-tabs" id="orb_tabs">
@@ -176,7 +187,7 @@
                     <div class="div_orb_list">
                         <h2 class="border_title">配置する宝珠リスト</h2>
                         <div class="div_border">
-                            <button type="button" class="btn btn-small btn-info orb_list_add "><i class="icon-plus icon-align-left icon-white"></i> 宝珠の追加</button>
+                            <button type="button" class="btn btn-small btn-primary orb_list_add "><i class="icon-plus icon-align-left icon-white"></i> 宝珠の追加</button>
                             <button type="button" class="btn btn-small btn-success orb_list_deploy"><i class="icon-refresh icon-white"></i> 配置開始</button>
                             <table class="table orb_list">
                                 <thead><tr><th>宝珠名</th><td>形状</td><td>無視</td><td>削除</td></tr></thead>
