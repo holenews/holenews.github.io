@@ -10,6 +10,7 @@
 
     }
     SheetData.prototype = {
+    	tab : false,	// タブを選択中
         orbList: [],    // 宝珠リスト
         board: [],      // 石板データ
         deployList: []  // 配置された宝珠リスト
@@ -242,7 +243,7 @@
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(sheetData.orbList, sheetData.deployList);
-
+			
             this.stage.update();
         },
 
@@ -304,6 +305,7 @@
                     data.deployList.push({ number: deploy.number, x: deploy.px, y: deploy.py });
                 }
             }
+            data.tab = $(this.tabId).is(":visible");
             return data;
         },
 
@@ -400,7 +402,7 @@
             
             if(orbGrpList.length == 0){
             	$(this.tabId + " .message_window_in").html(
-                "うーん・・・　配置したい宝珠が　ないみたいですよ。<br/>" +
+                "配置したい宝珠が　ないみたいですよ。<br/>" +
                 "「宝珠の追加」ボタンを　押してみてください。");
                 return;
             }

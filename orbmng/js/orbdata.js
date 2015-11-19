@@ -96,8 +96,8 @@
     }
 
     DeployedOrb.Colors = [];
-    DeployedOrb.Colors[0] = { circle: "#dc143c", border: "#dc143c", highlight: "#FFA500" };
-	DeployedOrb.Colors[1] = { circle: "#00008b", border: "#00008b", highlight: "#87ceeb" };
+    DeployedOrb.Colors[0] = { circle: "#dc143c", border: "#dc143c", highlight: "#ffc0cb" };
+	DeployedOrb.Colors[1] = { circle: "#00008b", border: "#00008b", highlight: "#afeeee" };
 	DeployedOrb.Colors[2] = { circle: "#006400", border: "#006400", highlight: "#7cfc00" };
 	DeployedOrb.Colors[3] = { circle: "#ff8c00", border: "#ff8c00", highlight: "#ffff00" };
 	DeployedOrb.Colors[4] = { circle: "#4b0082", border: "#4b0082", highlight: "#d8bfd8" };

@@ -29,6 +29,9 @@
 
                 if (sheetDataList[i] != null) {
                     orbPanel.loadSheetData(sheetDataList[i]);
+                    if(sheetDataList[i].tab == true){
+                    	$("#orb_tabs li:eq(" + i + ") a").tab("show");
+                    }
                 }
                 orbPanel.onAfterOrbDeploying = function () {
                     var newSheetDataList = [];
