@@ -46,7 +46,7 @@
                 $("#url").hide();
             }
             $(".btn_tweet").on("tap", function(){
-            	var string = getSheetDataString(orbPanelList);
+            	var string = encodeURIComponent(getSheetDataString(orbPanelList));
             	$(this).attr("href", "http://twitter.com/share?url=" + location.protocol + "//" + location.hostname + location.pathname + string);
             });
         });
