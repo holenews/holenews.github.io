@@ -96,8 +96,12 @@
     }
 
     DeployedOrb.Colors = [];
-    DeployedOrb.Colors[0] = { circle: "#ff6347", border: "#DF3A01", highlight: "#FFA500" };
-
+    DeployedOrb.Colors[0] = { circle: "#dc143c", border: "#dc143c", highlight: "#FFA500" };
+	DeployedOrb.Colors[1] = { circle: "#00008b", border: "#00008b", highlight: "#87ceeb" };
+	DeployedOrb.Colors[2] = { circle: "#006400", border: "#006400", highlight: "#7cfc00" };
+	DeployedOrb.Colors[3] = { circle: "#ff8c00", border: "#ff8c00", highlight: "#ffff00" };
+	DeployedOrb.Colors[4] = { circle: "#4b0082", border: "#4b0082", highlight: "#d8bfd8" };
+	
     DeployedOrb.prototype = {
         px: 0,
         py: 0,
@@ -135,6 +139,7 @@
                     self.onSelectChanged(self.orb);
                 }
             });
+            
         },
         /**
         * 描画する
@@ -164,15 +169,15 @@
             // 宝珠玉を描画する
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
-                var x = cell.x * this.size + this.size / 2;
-                var y = cell.y * this.size + this.size / 2;
-                g.beginLinearGradientFill([colors.highlight, colors.circle], [0, 0.6], x, y + this.size * (-1), x, y + this.size);
+                var r = this.size / 2;
+                var x = cell.x * this.size + r;
+                var y = cell.y * this.size + r;
+                g.beginLinearGradientFill([colors.highlight, colors.circle], [0, 0.5], x - r, y - r, x + r, y + r);
                 g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
                 g.drawCircle(x, y, this.size / 2 - 4);
                 g.endStroke();
             }
             g.endFill();
-
             if (update) this.getStage().update();
         }
     };
