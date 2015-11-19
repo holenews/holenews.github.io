@@ -146,6 +146,7 @@
                 this.boardCells.children[c].drawCell(false);
             }
             this.stage.update();
+            $(this.tabId + " .message_window_in").text("まずは　石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴をあけましょう。");
         },
 
         /**
@@ -201,7 +202,7 @@
             // 非活性ボタンクリック
             $row.find(".btn_disable").on('tap', function () {
                 $(this).toggleClass("btn-inverse").children("i").toggleClass("icon-white");
-                $(tabId + " .message_window_in").text("無視状態にすると　宝珠を配置するときに　候補から外れます。");
+                $(tabId + " .message_window_in").html("無視状態にすると　宝珠を配置するときに<br/>候補から外れます。");
             });
             if (orb.disabled == 1) {
                 $row.find(".btn_disable").addClass("btn-inverse");
@@ -282,8 +283,7 @@
                 this.deployContainer.addChild(deployedOrb);
                 var tabId = this.tabId;
                 deployedOrb.onSelectChanged = function (orb) {
-                    $(tabId + " .orb_list tr").removeClass("warning");
-                    $(tabId + " .orb_list tr[number=" + orb.number + "]").addClass("warning");
+                    $(tabId + " .message_window_in").text("それは 「" + orb.name + "」 の宝珠です。");
                 };
             }
             this.stage.update();
@@ -358,15 +358,32 @@
             // シート内データを取得する
             var data = this.getSheetData();
             var baseBoard = new orbmng.Board(data.board);
+            
+            var holeCount = 0;
+            for(var r = 0; r < 6; r++){
+            	for(var c = 0; c < 6; c++){
+            		if(baseBoard.cells[r][c] == orbmng.Board.Hole){
+            			holeCount++;
+            		}
+            	}
+            }
+            
+            if(holeCount == 0){
+            	$(this.tabId + " .message_window_in").html(
+                "うーん・・・　石板に穴がなかったら　はまりませんよ。<br/>" +
+                "石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴を増やしましょう。");
+                return;
+            }
 
             var orbGrpList = [];
+            var orbCount = 0;
             for (var i = 0; i < data.orbList.length; i++) {
                 var orb = new orbmng.OrbCells(data.orbList[i]);
                 if (orb.disabled == 1) continue;
 
                 // 未配置状態で配置可能な位置のリストを作成する
                 orb.placableList = baseBoard.searchPlacableList(orb);
-
+				orbCount += orb.cells.length;
                 // 同じ名称でグループ化する
                 var find = false;
                 for (var m = 0; m < orbGrpList.length; m++) {
@@ -379,6 +396,13 @@
                 if (find == false) {
                     orbGrpList.push([orb]);
                 }
+            }
+            
+            if(orbGrpList.length == 0){
+            	$(this.tabId + " .message_window_in").html(
+                "うーん・・・　配置したい宝珠が　ないみたいですよ。<br/>" +
+                "「宝珠の追加」ボタンを　押してみてください。");
+                return;
             }
 
             var deployListAll = [];
@@ -441,9 +465,19 @@
                         }
                     }
                 }
-                $(this.tabId + " .message_window_in").html(
-                "どうしてもハマらない宝珠がありました・・・<br/>" +
-                "ドラッグ＆ドロップで順番を　入れ替えると<br/>うまく　ハマるかもしれません。");
+                
+                var message = "";
+                if(deployListAll.length == 0){
+                	message = "あれ・・・宝珠がひとつも　ハマりませんでしたよ。<br/>まさか　わざとやってませんか？";
+                }else {
+                	message = "どうしてもハマらない宝珠がありました・・・<br/>";
+                	if(orbCount > holeCount){
+                		message += "宝珠の数が　石板の穴より　多いみたいですね。<br/>いくつか無視すると　うまく　ハマるかもしれません。";
+                	}else{
+                		message += "ドラッグ＆ドロップで順番を　入れ替えると<br/>うまく　ハマるかもしれません。";
+                	}
+                }
+                $(this.tabId + " .message_window_in").html(message);
             } else {
                 // 全て配置できたら成功メッセージを表示する
                 $(this.tabId + " .message_window_in").html(

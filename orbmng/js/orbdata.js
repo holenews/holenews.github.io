@@ -152,7 +152,15 @@
             }
 
             var g = this.graphics.clear();
-
+            
+			// 宝珠玉間のラインを描画する
+            g.beginStroke(colors.border).setStrokeStyle(10, 1, 1);
+            g.moveTo(pointList[0].x, pointList[0].y);
+            for (var p = 1; p < pointList.length; p++) {
+                g.lineTo(pointList[p].x, pointList[p].y);
+            }
+            g.endStroke();
+            
             // 宝珠玉を描画する
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
@@ -164,14 +172,6 @@
                 g.endStroke();
             }
             g.endFill();
-
-            // 宝珠玉間のラインを描画する
-            g.beginStroke(colors.border).setStrokeStyle(8, 1, 1);
-            g.moveTo(pointList[0].x, pointList[0].y);
-            for (var p = 1; p < pointList.length; p++) {
-                g.lineTo(pointList[p].x, pointList[p].y);
-            }
-            g.endStroke();
 
             if (update) this.getStage().update();
         }
