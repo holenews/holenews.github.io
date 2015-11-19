@@ -1,8 +1,8 @@
 (function () {
 
     if (!window.orbmng) window.orbmng = {};
-	var _touch = ('ontouchstart' in document) ? 'touchstart' : 'click';
-	
+    var _touch = ('ontouchstart' in document) ? 'touchstart' : 'click';
+
     /*********************************************************************************************************
     * シート内に表示するデータ
     **********************************************************************************************************/
@@ -68,31 +68,23 @@
             $(this.tabId + " .orb_list_add").on(_touch, function () {
                 _this.addOrbRow(null);
             });
+            // 宝珠配置ボタンがクリックされたときのイベントを設定する
+            $(this.tabId + " .orb_list_deploy").on(_touch, function () {
+                _this.startOrbDeploying();
+            });
+            // 宝珠リセットボタンがクリックされたときのイベントを設定する
+            $(this.tabId + " .orb_list_reset").on(_touch, function () {
+                _this.clearDepoloyedOrb();
+            });
             // 宝珠リスト内のボタンがクリックされたときのイベントを設定する
-            $(this.tabId + " .orb_list").on(_touch, function (event) {
-                var $target = $(event.target);
-                if ($target.hasClass("btn_disable") || $target.parent().hasClass("btn_disable")) {
-                    $target.parents("tr").toggleClass("disabled");
-                }
-                if ($target.hasClass("btn_delete") || $target.parent().hasClass("btn_delete")) {
-                    $target.parents("tr").fadeOut(function(){
-                    	$(this).remove();
-                    });
-                }
+            $(this.tabId + " .orb_list").on('tap', function (event) {
+            	var $target = $(event.target);
                 if ($target.is("img") && $target.parent().hasClass("orb_select")) {
                     var $img = $target.parents("td").children("img");
                     $img.attr("src", $target.attr("src"));
                     $img.attr("name", $target.attr("name"));
                     $(".popover").hide();
                 }
-            });
-            // 宝珠配置ボタンがクリックされたときのイベントを設定する
-            $(this.tabId + " .orb_list_deploy").click(function () {
-                _this.startOrbDeploying();
-            });
-            // 宝珠配置ボタンがクリックされたときのイベントを設定する
-            $(this.tabId + " .orb_list_reset").click(function () {
-                _this.clearDepoloyedOrb();
             });
         },
 
@@ -143,8 +135,8 @@
         */
         addOrbRow: function (orb) {
             var number = 1;
-            while($(this.tabId + " .orb_list tbody tr[number=" + number + "]").length > 0){
-            	number++;
+            while ($(this.tabId + " .orb_list tbody tr[number=" + number + "]").length > 0) {
+                number++;
             }
 
             if (!orb) orb = new orbmng.Orb(number, "宝珠" + number, 4);
@@ -163,10 +155,35 @@
                 "    <td><button class='btn btn_delete'><i class='icon-remove'></i></button></td>" +
                 "</tr>");
             var tabId = this.tabId;
-            $(this.tabId + " .orb_list tbody").append($row).sortable({ delay : 300 });
-            $row.find(".orb_name").focus(function () { $(this).select(); });
-            $row.find(".img_orb_form").on(_touch, function () { $(".popover").hide(); }).popover({ trigger: 'click', html: true, placement: 'left', content: selectFormTag });
-
+            $(this.tabId + " .orb_list tbody").append($row).sortable({
+                delay: _touch == "touchstart" ? 500 : 0,
+                start: function () { document.body.style.cursor = "pointer"; },
+                stop: function () { document.body.style.cursor = "default" }
+            });
+            $row.find(".orb_name").focus(function () {
+                if (_touch != "touchstart") {
+                    $(this).select();
+                }
+            });
+            // 宝珠形状ボタンクリック
+            $row.find(".img_orb_form")
+            .on(_touch, function () { $(".popover").hide(); })
+            .popover({
+                trigger: 'click',
+                html: true,
+                placement: 'left',
+                content: selectFormTag
+            });
+            // 非活性ボタンクリック
+            $row.find(".btn_disable").on('tap', function () {
+                $(this).parents("tr").toggleClass("disabled");
+            });
+            // 削除ボタンクリック
+            $row.find(".btn_delete").on('tap', function () {
+                $(this).parents("tr").fadeOut(function () {
+                    $(this).remove();
+                });
+            });
         },
 
         /**
@@ -329,7 +346,7 @@
             }
 
             var deployListAll = [];
-			var maxDeployedCount = 0;
+            var maxDeployedCount = 0;
             var search = function (board, deployList, index) {
                 if (index >= orbGrpList.length) {
                     // 最後まで検索出来ていれば成功とする
