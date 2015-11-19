@@ -37,8 +37,15 @@
                         newSheetDataList.push(orbPanelList[p].getSheetData());
                     }
                     var string = orbmng.SheetData.encode(newSheetDataList);
-                    $("#url").val(location.protocol + location.hostname + location.pathname + "?d=" + string);
+                    var url = location.protocol + location.hostname + location.pathname + "?d=" + string;
+                    $("#url").val(url);
+                    if (location.protocol != "file:") {
+                        history.replaceState('', '', url);
+                    }
                 };
+            }
+            if (location.protocol != "file:") {
+                $("#url").hide();
             }
         });
 
@@ -70,42 +77,50 @@
     </script>
     <style>
         .container { margin : 20px; }
-        .container-fluid { margin : 20px; }
+        .container-fluid { margin : 0px; }
         
         .orb_panel { margin : auto; }
         .label-success { margin-left : 0.5em; margin-right : 0.5em; }
         
-        h2 { font-size : 1.2em; line-height : 20px; }
-        .div_orb_result { width : 350px; margin-bottom : 20px; float: left; position : relative; }
-        .div_orb_list { width : 400px; margin-left : 20px; position : relative; float: left;  }
+        h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
+        .div_orb_result { width : 315px; margin-bottom : 0px; float: left; position : relative; top : -1.5em; }
+        .div_orb_list { width : 400px; margin-left : 20px; position : relative; float: left; top : -1.5em;   }
+        .div_border {  border : 1px solid #999; padding : 20px; border-radius : 10px; }
+        .border_title { font-size : 1em; position : relative; top : 1.5em; left : 1em; background : #FFF; display : inline-block; padding : 0 0.5em; }
         
         .orb_hole_count { margin : 10px auto; text-align : center; font-size : 0.9em; }
 
-        .orb_list { margin-top : 20px; margin-bottom : 20px; }
+        .orb_list { margin-top : 20px; margin-bottom : 30px; }
         .orb_list tr { background : #FFF; }
         .orb_list tr.disabled input { background : #BBB; color : #EEE }
         .orb_list thead { font-size : 0.9em; }
-        .orb_list th, .orb_list td { font-weight : normal; border-top : none; vertical-align : middle; padding : 1px; }
+        .orb_list th, .orb_list thead th, .orb_list td { font-weight : normal; border-top : none; vertical-align : middle; padding : 1px; }
         .orb_list td { text-align : center; }
         .orb_list input { margin-bottom : 0px; }
+        .orb_list .not_deployed input { background : #ee7800; }
         
         .orb_select { width : 180px; }
         .orb_select img { width : 40px; height : 40px; cursor : pointer; margin : 1px; border : 1px solid #FFF; }
         .orb_select img:hover { border : 1px solid #b94a48; }
         .orb_list_add {  }
         
-        @media (max-width: 767px)  
+        .alert_not_deployed { display : none; margin-top : 10px; margin-bottom : 10px; }
+        
+        @media (max-width: 979px)  
         {
             body { padding-right: 0px; padding-left: 0px; }
             .container { margin : 10px; }
             .container-fluid { margin : 0px; }
-            .div_orb_list { margin-left : 0px; }
-            .div_orb_result { width : 320px; }
-            .div_orb_list { width : 320px; }
-            .div_orb_list input { width: 126px; }
-            .orb_select { width : 140px; }
-            .div_orb_list td { width : 48px; height : 48px; }
-            .div_orb_list td>button, .div_orb_list td>img { width : 45px; height : 45px; }
+            
+            .div_orb_result { float : none; }
+            .div_orb_list { width : 315px; margin-left : 0px; float : none; }
+            .div_orb_list input { width: 106px; }
+            
+            .orb_list { margin-bottom : 80px; }
+            .orb_list td { width : 48px; height : 48px; }
+            .orb_list td>button, .orb_list td>img { width : 45px; height : 45px; }
+            
+            .orb_select { width : 140px;  }
         }
         
     </style>
@@ -116,8 +131,8 @@
             <article class="alert alert-info">
                 <h2>使い方</h2>
                 <ul>
-                    <li>左側の石板をクリックすると、穴を開けることができます。</li>
-                    <li>右側の宝珠リストに、配置したい宝珠を追加していきます。</li>
+                    <li>石板をクリックすると、穴を開けることができます。</li>
+                    <li>宝珠リストに、配置したい宝珠を追加していきます。</li>
                     <ul>
                         <li>上にある宝珠を優先して配置します。ドラッグ＆ドロップで順番を入れ替えることも出来ます。</li>
                         <li>形の違う同じ宝珠があるときは、宝珠名を同じにして複数並べてください。その中から型にハマる宝珠を自動で選んでくれます。</li>
@@ -143,23 +158,33 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="div_orb_result">
-                        <canvas class="orb_panel" width="270" height="270">
+                        <h2 class="border_title">宝珠の石板</h2>
+                        <div class="div_border">
+                            <canvas class="orb_panel" width="270" height="270">
             
-                        </canvas>
-                        <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 配置をリセットする</button>
+                            </canvas>
+                            <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 宝珠をリセットする</button>
+                            <button type="button" class="btn btn-small panel_reset"><i class="icon-remove-sign"></i> 全てリセットする</button>
+                        </div>
+                        <div class="alert alert-error alert_not_deployed">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            配置できなかった宝珠があります。<br />順番を入れ替えたり穴を増やしたりしてみてください。
+                        </div>
                     </div>
                     <div class="div_orb_list">
-                        <button type="button" class="btn btn-small btn-info orb_list_add "><i class="icon-plus icon-align-left icon-white"></i> 宝珠の追加</button>
-                        <button type="button" class="btn btn-small btn-success orb_list_deploy"><i class="icon-check icon-white"></i> 配置開始</button>
-                        <table class="table orb_list">
-                            <thead><tr><th>宝珠名</th><td>形状</td><td>対象外</td><td>削除</td></tr></thead>
-                            <tbody></tbody>
-                        </table>
+                        <h2 class="border_title">配置する宝珠リスト</h2>
+                        <div class="div_border">
+                            <button type="button" class="btn btn-small btn-info orb_list_add "><i class="icon-plus icon-align-left icon-white"></i> 宝珠の追加</button>
+                            <button type="button" class="btn btn-small btn-success orb_list_deploy"><i class="icon-refresh icon-white"></i> 配置開始</button>
+                            <table class="table orb_list">
+                                <thead><tr><th>宝珠名</th><td>形状</td><td>無視</td><td>削除</td></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
         <input type="text" id="url"/>
     </div>
 </body>

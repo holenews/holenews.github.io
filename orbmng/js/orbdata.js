@@ -78,12 +78,12 @@
 
     /*********************************************************************************************************
     * 配置された宝珠クラス
-    * @param color 色
+    * @param type 色
     * @param x X座標
     * @param y Y座標
     * @param orb Orbオブジェクト
     **********************************************************************************************************/
-    function DeployedOrb(color, highlight, x, y, orb) {
+    function DeployedOrb(type, x, y, orb) {
         createjs.Shape.call(this);
         OrbCells.call(this, orb);
         this.size = orbmng.BoardCell.CellSize;
@@ -91,24 +91,21 @@
         this.y = this.size * y;
         this.px = x;
         this.py = y;
-        this.color = color;
-        this.highlight = highlight;
+        this.type = type;
         this.initOrb();
     }
 
     DeployedOrb.Colors = [];
-    DeployedOrb.Colors[0] = { circle : "#F99", border : "#C33", highlight : "#FCC" };
+    DeployedOrb.Colors[0] = { circle: "#ff6347", border: "#DF3A01", highlight: "#FFA500" };
 
     DeployedOrb.prototype = {
         px: 0,
         py: 0,
         size: 0,
-        color: null,
-        highlight: null,
-        // マウスオーバー時のイベント
-        onMouseOver: null,
-        // マウスアウト時のイベント
-        onMouseOut: null,
+        type: null,
+        active: false,
+        // 選択時のイベント
+        onSelectChanged: null,
         /**
         * 初期化する
         */
@@ -116,28 +113,36 @@
             this.drawOrb(false);
             // マウスオーバー時
             this.addEventListener('mouseover', function (event) {
-                var self = event.target;
-                self.drawOrb(true, true);
-                if (self.onMouseOver) {
-                    self.onMouseOver(self.orb);
-                }
+                document.body.style.cursor = "pointer";
             });
             // マウスアウト時
             this.addEventListener('mouseout', function (event) {
+                document.body.style.cursor = "default";
+            });
+            // クリック時
+            this.addEventListener('click', function (event) {
                 var self = event.target;
-                self.drawOrb(false, true);
-                if (self.onMouseOut) {
-                    self.onMouseOut(self.orb);
+                // 宝珠を全て非選択状態にする
+                for (var i = 0; i < self.parent.children.length; i++) {
+                    self.parent.children[i].active = false;
+                    self.parent.children[i].drawOrb(false);
+                }
+                // 自身の宝珠を選択状態にする
+                self.active = true;
+                self.drawOrb(false);
+                self.getStage().update();
+                if (self.onSelectChanged) {
+                    self.onSelectChanged(self.orb);
                 }
             });
         },
         /**
         * 描画する
-        * @param active 選択中かどうか
         * @param update Stageを更新するかどうか
         */
-        drawOrb: function (active, update) {
-            var strokeColor = active ? this.highlight : this.color;
+        drawOrb: function (update) {
+            var colors = DeployedOrb.Colors[this.type];
+            var circleEdgeColor = this.active ? colors.highlight : colors.border;
             var pointList = [];
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
@@ -147,25 +152,26 @@
             }
 
             var g = this.graphics.clear();
+
+            // 宝珠玉を描画する
+            g.beginFill(colors.circle);
+            for (var c = 0; c < this.cells.length; c++) {
+                var cell = this.cells[c];
+                var x = cell.x * this.size + this.size / 2;
+                var y = cell.y * this.size + this.size / 2;
+                g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
+                g.drawCircle(x, y, this.size / 2 - 4);
+                g.endStroke();
+            }
+            g.endFill();
+
             // 宝珠玉間のラインを描画する
-            g.beginStroke(strokeColor).setStrokeStyle(8);
+            g.beginStroke(colors.border).setStrokeStyle(8, 1, 1);
             g.moveTo(pointList[0].x, pointList[0].y);
             for (var p = 1; p < pointList.length; p++) {
                 g.lineTo(pointList[p].x, pointList[p].y);
             }
             g.endStroke();
-            // 宝珠玉を描画する
-            g.beginFill(this.color);
-            for (var c = 0; c < this.cells.length; c++) {
-                var cell = this.cells[c];
-                var x = cell.x * this.size + this.size / 2;
-                var y = cell.y * this.size + this.size / 2;
-                g.beginStroke(strokeColor).setStrokeStyle(2);
-                pointList.push({ x: x, y: y });
-                g.drawCircle(x, y, this.size / 2 - 4);
-                g.endStroke();
-            }
-            g.endFill();
 
             if (update) this.getStage().update();
         }
