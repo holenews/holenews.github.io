@@ -85,27 +85,27 @@
         h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
         .div_orb_result { width : 315px; margin-bottom : 0px; float: left; position : relative; top : -1.5em; }
         .div_orb_list { width : 400px; margin-left : 20px; position : relative; float: left; top : -1.5em;   }
-        .div_border {  border : 1px solid #999; padding : 20px; border-radius : 10px; }
+        .div_border {  border : 1px solid #999; padding : 20px; border-radius : 5px; }
         .border_title { font-size : 1em; position : relative; top : 1.5em; left : 1em; background : #FFF; display : inline-block; padding : 0 0.5em; }
         
         .orb_hole_count { margin : 10px auto; text-align : center; font-size : 0.9em; }
 
         .orb_list { margin-top : 20px; margin-bottom : 30px; }
         .orb_list tr { background : #FFF; }
-        .orb_list tr.disabled input { background : #BBB; color : #EEE }
         .orb_list thead { font-size : 0.9em; }
         .orb_list th, .orb_list thead th, .orb_list td { font-weight : normal; border-top : none; vertical-align : middle; padding : 1px; }
         .orb_list td { text-align : center; }
         .orb_list td>img { cursor : pointer; }
         .orb_list input { margin-bottom : 0px; }
-        .orb_list .not_deployed input { background : #ee7800; }
+        .orb_list .not_deployed input { background : #BBB; color : #EEE }
         
         .orb_select { width : 180px; }
         .orb_select img { width : 40px; height : 40px; cursor : pointer; margin : 1px; border : 1px solid #FFF; }
         .orb_select img:hover { border : 1px solid #b94a48; }
         .orb_list_add {  }
         
-        .alert_deployed { display : none; margin-top : 5px; margin-bottom : 5px; }
+        .message_window { width : 305px; margin-top : 10px; background : #333; padding : 5px; border-radius : 5px; }
+        .message_window_in { width : auto; font-size : 0.9em; padding : 5px; min-height : 60px;  color : #EEE; border : 2px solid #EEE;  }
         
         @media (max-width: 979px)  
         {
@@ -136,7 +136,6 @@
                     <li>宝珠リストに、配置したい宝珠を追加していきます。</li>
                     <ul>
                         <li>上にある宝珠を優先して配置します。ドラッグ＆ドロップで順番を入れ替えることも出来ます。</li>
-                        <li>形の違う同じ宝珠があるときは、宝珠名を同じにして複数並べてください。その中から型にハマる宝珠を自動で選んでくれます。</li>
                     </ul>
                 </ul>
             </article>
@@ -164,14 +163,13 @@
                             <canvas class="orb_panel" width="270" height="270">
             
                             </canvas>
-                            <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 宝珠をリセットする</button>
                             <button type="button" class="btn btn-small panel_reset"><i class="icon-remove-sign"></i> 全てリセットする</button>
+                            <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 宝珠をリセットする</button>
                         </div>
-                        <div class="alert alert-info alert_all_deployed alert_deployed">
-                            おめでとう！宝珠が全てハマりました！
-                        </div>
-                        <div class="alert alert-error alert_not_deployed alert_deployed">
-                            配置できなかった宝珠があります。<br />順番を入れ替えたり穴を増やしたりしてみてください。
+                        <div class="message_window">
+                            <div class="message_window_in">
+                                
+                            </div>
                         </div>
                     </div>
                     <div class="div_orb_list">

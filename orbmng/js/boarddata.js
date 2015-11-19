@@ -119,6 +119,8 @@
 
     BoardCell.prototype = {
         status: Board.None,
+        // セルクリック時のイベント
+        onCellClick: null,
         /**
         * 初期化する
         */
@@ -127,12 +129,10 @@
             // マウスオーバー時
             this.addEventListener('mouseover', function (event) {
                 document.body.style.cursor = "pointer";
-                //event.target.drawCell(true, true);
             });
             // マウスアウト時
             this.addEventListener('mouseout', function (event) {
                 document.body.style.cursor = "default";
-                //event.target.drawCell(false, true);
             });
             // クリック時
             this.addEventListener('click', function (event) {
@@ -142,20 +142,20 @@
                 } else if (cell.status == Board.Hole) {
                     cell.status = Board.None;
                 }
-                cell.drawCell(false, true);
+                cell.drawCell(true);
+                if (cell.onCellClick) {
+                    cell.onCellClick();
+                }
             });
         },
         /**
         * 描画する
-        * @param active 選択中かどうか
         * @param update Stageを更新するかどうか
         */
-        drawCell: function (active, update) {
+        drawCell: function (update) {
             var g = this.graphics.clear();
             var color = "#FEFEFE";
-            if (this.status == Board.None && active) {
-                color = "#DDDDDD";
-            } else if (this.status == Board.Hole) {
+            if (this.status == Board.Hole) {
                 color = "#888888";
             }
             g.beginFill(color).beginStroke("#999").setStrokeStyle(1.5);
