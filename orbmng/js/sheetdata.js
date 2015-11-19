@@ -167,7 +167,7 @@
             });
             // 宝珠形状ボタンクリック
             $row.find(".img_orb_form")
-            .on(_touch, function () { $(this).popover("toggle"); })
+            .on('tap', function () { $(this).popover("toggle"); })
             .popover({
                 trigger: 'manual',
                 html: true,
