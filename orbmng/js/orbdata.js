@@ -154,11 +154,11 @@
             var g = this.graphics.clear();
 
             // 宝珠玉を描画する
-            g.beginFill(colors.circle);
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
                 var x = cell.x * this.size + this.size / 2;
                 var y = cell.y * this.size + this.size / 2;
+                g.beginLinearGradientFill([colors.highlight, colors.circle], [0, 0.6], x, y + this.size * (-1), x, y + this.size);
                 g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
                 g.drawCircle(x, y, this.size / 2 - 4);
                 g.endStroke();
