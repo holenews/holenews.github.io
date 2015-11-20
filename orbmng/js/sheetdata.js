@@ -4,42 +4,6 @@
     var _mobile = ('ontouchstart' in document) ? true : false;
 
     /*********************************************************************************************************
-    * シート内に表示するデータ
-    **********************************************************************************************************/
-    function SheetData() {
-
-    }
-    SheetData.prototype = {
-        tab: false, // タブを選択中
-        orbList: [],    // 宝珠リスト
-        board: [],      // 石板データ
-        deployList: []  // 配置された宝珠リスト
-    };
-
-    /**
-    * エンコード
-    * @param sheetDataList シート内に表示するデータのリスト
-    * @return エンコード文字列
-    */
-    SheetData.encode = function (sheetDataList) {
-        var string = JSON.stringify(sheetDataList);
-        var compressedString = base64.encode(TinyLz77.compress(string));
-        return compressedString;
-    };
-    /**
-    * デコード
-    * @param compressedString エンコード文字列
-    * @return シート内に表示するデータのリスト
-    */
-    SheetData.decode = function (compressedString) {
-        string = TinyLz77.decompress(base64.decode(compressedString));
-        var sheetDataList = JSON.parse(string);
-        return sheetDataList;
-    };
-
-    window.orbmng.SheetData = SheetData;
-
-    /*********************************************************************************************************
     * 宝珠シート管理クラス
     * @param index インデックス
     **********************************************************************************************************/
