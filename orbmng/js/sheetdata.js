@@ -154,7 +154,7 @@
                 delay: _mobile ? 400 : 0,
                 start: function () { document.body.style.cursor = "pointer"; $(".popover").hide(); },
                 stop: function () { document.body.style.cursor = "default" },
-                handle: _mobile ? $row.children(".img_orb_form") : false
+                handle: _mobile ? $row.children(".img_orb_form").parent() : false
             });
             // 宝珠形状ボタンクリック
             $row.find(".img_orb_form")
