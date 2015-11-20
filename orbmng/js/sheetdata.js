@@ -454,7 +454,7 @@
             } else {
                 // 全て配置できたら成功メッセージを表示する
                 $(this.tabId + " .message_window_in").html(
-                "宝珠がすべて　ハマりましたよ～！");
+                "宝珠がすべて　ハマりました！");
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(data.ol, deployListAll);
