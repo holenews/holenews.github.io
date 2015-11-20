@@ -202,11 +202,13 @@
                 this.addOrbRow(sheetData.orbList[i]);
             }
             // 石板データを描画する
-            for (var r = 0; r < 6; r++) {
-                var row = sheetData.board[r];
-                for (var c = 0; c < 6; c++) {
-                    this.boardCells.children[r * 6 + c].status = sheetData.board[r][c];
-                    this.boardCells.children[r * 6 + c].drawCell(false);
+            if (sheetData.board.length > 0) {
+                for (var r = 0; r < 6; r++) {
+                    var row = sheetData.board[r];
+                    for (var c = 0; c < 6; c++) {
+                        this.boardCells.children[r * 6 + c].status = sheetData.board[r][c];
+                        this.boardCells.children[r * 6 + c].drawCell(false);
+                    }
                 }
             }
             // 配置された宝珠を描画する
@@ -234,6 +236,7 @@
         */
         drawDeployedOrb: function (orbList, deployPosList) {
             this.clearDepoloyedOrb();
+            if (!deployPosList) return;
 
             for (var d = 0; d < deployPosList.length; d++) {
                 var deploy = deployPosList[d];

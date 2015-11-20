@@ -83,7 +83,6 @@
                     }
                 }
                 shapeList[key] = type;
-                alert(type);
             }
         }
 
@@ -96,10 +95,10 @@
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
                 var type = shapeList[orb.shape];
-                if(i == 0) alert(type);
                 if (type >= 0) {
                     sheet.orbList.push({
                         number: o,
+                        type : type,
                         name: orb.name,
                         disabled: orb.isSetJewel ? 1 : 0
                     });
