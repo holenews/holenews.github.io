@@ -101,6 +101,9 @@
         .div_border {  border : 1px solid #999; padding : 20px; border-radius : 5px; }
         .border_title { font-size : 1em; position : relative; top : 1.5em; left : 1em; background : #FFF; display : inline-block; padding : 0 0.5em; }
         
+        .orb_panel { display : block; margin-bottom : 10px; }
+        .orb_panel_button { width : 270px; margin: auto; text-align : right; }
+        
         .orb_list { margin-top : 20px; margin-bottom : 30px; }
         .orb_list tr { background : #FFF; }
         .orb_list thead { font-size : 0.9em; }
@@ -124,9 +127,12 @@
             .container { margin : 10px; }
             .container-fluid { margin : 0px; }
             
-            .div_orb_result { float : none; }
-            .div_orb_list { width : 315px; margin-left : 0px; float : none; }
-            .div_orb_list input { width: 106px; float : none; top : 0; }
+            .div_orb_result { width : auto; float : none; }
+            .div_orb_list { width : auto; margin-left : 0px; float : none; }
+            .div_orb_list input { width: auto; float : none; top : 0; }
+            
+            .message_window { width : auto; }
+                              
             .orb_list_reset { margin-bottom : 5px; }
             .orb_list { margin-bottom : 80px;  }
             .orb_list td { width : 48px; height : 48px; }
@@ -175,8 +181,10 @@
                             <canvas class="orb_panel" width="270" height="270">
             
                             </canvas>
-                            <button type="button" class="btn btn-small panel_reset"><i class="icon-remove-sign"></i> 石板をリセット</button>
-                            <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 宝珠を外す</button>
+                            <div class="orb_panel_button">
+                                <button type="button" class="btn btn-small panel_reset"><i class="icon-remove-sign"></i> 石板をリセット</button>
+                                <button type="button" class="btn btn-small orb_list_reset"><i class="icon-share"></i> 宝珠を外す</button>
+                            </div>
                         </div>
                         <div class="message_window">
                             <div class="message_window_in">
