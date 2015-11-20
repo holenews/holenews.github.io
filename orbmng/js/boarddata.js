@@ -76,7 +76,7 @@
                     throw new Error("X:" + (x + cell.x) + " Y:" + (y + cell.y) + " には配置できません。");
                 }
             }
-            var deployed = { number: orb.i, x: x, y: y };
+            var deployed = { i: orb.i, x: x, y: y };
             return deployed;
         },
         /**
