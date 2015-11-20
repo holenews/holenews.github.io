@@ -47,7 +47,7 @@
         var shapeList = {};
         // 形状マスタを取得する
         for(var key in jewelShape){
-            if (obj.hasOwnProperty(key)) {
+            if (jewelShape.hasOwnProperty(key)) {
                 alert(key);
                 var shape = jewelShape[key];
                 var type = -1;
