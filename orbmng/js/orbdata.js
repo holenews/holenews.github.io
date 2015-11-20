@@ -96,11 +96,11 @@
     }
 
     DeployedOrb.Colors = [];
-    DeployedOrb.Colors[0] = { circle: "#dc143c", border: "#dc143c", highlight: "#ffc0cb" };
-	DeployedOrb.Colors[1] = { circle: "#00008b", border: "#00008b", highlight: "#afeeee" };
-	DeployedOrb.Colors[2] = { circle: "#006400", border: "#006400", highlight: "#7cfc00" };
-	DeployedOrb.Colors[3] = { circle: "#ff8c00", border: "#ff8c00", highlight: "#ffff00" };
-	DeployedOrb.Colors[4] = { circle: "#4b0082", border: "#4b0082", highlight: "#d8bfd8" };
+    DeployedOrb.Colors[0] = { circle: "#dc143c", border: "#dc143c", highlight: "#FFFFFF" };
+	DeployedOrb.Colors[1] = { circle: "#00008b", border: "#00008b", highlight: "#FFFFFF" };
+	DeployedOrb.Colors[2] = { circle: "#006400", border: "#006400", highlight: "#FFFFFF" };
+	DeployedOrb.Colors[3] = { circle: "#ff8c00", border: "#ff8c00", highlight: "#FFFFFF" };
+	DeployedOrb.Colors[4] = { circle: "#4b0082", border: "#4b0082", highlight: "#FFFFFF" };
 	
     DeployedOrb.prototype = {
         px: 0,
@@ -171,8 +171,8 @@
                 var cell = this.cells[c];
                 var r = this.size / 2;
                 var x = cell.x * this.size + r;
-                var y = cell.y * this.size + r;
-                g.beginLinearGradientFill([colors.highlight, colors.circle], [0, 0.5], x - r, y - r, x + r, y + r);
+                var y = cell.y * this.size + r;44
+                g.beginRadialGradientFill([colors.highlight, colors.circle], [0, 0.4], x - r / 4, y - r / 4, 1, x - r / 4, y - r / 4, this.size);
                 g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
                 g.drawCircle(x, y, this.size / 2 - 4);
                 g.endStroke();
