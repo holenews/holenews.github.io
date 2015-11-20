@@ -23,7 +23,6 @@
     */
     SheetData.encode = function (sheetDataList) {
         var string = JSON.stringify(sheetDataList);
-        alert(string);
         var compressedString = base64.encode(TinyLz77.compress(string));
         return compressedString;
     };
@@ -47,49 +46,51 @@
         var orbNames = ["炎", "水", "風", "光", "闇"];
         var shapeList = {};
         // 形状マスタを取得する
-        Object.keys(jewelShape).forEach(function (key) {
-            var shape = jewelShape[key];
-            var type = -1;
-            if (shape.w == 1) {
-                if (shape.h == 3) {
-                    type = 0; // 縦3
-                } else if (shape.h == 2) {
-                    type = 3; // 縦2
-                }
-            } else if (shape.h == 1) {
-                if (shape.w == 3) {
-                    type = 1; // 横3
-                } else if (shape.w == 2) {
-                    type = 2; // 横2
-                }
-            } else {
-                var xc = 0, yc = 0;
-                for (var p = 0; p < shape.pos.length; p++) {
-                    xc += shape.pos[p][0];
-                    yc += shape.pos[p][1];
-                }
-                if (xc == 2) {
-                    if (yc == 1) {
-                        type = 5;
-                    } else if (yc == 2) {
-                        type = 7;
+        for(var key in jewelShape){
+            if (obj.hasOwnProperty(key)) {
+                alert(key);
+                var shape = jewelShape[key];
+                var type = -1;
+                if (shape.w == 1) {
+                    if (shape.h == 3) {
+                        type = 0; // 縦3
+                    } else if (shape.h == 2) {
+                        type = 3; // 縦2
                     }
-                } else if (xc == 1) {
-                    if (yc == 1) {
-                        type = 6;
-                    } else if (yc == 2) {
-                        type = 4;
+                } else if (shape.h == 1) {
+                    if (shape.w == 3) {
+                        type = 1; // 横3
+                    } else if (shape.w == 2) {
+                        type = 2; // 横2
+                    }
+                } else {
+                    var xc = 0, yc = 0;
+                    for (var p = 0; p < shape.pos.length; p++) {
+                        xc += shape.pos[p][0];
+                        yc += shape.pos[p][1];
+                    }
+                    if (xc == 2) {
+                        if (yc == 1) {
+                            type = 5;
+                        } else if (yc == 2) {
+                            type = 7;
+                        }
+                    } else if (xc == 1) {
+                        if (yc == 1) {
+                            type = 6;
+                        } else if (yc == 2) {
+                            type = 4;
+                        }
                     }
                 }
+                shapeList[key] = type;
             }
-            shapeList[key] = type;
-        });
+        }
 
         var sheetList = [];
         for (var i = 0; i < orbNames.length; i++) {
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
-            if (i == 0) alert(storedOrbList.length);
             var sheet = new SheetData();
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
