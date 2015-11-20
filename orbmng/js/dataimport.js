@@ -100,7 +100,7 @@
                         number: o,
                         type : type,
                         name: orb.name,
-                        disabled: orb.isSetJewel ? 1 : 0
+                        disabled: orb.isSetJewel ? 0 : 1
                     });
                 }
             }
