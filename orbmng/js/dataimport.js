@@ -39,7 +39,7 @@
 
     SheetData.importFromHiroba = function () {
         if (window.__FROM_ORIGIN__) return;
-        if (!jewelShape || !storageJewels) {
+        if (!jewelShape || !storageJewels || !lithographJewel) {
             alert("広場からデータを読み込めませんでした。");
             return;
         }
@@ -95,15 +95,29 @@
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
                 var type = shapeList[orb.shape];
-                if (type >= 0 && (orb.isSetJewel == true || sheet.ol.length < 20)) {
+                if (type >= 0 && orb.isSetJewel == true) {
                     sheet.ol.push({
-                        n: o,
+                        i: o,
                         t: type,
-                        i: orb.name,
+                        n: orb.name,
                         d: orb.isSetJewel ? 0 : 1
                     });
                 }
             }
+            sheet.bd = [];
+            var cellData = lithographJewel[orbNames[i]];
+            for (var r = 0; r < 6; r++) {
+                var row = [];
+                for (var c = 0; c < 6; c++) {
+                    if (cellData[r][c] == 3 || cellData[r][c] == 2) {
+                        row[c] = 1;
+                    } else {
+                        row[c] = 0;
+                    }
+                    sheet.bd.push(row);
+                }
+            }
+
             sheetList[i] = sheet;
         }
 
