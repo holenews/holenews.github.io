@@ -114,8 +114,8 @@
                     } else {
                         row[c] = 0;
                     }
-                    sheet.bd.push(row);
                 }
+                sheet.bd.push(row);
             }
 
             sheetList[i] = sheet;
