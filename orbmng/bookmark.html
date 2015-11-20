@@ -11,6 +11,11 @@
         .container { margin : 20px; }
         .bookmark_url { width : 90%; }
         h1 { font-size : 1em; line-height : 1em; }
+        
+        @media (max-width: 480px)  
+        {
+            .container { margin : 10px; }
+        }
     </style>
     <script type="text/javascript">
         (function () {
@@ -19,7 +24,7 @@
                     $(this).select();
                 });
             });
-        )();
+        })();
     </script>
 </head>
 <body>
