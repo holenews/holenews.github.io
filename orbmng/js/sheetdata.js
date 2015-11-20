@@ -137,10 +137,12 @@
                 "   <img src='img/orb4.png' name='4' /><img src='img/orb5.png' name='5' /><img src='img/orb6.png' name='6' /><img src='img/orb7.png' name='7' />" +
                 "   <img src='img/orb0.png' name='0'/><img src='img/orb1.png' name='1' /><img src='img/orb2.png' name='2' /><img src='img/orb3.png' name='3' />" +
                 "</div>";
-
+			var escapeHTML = function(val) {
+			      return $('<div />').text(val).html();
+			};
             var $row = $(
                 "<tr number='" + orb.i + "'>" +
-                "    <th><input type='text' value='" + orb.n + "' class='orb_name'/></th>" +
+                "    <th><input type='text' value='" + escapeHTML(orb.n) + "' class='orb_name'/></th>" +
                 "    <td><img class='img_orb_form' src='img/orb" + orb.t + ".png' name='" + orb.t + "'/></td>" +
                 "    <td><button class='btn btn_disable'><i class='icon-ban-circle'></i></button></td>" +
                 "    <td><button class='btn btn_delete'><i class='icon-remove'></i></button></td>" +
@@ -149,7 +151,8 @@
             $(this.tabId + " .orb_list tbody").append($row).sortable({
                 delay: _mobile ? 400 : 0,
                 start: function () { document.body.style.cursor = "pointer"; $(".popover").hide(); },
-                stop: function () { document.body.style.cursor = "default" }
+                stop: function () { document.body.style.cursor = "default" },
+                handle: _mobile ? $row.children(".img_orb_form") : false
             });
             // 宝珠形状ボタンクリック
             $row.find(".img_orb_form")
