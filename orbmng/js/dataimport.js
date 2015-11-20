@@ -109,7 +109,7 @@
             for (var r = 0; r < 6; r++) {
                 var row = [];
                 for (var c = 0; c < 6; c++) {
-                    if (cellData[r][c] == 3 || cellData[r][c] == 2) {
+                    if (cellData[r][c].state == 3 || cellData[r][c].state == 2) {
                         row[c] = 1;
                     } else {
                         row[c] = 0;
