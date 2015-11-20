@@ -36,14 +36,10 @@
                 orbPanel.onAfterOrbDeploying = function () {
                     var string = getSheetDataString(orbPanelList);
                     var url = location.protocol + location.hostname + location.pathname + string;
-                    $("#url").val(url);
                     if (location.protocol != "file:") {
                         history.replaceState('', '', string);
                     }
                 };
-            }
-            if (location.protocol != "file:") {
-                $("#url").hide();
             }
             $(".btn_tweet").on("tap", function(){
             	var string = encodeURIComponent(getSheetDataString(orbPanelList));
@@ -135,7 +131,8 @@
             
             .div_orb_result { width : auto; float : none; }
             .div_orb_list { width : auto; margin-left : 0px; float : none; top : 0; }
-            .div_orb_list input { width: auto; }
+            
+            .div_border { padding : 20px 10px; }
             
             .message_window { width : auto; }
                               
@@ -143,6 +140,7 @@
             .orb_list { margin-bottom : 80px;  }
             .orb_list td { width : 48px; height : 48px; }
             .orb_list td>button, .orb_list td>img { width : 45px; height : 45px; }
+            .orb_list input { width: 110px; }
             
             .orb_select { width : 140px;  }
             
@@ -213,7 +211,6 @@
                 </div>
             </div>
         </div>
-        <input type="text" id="url"/>
     </div>
 </body>
 </html>
