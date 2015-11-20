@@ -182,11 +182,6 @@
                 start: function () { document.body.style.cursor = "pointer"; $(".popover").hide(); },
                 stop: function () { document.body.style.cursor = "default" }
             });
-            $row.find(".orb_name").focus(function () {
-                if (_mobile == false) {
-                    $(this).select();
-                }
-            });
             // 宝珠形状ボタンクリック
             $row.find(".img_orb_form")
             .on('tap', function () { $(this).popover("toggle"); })
@@ -199,6 +194,9 @@
             // 宝珠名入力
             $row.find(".orb_name").on('focus', function () {
                 $(tabId + " .message_window_in").html("違う形の宝珠に　同じ名前をつけると　<br/>その中から　一番よくハマる形を探してくれます。<br/>形の候補が複数あるときに　試してみてください。");
+                if (_mobile == false) {
+                    $(this).select();
+                }
             });
             // 非活性ボタンクリック
             $row.find(".btn_disable").on('tap', function () {
