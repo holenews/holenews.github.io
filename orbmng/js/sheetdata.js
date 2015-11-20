@@ -199,7 +199,7 @@
             $.data($(this.tabId + " .orb_list").get(0), "count", 0);
             // 宝珠リストを追加する
             for (var i = 0; i < sheetData.ol.length; i++) {
-                this.addOrbRow(sheetData.orbList[i]);
+                this.addOrbRow(sheetData.ol[i]);
             }
             // 石板データを描画する
             if (sheetData.bd.length > 0) {
@@ -212,7 +212,7 @@
                 }
             }
             // 配置された宝珠を描画する
-            this.drawDeployedOrb(sheetData.orbList, sheetData.dl);
+            this.drawDeployedOrb(sheetData.ol, sheetData.dl);
 
             this.stage.update();
         },
