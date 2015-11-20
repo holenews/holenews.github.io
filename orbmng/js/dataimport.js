@@ -76,9 +76,9 @@
                         }
                     } else if (xc == 1) {
                         if (yc == 1) {
-                            type = 6;
-                        } else if (yc == 2) {
                             type = 4;
+                        } else if (yc == 2) {
+                            type = 6;
                         }
                     }
                 }
