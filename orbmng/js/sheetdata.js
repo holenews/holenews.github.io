@@ -202,6 +202,7 @@
                 if (_mobile == false) {
                     $(this).select();
                 }
+                $(this).focus();
             });
             // 非活性ボタンクリック
             $row.find(".btn_disable").on('tap', function () {
