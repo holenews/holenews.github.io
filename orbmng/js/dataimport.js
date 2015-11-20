@@ -11,9 +11,9 @@
 
     SheetData.prototype = {
         tab: false, // タブを選択中
-        orbList: [],    // 宝珠リスト
-        board: [],      // 石板データ
-        deployList: []  // 配置された宝珠リスト
+        ol: [],    // 宝珠リスト
+        bd: [],      // 石板データ
+        dl: []  // 配置された宝珠リスト
     };
 
     /**
@@ -91,16 +91,16 @@
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
             var sheet = new SheetData();
-            sheet.orbList = [];
+            sheet.ol = [];
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
                 var type = shapeList[orb.shape];
-                if (type >= 0) {
-                    sheet.orbList.push({
-                        number: o,
-                        type : type,
-                        name: orb.name,
-                        disabled: orb.isSetJewel ? 0 : 1
+                if (type >= 0 && (orb.isSetJewel == true || sheet.ol.length < 20)) {
+                    sheet.ol.push({
+                        n: o,
+                        t: type,
+                        i: orb.name,
+                        d: orb.isSetJewel ? 0 : 1
                     });
                 }
             }

@@ -139,9 +139,9 @@
                 "</div>";
 
             var $row = $(
-                "<tr number='" + orb.number + "'>" +
-                "    <th><input type='text' value='" + orb.name + "' class='orb_name'/></th>" +
-                "    <td><img class='img_orb_form' src='img/orb" + orb.type + ".png' name='" + orb.type + "'/></td>" +
+                "<tr number='" + orb.i + "'>" +
+                "    <th><input type='text' value='" + orb.n + "' class='orb_name'/></th>" +
+                "    <td><img class='img_orb_form' src='img/orb" + orb.t + ".png' name='" + orb.t + "'/></td>" +
                 "    <td><button class='btn btn_disable'><i class='icon-ban-circle'></i></button></td>" +
                 "    <td><button class='btn btn_delete'><i class='icon-remove'></i></button></td>" +
                 "</tr>");
@@ -173,7 +173,7 @@
                 $(this).toggleClass("btn-inverse").children("i").toggleClass("icon-white");
                 $(tabId + " .message_window_in").html("無視状態にすると　宝珠を配置するときに<br/>候補から外れます。");
             });
-            if (orb.disabled == 1) {
+            if (orb.d == 1) {
                 $row.find(".btn_disable").addClass("btn-inverse");
                 $row.find(".btn_disable").children("i").addClass("icon-white");
             }
@@ -198,21 +198,21 @@
             $(this.tabId + " .orb_list tbody").empty();
             $.data($(this.tabId + " .orb_list").get(0), "count", 0);
             // 宝珠リストを追加する
-            for (var i = 0; i < sheetData.orbList.length; i++) {
+            for (var i = 0; i < sheetData.ol.length; i++) {
                 this.addOrbRow(sheetData.orbList[i]);
             }
             // 石板データを描画する
-            if (sheetData.board.length > 0) {
+            if (sheetData.bd.length > 0) {
                 for (var r = 0; r < 6; r++) {
-                    var row = sheetData.board[r];
+                    var row = sheetData.bd[r];
                     for (var c = 0; c < 6; c++) {
-                        this.boardCells.children[r * 6 + c].status = sheetData.board[r][c];
+                        this.boardCells.children[r * 6 + c].status = sheetData.bd[r][c];
                         this.boardCells.children[r * 6 + c].drawCell(false);
                     }
                 }
             }
             // 配置された宝珠を描画する
-            this.drawDeployedOrb(sheetData.orbList, sheetData.deployList);
+            this.drawDeployedOrb(sheetData.orbList, sheetData.dl);
 
             this.stage.update();
         },
@@ -244,7 +244,7 @@
                 var orb = null;
                 for (var o = 0; o < orbList.length; o++) {
                     // リストから番号が一致する宝珠データを取得する
-                    if (orbList[o].number == deploy.number) {
+                    if (orbList[o].i == deploy.i) {
                         orb = orbList[o];
                         break;
                     }
@@ -267,13 +267,13 @@
         */
         getSheetData: function () {
             var data = new orbmng.SheetData();
-            data.board = this.getBoardCell();
-            data.orbList = this.getOrbListData();
-            data.deployList = [];
+            data.bd = this.getBoardCell();
+            data.ol = this.getOrbListData();
+            data.dl = [];
             if (this.deployContainer) {
                 for (var d = 0; d < this.deployContainer.children.length; d++) {
                     var deploy = this.deployContainer.children[d];
-                    data.deployList.push({ number: deploy.number, x: deploy.px, y: deploy.py });
+                    data.dl.push({ i: deploy.i, x: deploy.px, y: deploy.py });
                 }
             }
             data.tab = $(this.tabId).is(":visible");
@@ -291,7 +291,7 @@
                 var name = $(row).find(".orb_name").val();
                 var type = parseInt($(row).find(".img_orb_form").attr("name"), 10);
                 var orb = new orbmng.Orb(number, name, type);
-                orb.disabled = $(row).find(".btn_disable").hasClass("btn-inverse") ? 1 : 0;
+                orb.d = $(row).find(".btn_disable").hasClass("btn-inverse") ? 1 : 0;
                 orbList.push(orb);
             });
             return orbList;
@@ -330,7 +330,7 @@
             $(this.tabId + " .alert_deployed").hide();
             // シート内データを取得する
             var data = this.getSheetData();
-            var baseBoard = new orbmng.Board(data.board);
+            var baseBoard = new orbmng.Board(data.bd);
 
             var holeCount = 0;
             for (var r = 0; r < 6; r++) {
@@ -350,9 +350,9 @@
 
             var orbGrpList = [];
             var orbCount = 0;
-            for (var i = 0; i < data.orbList.length; i++) {
-                var orb = new orbmng.OrbCells(data.orbList[i]);
-                if (orb.disabled == 1) continue;
+            for (var i = 0; i < data.ol.length; i++) {
+                var orb = new orbmng.OrbCells(data.ol[i]);
+                if (orb.d == 1) continue;
 
                 // 未配置状態で配置可能な位置のリストを作成する
                 orb.placableList = baseBoard.searchPlacableList(orb);
@@ -360,7 +360,7 @@
                 // 同じ名称でグループ化する
                 var find = false;
                 for (var m = 0; m < orbGrpList.length; m++) {
-                    if (orbGrpList[m][0].name == orb.name) {
+                    if (orbGrpList[m][0].n == orb.n) {
                         orbGrpList[m].push(orb);
                         find = true;
                         break;
@@ -433,7 +433,7 @@
                 for (var g = 0; g < orbGrpList.length; g++) {
                     if (!deployListAll[g]) {
                         for (var o = 0; o < orbGrpList[g].length; o++) {
-                            $(this.tabId + " .orb_list tbody tr[number=" + orbGrpList[g][o].number + "]")
+                            $(this.tabId + " .orb_list tbody tr[number=" + orbGrpList[g][o].i + "]")
                             .addClass("not_deployed");
                         }
                     }
@@ -457,7 +457,7 @@
                 "宝珠がすべて　ハマりましたよ～！");
             }
             // 配置された宝珠を描画する
-            this.drawDeployedOrb(data.orbList, deployListAll);
+            this.drawDeployedOrb(data.ol, deployListAll);
 
             if (this.onAfterOrbDeploying) {
                 this.onAfterOrbDeploying();

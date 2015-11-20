@@ -8,16 +8,16 @@
     * @param type 形状種別
     **********************************************************************************************************/
     function Orb(number, name, type) {
-        this.number = number;
-        this.name = name;
-        this.type = type;
+        this.i = number;
+        this.n = name;
+        this.t = type;
     }
 
     Orb.prototype = {
-        number: 0,          // 番号
-        name: "",           // 宝珠名
-        disabled: 0,        // 対象外フラグ
-        type: 0             // 形状種別
+        i: 0,          // 番号
+        n: "",           // 宝珠名
+        d: 0,        // 対象外フラグ
+        t: 0             // 形状種別
     };
 
     window.orbmng.Orb = Orb;
@@ -27,7 +27,7 @@
     * @param orb 宝珠データ
     **********************************************************************************************************/
     function OrbCells(orb) {
-        Orb.call(this, orb.number, orb.name, orb.type);
+        Orb.call(this, orb.i, orb.n, orb.t);
         this.orb = orb;
         this.disabled = orb.disabled;
         this.initCells();
@@ -39,33 +39,33 @@
         cells: [],          // 形状座標リスト
         initCells: function () {
             this.cells = [];
-            if (this.type == 0) {
+            if (this.t == 0) {
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 0, y: 1 });
                 this.cells.push({ x: 0, y: 2 });
-            } else if (this.type == 1) {
+            } else if (this.t == 1) {
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 1, y: 0 });
                 this.cells.push({ x: 2, y: 0 });
-            } else if (this.type == 2) {
+            } else if (this.t == 2) {
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 1, y: 0 });
-            } else if (this.type == 3) {
+            } else if (this.t == 3) {
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 0, y: 1 });
-            } else if (this.type == 4) {
+            } else if (this.t == 4) {
                 this.cells.push({ x: 1, y: 0 });
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 0, y: 1 });
-            } else if (this.type == 5) {
+            } else if (this.t == 5) {
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 1, y: 0 });
                 this.cells.push({ x: 1, y: 1 });
-            } else if (this.type == 6) {
+            } else if (this.t == 6) {
                 this.cells.push({ x: 0, y: 0 });
                 this.cells.push({ x: 0, y: 1 });
                 this.cells.push({ x: 1, y: 1 });
-            } else if (this.type == 7) {
+            } else if (this.t == 7) {
                 this.cells.push({ x: 1, y: 0 });
                 this.cells.push({ x: 1, y: 1 });
                 this.cells.push({ x: 0, y: 1 });
@@ -78,12 +78,12 @@
 
     /*********************************************************************************************************
     * 配置された宝珠クラス
-    * @param type 色
+    * @param color 色
     * @param x X座標
     * @param y Y座標
     * @param orb Orbオブジェクト
     **********************************************************************************************************/
-    function DeployedOrb(type, x, y, orb) {
+    function DeployedOrb(color, x, y, orb) {
         createjs.Shape.call(this);
         OrbCells.call(this, orb);
         this.size = orbmng.BoardCell.CellSize;
@@ -91,7 +91,7 @@
         this.y = this.size * y;
         this.px = x;
         this.py = y;
-        this.type = type;
+        this.color = color;
         this.initOrb();
     }
 
@@ -106,7 +106,7 @@
         px: 0,
         py: 0,
         size: 0,
-        type: null,
+        color: null,
         active: false,
         // 選択時のイベント
         onSelectChanged: null,
@@ -146,7 +146,7 @@
         * @param update Stageを更新するかどうか
         */
         drawOrb: function (update) {
-            var colors = DeployedOrb.Colors[this.type];
+            var colors = DeployedOrb.Colors[this.color];
             var circleEdgeColor = this.active ? colors.highlight : colors.border;
             var pointList = [];
             for (var c = 0; c < this.cells.length; c++) {
