@@ -1,3 +1,3 @@
 (function(){
-	alert(strageJewels);
+	alert(storageJewels["光"]);
 })();
