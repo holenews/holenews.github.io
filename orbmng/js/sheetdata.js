@@ -35,7 +35,9 @@
             });
             // 宝珠配置ボタンがクリックされたときのイベントを設定する
             $(this.tabId + " .orb_list_deploy").on('tap', function () {
-                _this.startOrbDeploying();
+            	if(confirm("石板の穴もすべてリセットされます。本当にリセットしますか？")){
+            		_this.startOrbDeploying();
+            	}
             });
             // 宝珠リセットボタンがクリックされたときのイベントを設定する
             $(this.tabId + " .orb_list_reset").on('tap', function () {
@@ -98,7 +100,7 @@
                 for (var c = 0; c < 6; c++) {
                     var cell = new orbmng.BoardCell(c, r);
                     cell.onCellClick = function () {
-                        $(tabId + " .message_window_in").text("穴をあけたら　配置したい宝珠を　追加します。");
+                        $(tabId + " .message_window_in").text("穴をあけたら　配置したい宝珠を　追加します。<br/>形状を" + ((_mobile) ? "タップ" : "クリック") + "すると　形を変えられます。");
                     };
                     this.boardCells.addChild(cell);
                 }
@@ -116,7 +118,7 @@
                 this.boardCells.children[c].drawCell(false);
             }
             this.stage.update();
-            $(this.tabId + " .message_window_in").text("まずは　石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴をあけましょう。");
+            $(this.tabId + " .message_window_in").text("石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴をあけましょう。");
         },
 
         /**
@@ -172,7 +174,9 @@
             // 非活性ボタンクリック
             $row.find(".btn_disable").on('tap', function () {
                 $(this).toggleClass("btn-inverse").children("i").toggleClass("icon-white");
-                $(tabId + " .message_window_in").html("無視状態にすると　宝珠を配置するときに<br/>候補から外れます。");
+                if($(this).hasClass("btn-inverse")){
+                	$(tabId + " .message_window_in").html("無視状態にすると　宝珠を配置するときに<br/>候補から外れます。");
+                }
             });
             if (orb.d == 1) {
                 $row.find(".btn_disable").addClass("btn-inverse");
@@ -186,7 +190,6 @@
             });
 
             $(this.tabId + " .message_window_in").html(
-                "形状を" + ((_mobile) ? "タップ" : "クリック") + "すると　宝珠の　形を選べます。<br/>" +
                 "順番を入れ替えたり　無視してみたりして<br/>優先させたい宝珠の組み合わせを　決めましょう。");
         },
 
@@ -453,7 +456,7 @@
                     if (orbCount > holeCount) {
                         message += "宝珠の数が　石板の穴より　多いみたいです。<br/>いくつか無視すると　うまくハマる　かもしれません。";
                     } else {
-                        message += "ドラッグ＆ドロップで　順番を　入れ替えると<br/>うまくハマる　かもしれません。";
+                        
                     }
                 }
                 $(this.tabId + " .message_window_in").html(message);
