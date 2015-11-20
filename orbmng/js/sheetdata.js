@@ -202,7 +202,7 @@
                 this.addOrbRow(sheetData.ol[i]);
             }
             // 石板データを描画する
-            if (sheetData.bd.length > 0) {
+            if (sheetData.bd) {
                 for (var r = 0; r < 6; r++) {
                     var row = sheetData.bd[r];
                     for (var c = 0; c < 6; c++) {
