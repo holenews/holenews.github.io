@@ -209,8 +209,13 @@
                     }
                 }
             }
-            // 配置された宝珠を描画する
-            this.drawDeployedOrb(sheetData.ol, sheetData.dl);
+            if (sheetData.dl) {
+                // 配置された宝珠を描画する
+                this.drawDeployedOrb(sheetData.ol, sheetData.dl);
+            } else {
+                // 宝珠を自動配置する
+                this.startOrbDeploying();
+            }
 
             this.stage.update();
         },
