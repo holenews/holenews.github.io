@@ -1,7 +1,7 @@
 (function () {
 
-	if (!window.orbmng) window.orbmng = {};
-	
+    if (!window.orbmng) window.orbmng = {};
+
     /*********************************************************************************************************
     * シート内に表示するデータ
     **********************************************************************************************************/
@@ -23,6 +23,7 @@
     */
     SheetData.encode = function (sheetDataList) {
         var string = JSON.stringify(sheetDataList);
+        alert(string);
         var compressedString = base64.encode(TinyLz77.compress(string));
         return compressedString;
     };
@@ -88,6 +89,7 @@
         for (var i = 0; i < orbNames.length; i++) {
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
+            if (i == 0) alert(storedOrbList.length);
             var sheet = new SheetData();
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
