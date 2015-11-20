@@ -197,7 +197,7 @@
                 content: selectFormTag
             });
             // 宝珠名入力
-            $row.find(".orb_name").on('focus', function () {
+            $row.find(".orb_name").on('tap', function () {
                 $(tabId + " .message_window_in").html("違う形の宝珠に　同じ名前をつけると　<br/>その中から　一番よくハマる形を探してくれます。<br/>形の候補が複数あるときに　試してみてください。");
                 if (_mobile == false) {
                     $(this).select();
