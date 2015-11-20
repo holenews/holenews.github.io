@@ -46,9 +46,8 @@
         var orbNames = ["炎", "水", "風", "光", "闇"];
         var shapeList = {};
         // 形状マスタを取得する
-        for(var key in jewelShape){
+        for (var key in jewelShape) {
             if (jewelShape.hasOwnProperty(key)) {
-                alert(key);
                 var shape = jewelShape[key];
                 var type = -1;
                 if (shape.w == 1) {
@@ -84,6 +83,7 @@
                     }
                 }
                 shapeList[key] = type;
+                alert(type);
             }
         }
 
@@ -92,9 +92,11 @@
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
             var sheet = new SheetData();
+            sheet.orbList = [];
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
                 var type = shapeList[orb.shape];
+                if(i == 0) alert(type);
                 if (type >= 0) {
                     sheet.orbList.push({
                         number: o,
