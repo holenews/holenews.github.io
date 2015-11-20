@@ -343,7 +343,7 @@
 
             if (holeCount == 0) {
                 $(this.tabId + " .message_window_in").html(
-                "うーん・・・　石板に穴がなかったら　ハマりませんよ。<br/>" +
+                "石板は　穴をあけなきゃ　意味がないぜ。<br/>" +
                 "石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴を増やしましょう。");
                 return;
             }
@@ -441,7 +441,7 @@
 
                 var message = "";
                 if (deployListAll.length == 0) {
-                    message = "あれ・・・宝珠がひとつも　ハマりませんでしたよ。";
+                    message = "宝珠がひとつも　ハマりませんでした・・・";
                 } else {
                     message = "どうしてもハマらない宝珠がありました・・・<br/>";
                     if (orbCount > holeCount) {
