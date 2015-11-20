@@ -172,7 +172,7 @@
                 var r = this.size / 2;
                 var x = cell.x * this.size + r;
                 var y = cell.y * this.size + r;44
-                g.beginRadialGradientFill([colors.highlight, colors.circle], [0, 0.4], x - r / 4, y - r / 4, 1, x - r / 4, y - r / 4, this.size);
+                g.beginLinearGradientFill([colors.highlight, colors.circle, "#000"], [0, 0.5, 0.9], x - r, y - r, x + r, y + r);
                 g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
                 g.drawCircle(x, y, this.size / 2 - 4);
                 g.endStroke();
