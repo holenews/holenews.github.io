@@ -38,7 +38,7 @@
     };
 
     SheetData.importFromHiroba = function () {
-        if (__FROM_ORIGIN__) return;
+        if (window.__FROM_ORIGIN__) return;
         if (!jewelShape || !storageJewels) {
             alert("広場からデータを読み込めませんでした。");
             return;
