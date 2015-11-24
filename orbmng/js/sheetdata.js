@@ -139,10 +139,23 @@
 			};
             var $row = $(
                 "<div class='orb_row row' number='" + orb.i + "'>" +
-                "    <div class='orb_name col-md-8 col-xs-6'><input type='text' value='" + escapeHTML(orb.n) + "' class='form-control'/></div>" +
-                "    <div class='img_orb_form col-md-1 col-xs-2'><img src='img/orb" + orb.t + ".png' name='" + orb.t + "'/></div>" +
-                "    <div class='btn_disable col-md-1 col-xs-2'><button class='btn btn-default'><span class='glyphicon glyphicon-minus-sign'></span></button></div>" +
-                "    <div class='btn_delete col-md-1 col-xs-2'><button class='btn btn-default'><span class='glyphicon glyphicon-remove-sign'></span></button></div>" +
+                "    <div class='orb_list_cell orb_cell_name col-md-6 col-xs-5'><select class='form-control'></select></div>" +
+                "    <div class='orb_list_cell orb_cell_img col-md-2 col-xs-2'>" +
+                "       <buton class='btn btn-default  btn-xs'><img src='img/orb" + orb.t + ".png' name='" + orb.t + "'/></button>" +
+                "    </div>" +
+                "    <div class='orb_list_cell orb_level col-md-3 col-xs-3 btn-group'>" +
+                "       <button type='button' class='btn btn-default btn-sm btn_level'>優先</button>" +
+                "       <button type='button' class='btn btn-sm dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" +
+                "           <span class='caret'></span>" +
+                "           <span class='sr-only'>Toggle Dropdown</span>" +
+                "       </button>" +
+                "       <ul class='dropdown-menu'>" +
+                "           <li><a href='#'>優先</a></li>" +
+                "           <li><a href='#'>なるべく</a></li>" +
+                "           <li><a href='#'>無視</a></li> " +
+                "       </ul>" +
+                "   </div>" +
+                "   <div class='orb_list_cell orb_cell_delete col-md-1 col-xs-2'><button class='btn btn-default btn-sm'><span class='glyphicon glyphicon-remove-sign'></span></button></div>" +
                 "</div>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list").append($row);
@@ -166,6 +179,10 @@
                 $(tabId + " .message_window_in").html("違う形の宝珠に　同じ名前をつけると　<br/>その中から　一番よくハマる形を探してくれます。<br/>形の候補が複数あるときに　試してみてください。");
                 $(this).select();
                 $(this).focus();
+            });
+            $row.find(".dropdown-menu li").on('tap', function () {
+                $(this).parents(".btn-group").children(".btn_level").text($(this).text());
+                return;
             });
             // 非活性ボタンクリック
             $row.find(".btn_disable button").on('tap', function () {
