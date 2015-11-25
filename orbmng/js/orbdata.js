@@ -15,9 +15,9 @@
 
     Orb.prototype = {
         i: 0,          // 番号
-        n: "",           // 宝珠名
-        d: 0,        // 対象外フラグ
-        t: 0             // 形状種別
+        n: "",         // 宝珠名
+        p: 2,          // 優先度フラグ
+        t: 0           // 形状種別
     };
 
     window.orbmng.Orb = Orb;
@@ -29,7 +29,7 @@
     function OrbCells(orb) {
         Orb.call(this, orb.i, orb.n, orb.t);
         this.orb = orb;
-        this.disabled = orb.disabled;
+        this.p = orb.p;
         this.initCells();
     }
 
@@ -95,13 +95,8 @@
         this.initOrb();
     }
 
-    DeployedOrb.Colors = [];
-    DeployedOrb.Colors[0] = { circle: "#dc143c", border: "#dc143c", highlight: "#FFFFFF" };
-	DeployedOrb.Colors[1] = { circle: "#00008b", border: "#00008b", highlight: "#FFFFFF" };
-	DeployedOrb.Colors[2] = { circle: "#006400", border: "#006400", highlight: "#FFFFFF" };
-	DeployedOrb.Colors[3] = { circle: "#ff8c00", border: "#ff8c00", highlight: "#FFFFFF" };
-	DeployedOrb.Colors[4] = { circle: "#4b0082", border: "#4b0082", highlight: "#FFFFFF" };
-	
+    var colors = ["#E60012", "#F39800", "#FFF100", "#009944", "#0068B7", "#1D2088", "#920783", "#ff69b4"];
+
     DeployedOrb.prototype = {
         px: 0,
         py: 0,
@@ -139,7 +134,7 @@
                     self.onSelectChanged(self.orb);
                 }
             });
-            
+
         },
         /**
         * 描画する
@@ -157,21 +152,21 @@
             }
 
             var g = this.graphics.clear();
-            
-			// 宝珠玉間のラインを描画する
+
+            // 宝珠玉間のラインを描画する
             g.beginStroke(colors.border).setStrokeStyle(10, 1, 1);
             g.moveTo(pointList[0].x, pointList[0].y);
             for (var p = 1; p < pointList.length; p++) {
                 g.lineTo(pointList[p].x, pointList[p].y);
             }
             g.endStroke();
-            
+
             // 宝珠玉を描画する
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
                 var r = this.size / 2;
                 var x = cell.x * this.size + r;
-                var y = cell.y * this.size + r;44
+                var y = cell.y * this.size + r; 44
                 g.beginLinearGradientFill([colors.highlight, colors.circle, "#000"], [0, 0.5, 0.9], x - r, y - r, x + r, y + r);
                 g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
                 g.drawCircle(x, y, this.size / 2 - 4);
@@ -186,4 +181,6 @@
     DeployedOrb.prototype = $.extend(DeployedOrb.prototype, OrbCells.prototype);
 
     window.orbmng.DeployedOrb = DeployedOrb;
+
+    
 })();

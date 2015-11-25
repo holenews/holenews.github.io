@@ -2,16 +2,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>達人の宝珠 配置サポートツール そいや１号</title>
+    <title>aaa</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="js/jquery.mobile.events.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" 
     	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
     	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    
+    <link href="index.css" rel="stylesheet" />
     <script type="text/javascript">        window.__FROM_ORIGIN__ = true; </script>
     <script type="text/javascript" src="js/easeljs-0.8.1.min.js"></script>
     <script type="text/javascript" src="js/orbdata.js"></script>
@@ -63,67 +63,7 @@
     })();
     </script>
     <style>
-        .container { margin : 20px; }
-        .container-fluid { margin : 0px; }
         
-        .orb_panel { margin : auto; }
-        .label-success { margin-left : 0.5em; margin-right : 0.5em; }
-        
-        h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
-        .div_orb_result {  margin-bottom : 0px; position : relative; top : -1.5em; }
-        .div_orb_list { position : relative;top : -1.5em;  }
-        .div_border { border : 1px solid #999; padding : 20px; border-radius : 5px; padding : 20px 20px;  }
-        .border_title { font-size : 1em; position : relative; top : 1.5em; left : 1em; background : #FFF; display : inline-block; padding : 0 0.5em; }
-        
-        .orb_panel { display : block; margin-bottom : 10px; }
-        .orb_panel_button { width : 270px; margin: auto; text-align : right; }
-        
-        .orb_list { margin-bottom : 30px; padding : 10px; }
-        .orb_row .orb_list_cell { padding-left : 10px; padding-right : 10px; }
-        .orb_row .orb_cell_name, .orb_row .orb_level, .orb_row .orb_cell_delete { margin-top : 5px; }
-        .orb_list .img_orb_form>img { cursor : pointer; }
-        .orb_list input { margin-bottom : 0px; }
-        .orb_list .not_deployed input { background : #BBB; color : #F00 }
-
-
-        .orb_select { width : 180px; }
-        .orb_select img { width : 40px; height : 40px; cursor : pointer; margin : 1px; border : 1px solid #FFF; }
-        .orb_select img:hover { border : 1px solid #b94a48; }
-        .orb_list_add {  }
-        
-        .message_window { margin-top : 10px; background : #333; padding : 5px; border-radius : 5px; }
-        .message_window_in { width : auto; font-size : 0.9em; padding : 5px; min-height : 68px;  color : #EEE; border : 2px solid #EEE;  }
-        
-        #orbtab0 .orb_panel { background : url(img/panel0.gif); }
-        #orbtab1 .orb_panel { background : url(img/panel1.gif); }
-        #orbtab2 .orb_panel { background : url(img/panel2.gif); }
-        #orbtab3 .orb_panel { background : url(img/panel3.gif); }
-        #orbtab4 .orb_panel { background : url(img/panel4.gif); }
-        
-        @media (min-width: 750px)  
-        {
-            body { padding-right: 0px; padding-left: 0px; }
-            .container { margin : 10px; }
-            .container-fluid { margin : 0px; }
-            
-            .div_orb_result {  }
-            .div_orb_list { margin-left : 0px; top : -1.5em; }
-            
-            .div_border { }
-                      
-            .orb_list_reset { margin-bottom : 5px; }
-            .orb_list { margin-bottom : 80px;  }
-            .orb_list td { width : 48px; height : 48px; }
-            .orb_list td>button, .orb_list td>img { width : 45px; height : 45px; }
-            .orb_select { width : 140px;  }
-            
-        }
-        
-        @media (min-width: @screen-md-min)  
-        {
-            .orb_list { padding : 0px;  }
-            .orb_list input { width : 120px;  }
-        }
         
     </style>
 </head>
@@ -169,15 +109,19 @@
                     <div class="div_border">
                         <button type="button" class="btn btn-sm btn-primary orb_list_add "><span class="glyphicon glyphicon-plus icon-align-left icon-white"></span> 宝珠の追加</button>
                         <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="icon-refresh icon-white"></span> 配置開始</button>
+                        <select class="form-control orb_elem_type">
+                            <option value="0">炎の宝珠</option>
+                            <option value="1">水の宝珠</option>
+                            <option value="2">風の宝珠</option>
+                            <option value="3">光の宝珠</option>
+                            <option value="4">闇の宝珠</option>
+                        </select>
                         <div class="orb_list">
                             
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="orb_tab_template" class="hidden">
-            
         </div>
         <footer>
             連絡先：<a href="http://twitter.com/hole_dqx">@hole_dqx</a>
