@@ -424,7 +424,7 @@
         var orbStrArr = orbStr.split(",");
         for (var o = 0; o < orbStrArr.length; o++) {
             var orbItemArr = orbStrArr[o].split(":");
-            var orb = new { i: parseInt(orbItemArr[0], 10), n: parseInt(orbItemArr[1], 10), t: parseInt(orbItemArr[2], 10) };
+            var orb = { i: parseInt(orbItemArr[0], 10), n: parseInt(orbItemArr[1], 10), t: parseInt(orbItemArr[2], 10) };
             sheetData.ol.push(orb);
         }
 
@@ -495,7 +495,7 @@
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
                 var type = shapeList[orb.shape];
-                if (type >= 0 && orb.isSetJewel == true) {
+                if (type >= 0) {
                     // 宝珠名リストから名称が一致する要素のIDを取得する
                     var nameId = -1;
                     for (var n = 0; n < orbNameList.length; n++) {
