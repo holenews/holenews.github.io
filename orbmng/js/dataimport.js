@@ -485,7 +485,7 @@
                 shapeList[key] = type;
             }
         }
-
+        
         var sheet = null;
         for (var i = 0; i < orbNames.length; i++) {
             if (selectedOrbName != orbNames[i]) continue;

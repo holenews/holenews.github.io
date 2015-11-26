@@ -215,12 +215,14 @@
             $(this.tabId + " .orb_list").append($row);
             
             // 宝珠形状ボタンクリック
-            $row.find(".orb_cell_img .orb_form").popover({
+            var $img = $row.find(".orb_cell_img .orb_form").popover({
                 trigger: 'manual',
                 html: true,
                 placement: 'top',
                 content: selectFormTag
             });
+            $img.addClass("type" + orb.t);
+            $img.attr("name", orb.t);
             // 優先度を設定する
             $row.find(".orb_cell_level select").val(orb.p).change();
             // 宝珠名リストを作成する
@@ -250,7 +252,7 @@
             // 宝珠リストをリセット
             $(this.tabId + " .orb_list").empty();
 
-            $(".orb_elem_type").val(sheetData.tp);
+            $(".orb_elem_type").val(sheetData.tp).change();
 
             // 宝珠リストを追加する
             if (sheetData.ol) {
@@ -286,6 +288,11 @@
             this.stage.update();
         },
 
+        /**
+        * 宝珠番号に一致する宝珠データを取得する
+        * @param number 宝珠番号
+        * @param orbList 宝珠リスト
+        */
         getOrbDataByNumber : function(number, orbList){
             if (!orbList) orbList = this.getOrbListData();
             var orb = null;
