@@ -86,7 +86,7 @@
                 // 優先度が変更された時
                 if ($target.is(".orb_cell_level select")) {
                     var type = $target.val();
-                    $target.removeClass("alert alert-success alert-warning");
+                    $target.removeClass("alert alert-success alert-warning alert-danger");
                     if (type == "0") {
                         $(tabId + " .message_window_in").html("無視にすると　宝珠を配置するときに<br/>候補から外れます。");
                         $target.addClass("alert");
@@ -94,6 +94,8 @@
                         $target.addClass("alert alert-warning");
                     } else if (type == "2") {
                         $target.addClass("alert alert-success");
+                    } else if (type == "3") {
+                        $target.addClass("alert alert-danger");
                     }
                     return;
                 }
@@ -190,15 +192,20 @@
                 return $('<div />').text(val).html();
             };
             var $row = $(
-                "<div class='orb_row' number='" + escapeHTML(orb.i) + "'>" +
+                "<div class='orb_row form-inline' number='" + escapeHTML(orb.i) + "'>" +
                 "    <span class='dep_status glyphicon glyphicon-ok-circle'></span>" +
                 "    <span class='dep_status glyphicon glyphicon-remove'></span>" +
                 "    <div class='orb_list_cell orb_cell_name'><select class='form-control'><option>宝珠を選択してください</option></select></div>" +
                 "    <div class='orb_list_cell orb_cell_img'>" +
                 "       <button class='btn btn-default orb_form' name='" + escapeHTML(orb.t) + "'>　</button>" +
                 "    </div>" +
-                "    <div class='orb_list_cell orb_cell_level'>" +
-                "       <select class='form-control'><option value='2'>優先</option><option value='1' class='orb_level_1'>なるべく</option><option value='0' class='orb_level_0'>無視</option></select>" +
+                "    <div class='orb_list_cell form-group orb_cell_level'>" +
+                "       <select class='form-control'>" +
+                "           <option value='3'>優先度:高</option>" +
+                "           <option value='2'>優先度:中</option>" +
+                "           <option value='1' selected='selected'>優先度:低</option>" + 
+                "           <option value='0'>無視</option>" + 
+                "       </select>" +
                 "   </div>" +
                 "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default' title='削除'><span class='glyphicon glyphicon-trash'></span></button></div>" +
                 "</div>");
@@ -395,8 +402,8 @@
 
             var orbGrpList = [];
             var orbCount = 0;
-            // 優先→なるべく　の順に宝珠を取得する
-            for (var p = 2; p > 0; p--) {
+            // 最高→なるべく→できれば　の順に宝珠を取得する
+            for (var p = 3; p > 0; p--) {
                 for (var i = 0; i < data.ol.length; i++) {
                     if (data.ol[i].p != p) continue;
                     var orb = new orbmng.OrbCells(data.ol[i]);
