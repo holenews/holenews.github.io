@@ -427,8 +427,6 @@
             var orb = { i: parseInt(orbItemArr[0], 10), n: parseInt(orbItemArr[1], 10), t: parseInt(orbItemArr[2], 10) };
             sheetData.ol.push(orb);
         }
-
-        var sheetData = JSON.parse(string);
         return sheetData;
     };
 
@@ -490,6 +488,7 @@
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
             sheet = new SheetData();
+            sheet.tp = i;
             sheet.ol = [];
             var orbNameList = OrbMaster[i];
             for (var o = 0; o < storedOrbList.length; o++) {
