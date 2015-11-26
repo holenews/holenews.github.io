@@ -98,7 +98,7 @@
     OrbMaster[2].push({ id: 0401, name: "共鳴のテンションアップ" });
     OrbMaster[2].push({ id: 0402, name: "気まぐれな追撃" });
     OrbMaster[2].push({ id: 0403, name: "打たれ名人" });
-    OrbMaster[2].push({ id: 0404, name: "勝どきMP回復" });
+    OrbMaster[2].push({ id: 0404, name: "勝どきＭＰ回復" });
     OrbMaster[2].push({ id: 0405, name: "奇跡の会心攻撃" });
     OrbMaster[2].push({ id: 0501, name: "鉄壁の会心完全ガード" });
     OrbMaster[2].push({ id: 0502, name: "鉄壁のふっとびガード" });
