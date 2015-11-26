@@ -276,13 +276,13 @@
 
         /**
         * 配置された宝珠を描画する
-        * @param orbList 宝珠リスト
         * @param deployPosList 宝珠番号と位置のリスト
         */
-        drawDeployedOrb: function (orbList, deployPosList) {
+        drawDeployedOrb: function (deployPosList) {
             this.clearDepoloyedOrb();
             if (!deployPosList) return;
 
+            var orbList = this.getOrbListData();
             for (var d = 0; d < deployPosList.length; d++) {
                 var deploy = deployPosList[d];
                 if (!deploy) continue;
@@ -508,7 +508,7 @@
                 $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！");
             }
             // 配置された宝珠を描画する
-            this.drawDeployedOrb(data.ol, deployListAll);
+            this.drawDeployedOrb(deployListAll);
 
             if (this.onAfterOrbDeploying) {
                 this.onAfterOrbDeploying();
