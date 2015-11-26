@@ -1,6 +1,4 @@
 
-
-.container { margin : 20px;  }
 .container-fluid { margin : 0px; }
         
 .orb_panel { margin : auto; }
@@ -56,5 +54,7 @@ select.form-control { height : 32px; padding : 3px; }
     .div_orb_result { float : none; clear : both; margin-right : 0; width : auto; }
     .div_orb_list { float :none; clear : both; top : -1.5em; width : auto; }
     .orb_list { padding : 0px;  }
-    .orb_list input { width : 120px;  }
+    
+    .orb_row .orb_cell_name { width : 230px; }
+    .orb_row .orb_cell_name select { width : 220px; }
 }

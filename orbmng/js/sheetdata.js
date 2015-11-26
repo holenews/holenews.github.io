@@ -95,7 +95,6 @@
                     } else if (type == "2") {
                         $target.addClass("alert alert-success");
                     }
-
                     return;
                 }
             });
