@@ -511,7 +511,7 @@
                         i: o,
                         t: type,
                         n: nameId,
-                        p: orb.isSetJewel ? 0 : 1
+                        p: orb.isSetJewel ? 1 : 0
                     });
                 }
             }
