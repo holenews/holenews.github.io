@@ -528,7 +528,7 @@
         }
 
         var string = SheetData.encode(sheet);
-        window.open("http://holenews.github.io/orbmng/?d=" + string, '_blank');
+        location.href = "http://holenews.github.io/orbmng/?d=" + string;
     };
 
     window.orbmng.SheetData = SheetData;
