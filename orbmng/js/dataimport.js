@@ -212,7 +212,7 @@
     OrbMaster[3].push({ id: 1103, name: "オオカミアタックの極意" });
     OrbMaster[3].push({ id: 1104, name: "あんこくのきりの技巧" });
     OrbMaster[3].push({ id: 1105, name: "フェンリルアタックの極意" });
-    OrbMaster[3].push({ id: 1106, name: "妖精のポルカの閃き" });
+    OrbMaster[3].push({ id: 1106, name: "妖精たちのポルカの閃き" });
     OrbMaster[3].push({ id: 1201, name: "いやしの雨の輝き" });
     OrbMaster[3].push({ id: 1202, name: "魔導の書の技巧" });
     OrbMaster[3].push({ id: 1203, name: "果てなき神の息吹" });
@@ -229,7 +229,7 @@
     OrbMaster[3].push({ id: 1406, name: "果てなきウォークライ" });
     OrbMaster[3].push({ id: 1407, name: "果てなきビーストモード" });
     OrbMaster[3].push({ id: 1408, name: "ビーストモードの閃き" });
-    OrbMaster[3].push({ id: 1501, name: "果てなきどうぐ倍加術" });
+    OrbMaster[3].push({ id: 1501, name: "果てなきどうぐ倍化術" });
     OrbMaster[3].push({ id: 1502, name: "磁界シールドの瞬き" });
     OrbMaster[3].push({ id: 1503, name: "果てなきどうぐ範囲化術" });
     OrbMaster[3].push({ id: 1504, name: "メディカルデバイスの瞬き" });

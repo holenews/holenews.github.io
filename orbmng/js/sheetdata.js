@@ -86,11 +86,11 @@
                 // 優先度が変更された時
                 if ($target.is(".orb_cell_level select")) {
                     var type = $target.val();
-                    $target.removeClass("alert alert-success alert-warning alert-danger");
+                    $target.removeClass("alert alert-success alert-warning alert-danger alert-inverse");
                     var text = "優先度の高い宝珠から　配置していきます。<br/>";
                     if (type == "0") {
                         text += "無視にすると　宝珠を配置する候補から　外れます。";
-                        $target.addClass("alert");
+                        $target.addClass("alert alert-inverse");
                     } else if (type == "1") {
                         $target.addClass("alert alert-warning");
                     } else if (type == "2") {

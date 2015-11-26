@@ -23,6 +23,7 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_row .orb_cell_name { width : 250px; }
 .orb_row .orb_cell_name select { width : 240px; }
 .orb_row .orb_cell_img {  }
+.orb_row .alert-inverse { background : #888; color :#CCC; }
 .orb_row option { color : #333; background : #FFF; }
 .orb_row .orb_cell_delete { margin-bottom : 15px; }
 .orb_row .dep_status { position : absolute; left : -9px; top : 9px; display : none; background : rgba(255,255,255,0.7); }
