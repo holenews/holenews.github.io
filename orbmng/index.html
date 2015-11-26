@@ -5,7 +5,6 @@
     <title>aaa</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="js/jquery.mobile.events.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" 
     	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
@@ -32,7 +31,7 @@
   
             $(".btn_tweet").on("tap", function(){
             	var sheetData = orbPanel.getSheetData();
-            	var string = orbmng.SheetData.encode(sheetData);
+            	var string = "?d=" + orbmng.SheetData.encode(sheetData);
             	$(this).attr("href", "http://twitter.com/share?hashtags=orbsoiya&url=" + location.protocol + "//" + location.hostname + location.pathname + string);
             });
         });
@@ -73,7 +72,7 @@
             <article class="alert alert-info">
                 <a href="http://twitter.com/share?url=" rel="nofollow" class="btn btn-info btn-sm btn_tweet" target="_tweet">
                 	<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> ツイート</a>
-            	<button class="btn btn-default btn_save"><span class="glyphicon glyphicon-floppy-open"></span> </button>
+            	<button class="btn btn-default btn-sm btn_save"><span class="glyphicon glyphicon-floppy-open"></span> </button>
             </article>
         </header>
         <div class="container-fluid">

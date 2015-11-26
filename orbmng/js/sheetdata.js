@@ -87,8 +87,9 @@
                 if ($target.is(".orb_cell_level select")) {
                     var type = $target.val();
                     $target.removeClass("alert alert-success alert-warning alert-danger");
+                    var text = "優先度の高い宝珠から　配置していきます。<br/>";
                     if (type == "0") {
-                        $(tabId + " .message_window_in").html("無視にすると　宝珠を配置するときに<br/>候補から外れます。");
+                        text += "無視にすると　宝珠を配置する候補から　外れます。";
                         $target.addClass("alert");
                     } else if (type == "1") {
                         $target.addClass("alert alert-warning");
@@ -97,6 +98,7 @@
                     } else if (type == "3") {
                         $target.addClass("alert alert-danger");
                     }
+                    $(tabId + " .message_window_in").html(text);
                     return;
                 }
             });
@@ -280,6 +282,19 @@
             this.stage.update();
         },
 
+        getOrbDataByNumber : function(number, orbList){
+            if (!orbList) orbList = this.getOrbListData();
+            var orb = null;
+            for (var o = 0; o < orbList.length; o++) {
+                // リストから番号が一致する宝珠データを取得する
+                if (orbList[o].i == number) {
+                    orb = orbList[o];
+                    break;
+                }
+            }
+            return orb;
+        },
+
         /**
         * 配置された宝珠を描画する
         * @param deployPosList 宝珠番号と位置のリスト
@@ -287,19 +302,13 @@
         drawDeployedOrb: function (deployPosList) {
             this.clearDepoloyedOrb();
             if (!deployPosList) return;
-
+            var _this = this;
             var orbList = this.getOrbListData();
             for (var d = 0; d < deployPosList.length; d++) {
                 var deploy = deployPosList[d];
                 if (!deploy) continue;
-                var orb = null;
-                for (var o = 0; o < orbList.length; o++) {
-                    // リストから番号が一致する宝珠データを取得する
-                    if (orbList[o].i == deploy.i) {
-                        orb = orbList[o];
-                        break;
-                    }
-                }
+                // リストから番号が一致する宝珠データを取得する
+                var orb = this.getOrbDataByNumber(deploy.i, orbList);
                 if (orb == null) continue;
 
                 var deployedOrb = new orbmng.DeployedOrb(orb.t, deploy.x, deploy.y, orb);
@@ -307,8 +316,10 @@
                 var tabId = this.tabId;
                 var orbNameList = this.orbNameList;
                 deployedOrb.onSelectChanged = function (orb) {
+                    // リストから番号が一致する宝珠データを取得する
+                    var orb = _this.getOrbDataByNumber(orb.i);
                     var name = "なぞの宝珠";
-                    if (orb.n > 0) {
+                    if (orb != null && orb.n > 0) {
                         for (var i = 0; i < orbNameList.length; i++) {
                             if (orbNameList[i].id == orb.n) {
                                 name = orbNameList[i].name;
@@ -497,6 +508,13 @@
                 return complete;
             };
             var result = search(baseBoard, [], 0);
+
+            for (var d = 0; d < deployListAll.length; d++) {
+                if (deployListAll[d]) {
+                    $(this.tabId + " .orb_list .orb_row[number=" + deployListAll[d].i + "] .glyphicon-ok-circle").show();
+                }
+            }
+
             if (result == false) {
                 // 配置に失敗した宝珠がある場合は、アイコンを表示する
                 for (var g = 0; g < orbGrpList.length; g++) {
@@ -504,8 +522,6 @@
                         for (var o = 0; o < orbGrpList[g].length; o++) {
                             $(this.tabId + " .orb_list .orb_row[number=" + orbGrpList[g][o].i + "] .glyphicon-remove").show();
                         }
-                    } else {
-                        $(this.tabId + " .orb_list .orb_row[number=" + deployListAll[g].i + "] .glyphicon-ok-circle").show();
                     }
                 }
 

@@ -142,7 +142,7 @@
         */
         drawOrb: function (update) {
             var color = DeployedOrb.Colors[this.t];
-            var circleEdgeColor = this.active ? "#FFF" : color;
+            var circleEdgeColor = this.active ? "rgba(255,255,255,0.6)" : color;
             var pointList = [];
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
@@ -168,7 +168,7 @@
                 var x = cell.x * this.size + r;
                 var y = cell.y * this.size + r; 44
                 g.beginLinearGradientFill(["#FFF", color, "#000"], [0, 0.5, 0.9], x - r, y - r, x + r, y + r);
-                g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
+                g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 3);
                 g.drawCircle(x, y, this.size / 2 - 4);
                 g.endStroke();
             }

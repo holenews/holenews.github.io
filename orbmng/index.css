@@ -6,6 +6,8 @@
         
 h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
 .div_orb_result { margin-bottom : 0px; position : relative; top : -1.5em; float : left; width : 400px; margin-right : 20px; }
+.orb_panel { background : url(./img/panel.png) no-repeat center; }
+
 .div_orb_list { position : relative; top : -1.5em; float : left; }
 .div_border { border : 1px solid #999; padding : 20px; border-radius : 5px; padding : 20px 20px;  }
 .border_title { font-size : 1em; position : relative; top : 1.5em; left : 1em; background : #FFF; display : inline-block; padding : 0 0.5em; }
@@ -46,7 +48,7 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_list_add {  }
         
 .message_window { margin-top : 10px; background : #333; padding : 5px; border-radius : 5px; }
-.message_window_in { width : auto; font-family : "Open Sans", "Helvetica Neue", Helvetica, "Arial"; font-size : 0.9em; padding : 5px; min-height : 68px;  color : #EEE; border : 2px solid #EEE;  }
+.message_window_in { width : auto; font-family : "Open Sans", "Helvetica Neue", Helvetica, "Arial"; font-size : 0.9em; padding : 5px; min-height : 72px;  color : #EEE; border : 2px solid #EEE;  }
         
   
 @media (max-width: 929px)  
