@@ -487,7 +487,7 @@
         var sheetList = [];
         for (var i = 0; i < orbNames.length; i++) {
             if (selectedOrbName != orbNames[i]) continue;
-
+            alert(selectedOrbName);
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
             var sheet = new SheetData();
