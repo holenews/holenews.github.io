@@ -528,7 +528,7 @@
         }
 
         var string = SheetData.encode(sheet);
-        window.open(location.href, '_blank');
+        window.open(string, '_blank');
     };
 
     window.orbmng.SheetData = SheetData;
