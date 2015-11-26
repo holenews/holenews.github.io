@@ -203,8 +203,8 @@
                 "       <select class='form-control'>" +
                 "           <option value='3'>優先度:高</option>" +
                 "           <option value='2'>優先度:中</option>" +
-                "           <option value='1' selected='selected'>優先度:低</option>" + 
-                "           <option value='0'>無視</option>" + 
+                "           <option value='1' selected='selected'>優先度:並</option>" +
+                "           <option value='0'>無視</option>" +
                 "       </select>" +
                 "   </div>" +
                 "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default' title='削除'><span class='glyphicon glyphicon-trash'></span></button></div>" +
@@ -401,7 +401,7 @@
             }
 
             var orbGrpList = [];
-            var orbCount = 0;
+
             // 最高→なるべく→できれば　の順に宝珠を取得する
             for (var p = 3; p > 0; p--) {
                 for (var i = 0; i < data.ol.length; i++) {
@@ -410,7 +410,7 @@
 
                     // 未配置状態で配置可能な位置のリストを作成する
                     orb.placableList = baseBoard.searchPlacableList(orb);
-                    orbCount += orb.cells.length;
+
                     // 同じ名称でグループ化する
                     var find = false;
                     if (orb.n > 0) {
@@ -426,6 +426,18 @@
                         orbGrpList.push([orb]);
                     }
                 }
+            }
+
+            var orbCount = 0;
+            for (var g = 0; g < orbGrpList.length; g++) {
+                var minLength = 9999;
+                for (var o = 0; o < orbGrpList[g].length; o++) {
+                    var orb = orbGrpList[g][o];
+                    if (minLength > orb.cells.length) {
+                        minLength = orb.cells.length;
+                    }
+                }
+                orbCount += minLength;
             }
 
             if (orbGrpList.length == 0) {
@@ -486,7 +498,7 @@
             };
             var result = search(baseBoard, [], 0);
             if (result == false) {
-                // 配置に失敗した宝珠がある場合は、名前を赤くするクラスを設定する
+                // 配置に失敗した宝珠がある場合は、アイコンを表示する
                 for (var g = 0; g < orbGrpList.length; g++) {
                     if (!deployListAll[g]) {
                         for (var o = 0; o < orbGrpList[g].length; o++) {
@@ -499,11 +511,11 @@
 
                 var message = "";
                 if (deployListAll.length == 0) {
-                    message = "宝珠がひとつも　ハマりませんでした・・・。";
+                    message = "宝珠がひとつも　ハマりませんでした…。";
                 } else {
-                    message = "どう頑張ってもハマらない宝珠がありました・・・.。<br/>";
+                    message = "ハマらない宝珠に<span class='dep_status glyphicon glyphicon-remove'></span>を付けておきました。<br/>";
                     if (orbCount > holeCount) {
-                        message += "宝珠の数が　石板の穴より　多いみたいです。<br/>いくつか無視すると　うまくハマる　かもしれません。";
+                        message += "宝珠の数が　石板の穴より　多いみたいです。";
                     } else {
 
                     }
@@ -511,7 +523,7 @@
                 $(this.tabId + " .message_window_in").html(message);
             } else {
                 // 全て配置できたら成功メッセージを表示する
-                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！");
+                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！<br/>宝珠を" + _tap + "すると　ここに　名前を表示します。");
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(deployListAll);
