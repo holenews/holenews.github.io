@@ -59,6 +59,7 @@
     OrbMaster[1].push({ id: 0202, name: "ルカニの盾" });
     OrbMaster[1].push({ id: 0301, name: "不滅の回復呪文強化" });
     OrbMaster[1].push({ id: 0302, name: "不滅のテンション" });
+    OrbMaster[1].push({ id: 0303, name: "不滅の攻撃力アップ" });
     OrbMaster[1].push({ id: 0401, name: "逆境のみかわしアップ" });
     OrbMaster[1].push({ id: 0402, name: "復活のHP回復量アップ" });
     OrbMaster[1].push({ id: 0403, name: "忍耐のMP回復" });
@@ -98,7 +99,7 @@
     OrbMaster[2].push({ id: 0401, name: "共鳴のテンションアップ" });
     OrbMaster[2].push({ id: 0402, name: "気まぐれな追撃" });
     OrbMaster[2].push({ id: 0403, name: "打たれ名人" });
-    OrbMaster[2].push({ id: 0404, name: "勝どきＭＰ回復" });
+    OrbMaster[2].push({ id: 0404, name: "勝ちどきＭＰ回復" });
     OrbMaster[2].push({ id: 0405, name: "奇跡の会心攻撃" });
     OrbMaster[2].push({ id: 0501, name: "鉄壁の会心完全ガード" });
     OrbMaster[2].push({ id: 0502, name: "鉄壁のふっとびガード" });
