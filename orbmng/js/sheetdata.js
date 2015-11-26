@@ -192,6 +192,8 @@
             };
             var $row = $(
                 "<div class='orb_row' number='" + escapeHTML(orb.i) + "'>" +
+                "    <span class='dep_status glyphicon glyphicon-ok-circle'></span>" +
+                "    <span class='dep_status glyphicon glyphicon-remove'></span>" +
                 "    <div class='orb_list_cell orb_cell_name'><select class='form-control'><option>宝珠を選択してください</option></select></div>" +
                 "    <div class='orb_list_cell orb_cell_img'>" +
                 "       <button class='btn btn-default orb_form' name='" + escapeHTML(orb.t) + "'>　</button>" +
@@ -371,7 +373,7 @@
             // 配置された宝珠をクリアする
             this.clearDepoloyedOrb();
             // 配置できた・できなかった宝珠へのクラスを削除する
-            $(this.tabId + " .orb_list .orb_cell_name").removeClass("has-success").removeClass("has-error");
+            $(this.tabId + " .orb_list .dep_status").hide();
             // シート内データを取得する
             var data = this.getSheetData();
             var baseBoard = new orbmng.Board(data.bd);
@@ -478,13 +480,14 @@
             };
             var result = search(baseBoard, [], 0);
             if (result == false) {
-                // 配置に失敗した宝珠がある場合は、テキストボックスを赤くするクラスを設定する
+                // 配置に失敗した宝珠がある場合は、名前を赤くするクラスを設定する
                 for (var g = 0; g < orbGrpList.length; g++) {
                     if (!deployListAll[g]) {
                         for (var o = 0; o < orbGrpList[g].length; o++) {
-                            $(this.tabId + " .orb_list .orb_row[number=" + orbGrpList[g][o].i + "]")
-                            .addClass("not_deployed");
+                            $(this.tabId + " .orb_list .orb_row[number=" + orbGrpList[g][o].i + "] .glyphicon-remove").show();
                         }
+                    } else {
+                        $(this.tabId + " .orb_list .orb_row[number=" + deployListAll[g].i + "] .glyphicon-ok-circle").show();
                     }
                 }
 
@@ -502,8 +505,7 @@
                 $(this.tabId + " .message_window_in").html(message);
             } else {
                 // 全て配置できたら成功メッセージを表示する
-                $(this.tabId + " .message_window_in").html(
-                "宝珠がすべて　ハマりました！");
+                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！");
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(data.ol, deployListAll);
