@@ -484,13 +484,12 @@
             }
         }
 
-        var sheetList = [];
+        var sheet = null;
         for (var i = 0; i < orbNames.length; i++) {
             if (selectedOrbName != orbNames[i]) continue;
-            alert(selectedOrbName);
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
-            var sheet = new SheetData();
+            sheet = new SheetData();
             sheet.ol = [];
             var orbNameList = OrbMaster[i];
             for (var o = 0; o < storedOrbList.length; o++) {
@@ -526,11 +525,9 @@
                 }
                 sheet.bd.push(row);
             }
-
-            sheetList[i] = sheet;
         }
 
-        var string = SheetData.encode(sheetList[0]);
+        var string = SheetData.encode(sheet);
         window.open(location.href, '_blank');
     };
 
