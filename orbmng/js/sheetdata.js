@@ -318,16 +318,16 @@
                 deployedOrb.onSelectChanged = function (orb) {
                     // リストから番号が一致する宝珠データを取得する
                     var orb = _this.getOrbDataByNumber(orb.i);
-                    var name = "なぞの宝珠";
+                    var name = "名前が選択されていない宝珠";
                     if (orb != null && orb.n > 0) {
                         for (var i = 0; i < orbNameList.length; i++) {
                             if (orbNameList[i].id == orb.n) {
-                                name = orbNameList[i].name;
+                                name = "「" + orbNameList[i].name + "」";
                                 break;
                             }
                         }
                     }
-                    $(tabId + " .message_window_in").html("「" + name + "」です。");
+                    $(tabId + " .message_window_in").html("" + name + "です。");
                 };
             }
             this.stage.update();

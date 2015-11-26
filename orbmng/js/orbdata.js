@@ -142,7 +142,7 @@
         */
         drawOrb: function (update) {
             var color = DeployedOrb.Colors[this.t];
-            var circleEdgeColor = this.active ? "rgba(255,255,255,0.6)" : color;
+            var circleEdgeColor = this.active ? "rgba(255,255,255,0.8)" : color;
             var pointList = [];
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
@@ -154,7 +154,7 @@
             var g = this.graphics.clear();
 
             // 宝珠玉間のラインを描画する
-            g.beginStroke(color).setStrokeStyle(10, 1, 1);
+            g.beginStroke(circleEdgeColor).setStrokeStyle(10, 1, 1);
             g.moveTo(pointList[0].x, pointList[0].y);
             for (var p = 1; p < pointList.length; p++) {
                 g.lineTo(pointList[p].x, pointList[p].y);

@@ -438,6 +438,9 @@
             alert("広場からデータを読み込めませんでした。");
             return;
         }
+
+        var selectedOrbName = $("#orb-tab .orb-tab-active").attr("data-name");
+
         var orbNames = ["炎", "水", "風", "光", "闇"];
         var shapeList = {};
         // 形状マスタを取得する
@@ -483,6 +486,8 @@
 
         var sheetList = [];
         for (var i = 0; i < orbNames.length; i++) {
+            if (selectedOrbName != orbNames[i]) continue;
+
             // 宝珠リストを取得する
             var storedOrbList = storageJewels[orbNames[i]];
             var sheet = new SheetData();
