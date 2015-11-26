@@ -156,7 +156,7 @@
             var g = this.graphics.clear();
             var color = "rgba(0,0,0,0.2)";
             if (this.status == Board.Hole) {
-                color = "rgba(0,0,0,0.6)";
+                color = "rgba(0,0,0,0.7)";
             }
             g.beginFill(color).beginStroke("#999").setStrokeStyle(1.5);
             g.drawCircle(BoardCell.CellSize / 2, BoardCell.CellSize / 2, BoardCell.CellSize / 2 - 4);

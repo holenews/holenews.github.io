@@ -226,7 +226,7 @@
             // 宝珠名リストを作成する
             this.setOrbNameList($row.find(".orb_cell_name select"));
             // 宝珠名称を設定する
-            $row.find(".orb_cell_name select").val(orb.p).change();
+            $row.find(".orb_cell_name select").val(orb.n).change();
         },
 
         /**
