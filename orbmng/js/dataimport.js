@@ -58,8 +58,9 @@
     OrbMaster[1].push({ id: 0201, name: "ヘナトスの盾" });
     OrbMaster[1].push({ id: 0202, name: "ルカニの盾" });
     OrbMaster[1].push({ id: 0301, name: "不滅の回復呪文強化" });
-    OrbMaster[1].push({ id: 0302, name: "不滅のテンション" });
-    OrbMaster[1].push({ id: 0303, name: "不滅の攻撃力アップ" });
+    OrbMaster[1].push({ id: 0302, name: "不滅の攻撃呪文強化" });
+    OrbMaster[1].push({ id: 0303, name: "不滅のテンション" });
+    OrbMaster[1].push({ id: 0304, name: "不滅の攻撃力アップ" });
     OrbMaster[1].push({ id: 0401, name: "逆境のみかわしアップ" });
     OrbMaster[1].push({ id: 0402, name: "復活のHP回復量アップ" });
     OrbMaster[1].push({ id: 0403, name: "忍耐のMP回復" });
