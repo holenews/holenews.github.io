@@ -392,7 +392,7 @@
         for (var o = 0; o < sheetData.ol.length; o++) {
             var orb = sheetData.ol[o];
             if (orbStr != "") orbStr += ",";
-            orbStr += orb.i + ":" + orb.n + ":" + orb.t;
+            orbStr += orb.i + ":" + orb.n + ":" + orb.t + orb.p;
         }
         var string = sheetData.tp + "|" + boardStr + "|" + orbStr;
         var compressedString = encodeURIComponent(base64.encode(TinyLz77.compress(string)));
@@ -424,7 +424,11 @@
         var orbStrArr = orbStr.split(",");
         for (var o = 0; o < orbStrArr.length; o++) {
             var orbItemArr = orbStrArr[o].split(":");
-            var orb = { i: parseInt(orbItemArr[0], 10), n: parseInt(orbItemArr[1], 10), t: parseInt(orbItemArr[2], 10) };
+            var id = parseInt(orbItemArr[0], 10);
+            var name = parseInt(orbItemArr[1], 10);
+            var type = parseInt(orbItemArr[2].charAt(0), 10);
+            var primary = parseInt(orbItemArr[2].charAt(1), 10);
+            var orb = { i: id, n: name, t: type, p : primary };
             sheetData.ol.push(orb);
         }
         return sheetData;
