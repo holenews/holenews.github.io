@@ -1,0 +1,11 @@
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, "Arial", "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN",
+"メイリオ", Meiryo, sans-serif;
+  font-size: 16px;
+  line-height: 1.42857;
+}
+
+@media (max-width: 929px)  
+{
+    .container { padding : 5px; }
+}

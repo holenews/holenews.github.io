@@ -11,6 +11,7 @@
     	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
     	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <link href="base.css" rel="stylesheet" />
     <link href="index.css" rel="stylesheet" />
     <script type="text/javascript">        window.__FROM_ORIGIN__ = true; </script>
     <script type="text/javascript" src="js/easeljs-0.8.1.min.js"></script>
@@ -32,7 +33,6 @@
             $(".btn_tweet").on("tap", function(){
             	var sheetData = orbPanel.getSheetData();
             	var string = orbmng.SheetData.encode(sheetData);
-            	string = encodeURIComponent(string);
             	$(this).attr("href", "http://twitter.com/share?hashtags=orbsoiya&url=" + location.protocol + "//" + location.hostname + location.pathname + string);
             });
         });
@@ -68,26 +68,17 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <header>
             <article class="alert alert-info">
-                <h2>使い方</h2>
-                <ul>
-                    <li>石板をクリックすると、穴を開けることができます。</li>
-                    <li>宝珠リストに、配置したい宝珠を追加していきます。</li>
-                    <ul>
-                        <li>上にある宝珠を優先して配置します。ドラッグ＆ドロップで順番を入れ替えることも出来ます。</li>
-                    </ul>
-                    <li><b><a href="bookmark.html">ブックマークレット</a></b>を使って冒険者の広場からデータを取込むこともできます。</li>
-                </ul>
                 <a href="http://twitter.com/share?url=" rel="nofollow" class="btn btn-info btn-sm btn_tweet" target="_tweet">
                 	<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> ツイート</a>
             	<button class="btn btn-default btn_save"><i></i></button>
             </article>
         </header>
         <div class="container-fluid">
-            <div class="row" id="orb_panel">
-                <div class="div_orb_result col-xs-12 col-sm-6 col-md-4">
+            <div id="orb_panel">
+                <div class="div_orb_result">
                     <h2 class="border_title">宝珠の石板</h2>
                     <div class="div_border">
                         <canvas class="orb_panel" width="270" height="270">
@@ -104,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="div_orb_list col-xs-12 col-sm-6 col-md-8">
+                <div class="div_orb_list">
                     <h2 class="border_title">配置する宝珠リスト</h2>
                     <div class="div_border">
                         <button type="button" class="btn btn-sm btn-primary orb_list_add "><span class="glyphicon glyphicon-plus icon-align-left icon-white"></span> 宝珠の追加</button>

@@ -2,6 +2,7 @@
 
     if (!window.orbmng) window.orbmng = {};
     var _mobile = ('ontouchstart' in document) ? true : false;
+    var _tap = (_mobile) ? "タップ" : "クリック";
 
     /*********************************************************************************************************
     * 宝珠シート管理クラス
@@ -28,6 +29,8 @@
             // 宝珠追加ボタンがクリックされたときのイベントを設定する
             $(this.tabId + " .orb_list_add").on('tap', function () {
                 _this.addOrbRow(null);
+                $(this.tabId + " .message_window_in").html(
+                    "宝珠の形ボタンを" + _tap + "すると　形を変えることができます。");
             });
             // 宝珠配置ボタンがクリックされたときのイベントを設定する
             $(this.tabId + " .orb_list_deploy").on('tap', function () {
@@ -44,18 +47,59 @@
                     _this.clearDepoloyedOrb();
                 }
             });
-            // 宝珠リスト内のボタンがクリックされたときのイベントを設定する
+            var tabId = this.tabId;
+            // 宝珠リスト内のボタンがクリックされた時
             $(this.tabId + " .orb_list").on('tap', function (event) {
                 var $target = $(event.target);
+                // 宝珠形状吹き出しの要素がクリックされた時
                 if ($target.is(".orb_form") && $target.parent().hasClass("orb_select")) {
                     var $img = $target.parents(".orb_row").find("button.orb_form");
                     for (var i = 0; i < 8; i++) {
                         $img.removeClass("type" + i);
                     }
                     $img.addClass("type" + $target.attr("name"));
+                    $img.attr("name", $target.attr("name"));
                     $img.popover('hide');
+                    return;
+                }
+                // 宝珠形状ボタンがクリックされた時
+                if ($target.is(".orb_cell_img .orb_form")) {
+                    $target.popover("toggle");
+                    return;
+                }
+                // 削除ボタンがクリックされた時
+                if ($target.is(".orb_cell_delete button")) {
+                    $target.parents(".orb_row").fadeOut(function () {
+                        $(this).remove();
+                    });
+                    return;
                 }
             });
+            // 宝珠リスト内のコンボボックスが変更された時
+            $(this.tabId + " .orb_list").on('change', function (event) {
+                var $target = $(event.target);
+                // 宝珠名が変更された時
+                if ($target.is(".orb_cell_name select")) {
+                    $(tabId + " .message_window_in").html("違う形の宝珠に　同じ名前をつけると　<br/>その中から　一番よくハマる形を探してくれます。<br/>形の候補が複数あるときに　試してみてください。");
+                    return;
+                }
+                // 優先度が変更された時
+                if ($target.is(".orb_cell_level select")) {
+                    var type = $target.val();
+                    $target.removeClass("alert alert-success alert-warning");
+                    if (type == "0") {
+                        $(tabId + " .message_window_in").html("無視にすると　宝珠を配置するときに<br/>候補から外れます。");
+                        $target.addClass("alert");
+                    } else if (type == "1") {
+                        $target.addClass("alert alert-warning");
+                    } else if (type == "2") {
+                        $target.addClass("alert alert-success");
+                    }
+
+                    return;
+                }
+            });
+
             $(this.tabId + " .orb_elem_type").on('change', function (event) {
                 // 宝珠タイプの選択値を取得する
                 var orbElemType = $(this).val();
@@ -68,7 +112,7 @@
                 // テキストボックスからフォーカスを外す
                 $(_this.tabId + " input").blur();
             });
-            $(this.tabId + " .message_window_in").html("まずは　石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴をあけましょう。");
+            $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
         },
 
         /**
@@ -105,7 +149,7 @@
                 for (var c = 0; c < 6; c++) {
                     var cell = new orbmng.BoardCell(c, r);
                     cell.onCellClick = function () {
-                        $(tabId + " .message_window_in").html("穴をあけたら　配置したい宝珠を　追加します。<br/>形状を" + ((_mobile) ? "タップ" : "クリック") + "すると　形を変えられます。");
+                        $(tabId + " .message_window_in").html("穴をあけたら　配置したい宝珠を　追加します。");
                     };
                     this.boardCells.addChild(cell);
                 }
@@ -123,7 +167,7 @@
                 this.boardCells.children[c].drawCell(false);
             }
             this.stage.update();
-            $(this.tabId + " .message_window_in").html("石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴をあけましょう。");
+            $(this.tabId + " .message_window_in").html("石板を" + _tap + "して　穴をあけましょう。");
         },
 
         /**
@@ -132,12 +176,11 @@
         */
         addOrbRow: function (orb) {
             var number = 1;
-            while ($(this.tabId + " .orb_list tbody tr[number=" + number + "]").length > 0 ||
-                    $(this.tabId + " .orb_list tbody input[value=宝珠" + number + "]").length > 0) {
+            while ($(this.tabId + " .orb_list .orb_row[number=" + number + "]").length > 0) {
                 number++;
             }
 
-            if (!orb) orb = new orbmng.Orb(number, "宝珠" + number, 4);
+            if (!orb) orb = new orbmng.Orb(number, "", 0);
 
             var selectFormTag =
                 "<div class='orb_select'>" +
@@ -148,62 +191,28 @@
                 return $('<div />').text(val).html();
             };
             var $row = $(
-                "<div class='orb_row' number='" + orb.i + "'>" +
+                "<div class='orb_row' number='" + escapeHTML(orb.i) + "'>" +
                 "    <div class='orb_list_cell orb_cell_name'><select class='form-control'><option>宝珠を選択してください</option></select></div>" +
                 "    <div class='orb_list_cell orb_cell_img'>" +
-                "       <button class='btn btn-default orb_form'>　</button>" +
+                "       <button class='btn btn-default orb_form' name='" + escapeHTML(orb.t) + "'>　</button>" +
                 "    </div>" +
-                "    <div class='orb_list_cell orb_cell_level btn-group'>" +
-                "       <button type='button' class='btn btn-default btn_level'>優先</button>" +
-                "       <button type='button' class='btn dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" +
-                "           <span class='caret'></span>" +
-                "       </button>" +
-                "       <ul class='dropdown-menu'>" +
-                "           <li name='2'><a href='#'>優先</a></li>" +
-                "           <li name='1'><a href='#'>なるべく</a></li>" +
-                "           <li name='0'><a href='#'>無視</a></li> " +
-                "       </ul>" +
+                "    <div class='orb_list_cell orb_cell_level'>" +
+                "       <select class='form-control'><option value='2'>優先</option><option value='1' class='orb_level_1'>なるべく</option><option value='0' class='orb_level_0'>無視</option></select>" +
                 "   </div>" +
-                "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default'><span class='glyphicon glyphicon-remove-sign'></span></button></div>" +
+                "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default' title='削除'><span class='glyphicon glyphicon-trash'></span></button></div>" +
                 "</div>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list").append($row);
             // 宝珠形状ボタンクリック
-            $row.find(".orb_cell_img .orb_form")
-            .on('tap', function () { $(this).popover("toggle"); })
-            .popover({
+            $row.find(".orb_cell_img .orb_form").popover({
                 trigger: 'manual',
                 html: true,
                 placement: 'top',
                 content: selectFormTag
             });
+            $row.find(".orb_cell_level select").val(orb.p).change();
             // 宝珠名リストを作成する
             this.setOrbNameList($row.find(".orb_cell_name select"));
-
-            // 宝珠名入力
-            $row.find(".orb_cell_name select").on('change', function () {
-                $(tabId + " .message_window_in").html("違う形の宝珠に　同じ名前をつけると　<br/>その中から　一番よくハマる形を探してくれます。<br/>形の候補が複数あるときに　試してみてください。");
-            });
-            $row.find(".dropdown-menu li").on('tap', function () {
-                var text = $(this).text();
-                var type = $(this).attr("name");
-                $(this).parents(".btn-group").children(".btn_level").text(text);
-                if (type == "0") {
-                    $(tabId + " .message_window_in").html("無視にすると　宝珠を配置するときに<br/>候補から外れます。");
-                }
-                return false;
-            });
-            $row.find(".dropdown-menu li[name=" + orb.p + "]").trigger("tap");
-
-            // 削除ボタンクリック
-            $row.find(".orb_cell_delete button").on('tap', function () {
-                $(this).parents(".orb_row").fadeOut(function () {
-                    $(this).remove();
-                });
-            });
-
-            $(this.tabId + " .message_window_in").html(
-                "配置したい宝珠の組み合わせを　決めましょう。");
         },
 
         /**
@@ -225,8 +234,10 @@
         */
         loadSheetData: function (sheetData) {
             // 宝珠リストをリセット
-            $(this.tabId + " .orb_list tbody").empty();
-            $.data($(this.tabId + " .orb_list").get(0), "count", 0);
+            $(this.tabId + " .orb_list").empty();
+
+            $(".orb_elem_type").val(sheetData.tp);
+
             // 宝珠リストを追加する
             if (sheetData.ol) {
                 for (var i = 0; i < sheetData.ol.length; i++) {
@@ -243,15 +254,10 @@
                     }
                 }
             }
-            if (sheetData.dl) {
-                // 配置された宝珠を描画する
-                this.drawDeployedOrb(sheetData.ol, sheetData.dl);
-            } else {
-                // 宝珠を自動配置する
-                this.startOrbDeploying();
-            }
-
+            // 宝珠を自動配置する
+            this.startOrbDeploying();
             this.stage.update();
+            $(this.tabId + " .message_window_in").html("データを読み込みました。");
         },
 
         /**
@@ -288,11 +294,21 @@
                 }
                 if (orb == null) continue;
 
-                var deployedOrb = new orbmng.DeployedOrb(this.index, deploy.x, deploy.y, orb);
+                var deployedOrb = new orbmng.DeployedOrb(orb.t, deploy.x, deploy.y, orb);
                 this.deployContainer.addChild(deployedOrb);
                 var tabId = this.tabId;
+                var orbNameList = this.orbNameList;
                 deployedOrb.onSelectChanged = function (orb) {
-                    $(tabId + " .message_window_in").html("「" + orb.n + "」です。");
+                    var name = "なぞの宝珠";
+                    if (orb.n > 0) {
+                        for (var i = 0; i < orbNameList.length; i++) {
+                            if (orbNameList[i].id == orb.n) {
+                                name = orbNameList[i].name;
+                                break;
+                            }
+                        }
+                    }
+                    $(tabId + " .message_window_in").html("「" + name + "」です。");
                 };
             }
             this.stage.update();
@@ -306,14 +322,7 @@
             var data = new orbmng.SheetData();
             data.bd = this.getBoardCell();
             data.ol = this.getOrbListData();
-            data.dl = [];
-            if (this.deployContainer) {
-                for (var d = 0; d < this.deployContainer.children.length; d++) {
-                    var deploy = this.deployContainer.children[d];
-                    data.dl.push({ i: deploy.i, x: deploy.px, y: deploy.py });
-                }
-            }
-            data.tab = $(this.tabId).is(":visible");
+            data.tp = parseInt($(this.tabId + " .orb_elem_type").val(), 10);
             return data;
         },
 
@@ -323,12 +332,12 @@
         */
         getOrbListData: function () {
             var orbList = [];
-            $.each($(this.tabId + " .orb_list tbody tr"), function (i, row) {
+            $.each($(this.tabId + " .orb_list .orb_row"), function (i, row) {
                 var number = parseInt($(row).attr("number"), 10);
-                var name = $(row).find(".orb_name").val();
-                var type = parseInt($(row).find(".img_orb_form").attr("name"), 10);
+                var name = parseInt($(row).find(".orb_cell_name select").val(), 10);
+                var type = parseInt($(row).find(".orb_cell_img button").attr("name"), 10);
                 var orb = new orbmng.Orb(number, name, type);
-                orb.d = $(row).find(".btn_disable").hasClass("btn-inverse") ? 1 : 0;
+                orb.p = parseInt($(row).find(".orb_cell_level select").val(), 10);
                 orbList.push(orb);
             });
             return orbList;
@@ -361,10 +370,8 @@
         startOrbDeploying: function () {
             // 配置された宝珠をクリアする
             this.clearDepoloyedOrb();
-            // 配置できなかった宝珠へのクラスを削除する
-            $(this.tabId + " .orb_list tbody tr").removeClass("not_deployed");
-            // メッセージを非表示にする
-            $(this.tabId + " .alert_deployed").hide();
+            // 配置できた・できなかった宝珠へのクラスを削除する
+            $(this.tabId + " .orb_list .orb_cell_name").removeClass("has-success").removeClass("has-error");
             // シート内データを取得する
             var data = this.getSheetData();
             var baseBoard = new orbmng.Board(data.bd);
@@ -381,36 +388,41 @@
             if (holeCount == 0) {
                 $(this.tabId + " .message_window_in").html(
                 "石板は　穴をあけなきゃ　意味がないぜ。<br/>" +
-                "石板を" + ((_mobile) ? "タップ" : "クリック") + "して　穴を増やしましょう。");
+                "石板を" + _tap + "して　穴を増やしましょう。");
                 return;
             }
 
             var orbGrpList = [];
             var orbCount = 0;
-            for (var i = 0; i < data.ol.length; i++) {
-                var orb = new orbmng.OrbCells(data.ol[i]);
-                if (orb.p == 0) continue; // 無視する宝珠はリストに加えない
+            // 優先→なるべく　の順に宝珠を取得する
+            for (var p = 2; p > 0; p--) {
+                for (var i = 0; i < data.ol.length; i++) {
+                    if (data.ol[i].p != p) continue;
+                    var orb = new orbmng.OrbCells(data.ol[i]);
 
-                // 未配置状態で配置可能な位置のリストを作成する
-                orb.placableList = baseBoard.searchPlacableList(orb);
-                orbCount += orb.cells.length;
-                // 同じ名称でグループ化する
-                var find = false;
-                for (var m = 0; m < orbGrpList.length; m++) {
-                    if (orbGrpList[m][0].n == orb.n) {
-                        orbGrpList[m].push(orb);
-                        find = true;
-                        break;
+                    // 未配置状態で配置可能な位置のリストを作成する
+                    orb.placableList = baseBoard.searchPlacableList(orb);
+                    orbCount += orb.cells.length;
+                    // 同じ名称でグループ化する
+                    var find = false;
+                    if (orb.n > 0) {
+                        for (var m = 0; m < orbGrpList.length; m++) {
+                            if (orbGrpList[m][0].n == orb.n) {
+                                orbGrpList[m].push(orb);
+                                find = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                if (find == false) {
-                    orbGrpList.push([orb]);
+                    if (find == false) {
+                        orbGrpList.push([orb]);
+                    }
                 }
             }
 
             if (orbGrpList.length == 0) {
                 $(this.tabId + " .message_window_in").html(
-                "配置したい宝珠が　ないみたいですよ。<br/>" +
+                "配置する宝珠が　ないみたいです。<br/>" +
                 "「宝珠の追加」ボタンを　押してみてください。");
                 return;
             }
@@ -470,7 +482,7 @@
                 for (var g = 0; g < orbGrpList.length; g++) {
                     if (!deployListAll[g]) {
                         for (var o = 0; o < orbGrpList[g].length; o++) {
-                            $(this.tabId + " .orb_list tbody tr[number=" + orbGrpList[g][o].i + "]")
+                            $(this.tabId + " .orb_list .orb_row[number=" + orbGrpList[g][o].i + "]")
                             .addClass("not_deployed");
                         }
                     }

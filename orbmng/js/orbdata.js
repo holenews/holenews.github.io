@@ -15,7 +15,7 @@
 
     Orb.prototype = {
         i: 0,          // 番号
-        n: "",         // 宝珠名
+        n: 0,          // 宝珠名
         p: 2,          // 優先度フラグ
         t: 0           // 形状種別
     };
@@ -95,7 +95,7 @@
         this.initOrb();
     }
 
-    var colors = ["#E60012", "#F39800", "#FFF100", "#009944", "#0068B7", "#1D2088", "#920783", "#ff69b4"];
+    DeployedOrb.Colors = ["#E60012", "#F39800", "#FFF100", "#009944", "#0068B7", "#1D2088", "#920783", "#ff69b4"];
 
     DeployedOrb.prototype = {
         px: 0,
@@ -141,8 +141,8 @@
         * @param update Stageを更新するかどうか
         */
         drawOrb: function (update) {
-            var colors = DeployedOrb.Colors[this.color];
-            var circleEdgeColor = this.active ? colors.highlight : colors.border;
+            var color = DeployedOrb.Colors[this.t];
+            var circleEdgeColor = this.active ? "#FFF" : color;
             var pointList = [];
             for (var c = 0; c < this.cells.length; c++) {
                 var cell = this.cells[c];
@@ -154,7 +154,7 @@
             var g = this.graphics.clear();
 
             // 宝珠玉間のラインを描画する
-            g.beginStroke(colors.border).setStrokeStyle(10, 1, 1);
+            g.beginStroke(color).setStrokeStyle(10, 1, 1);
             g.moveTo(pointList[0].x, pointList[0].y);
             for (var p = 1; p < pointList.length; p++) {
                 g.lineTo(pointList[p].x, pointList[p].y);
@@ -167,7 +167,7 @@
                 var r = this.size / 2;
                 var x = cell.x * this.size + r;
                 var y = cell.y * this.size + r; 44
-                g.beginLinearGradientFill([colors.highlight, colors.circle, "#000"], [0, 0.5, 0.9], x - r, y - r, x + r, y + r);
+                g.beginLinearGradientFill(["#FFF", color, "#000"], [0, 0.5, 0.9], x - r, y - r, x + r, y + r);
                 g.beginStroke(circleEdgeColor).setStrokeStyle(this.active ? 4 : 2);
                 g.drawCircle(x, y, this.size / 2 - 4);
                 g.endStroke();

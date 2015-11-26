@@ -371,31 +371,65 @@
     }
 
     SheetData.prototype = {
-        tab: false, // タブを選択中
-        ol: [],    // 宝珠リスト
-        bd: [],      // 石板データ
-        dl: []  // 配置された宝珠リスト
+        tp: 0,      // 石板タイプ
+        ol: [],     // 宝珠リスト
+        bd: []      // 石板データ
     };
 
     /**
     * エンコード
-    * @param sheetDataList シート内に表示するデータのリスト
+    * @param sheetData シート内に表示するデータ
     * @return エンコード文字列
     */
-    SheetData.encode = function (sheetDataList) {
-        var string = JSON.stringify(sheetDataList);
-        var compressedString = base64.encode(TinyLz77.compress(string));
+    SheetData.encode = function (sheetData) {
+        var boardStr = "";
+        for (var r = 0; r < 6; r++) {
+            for (var c = 0; c < 6; c++) {
+                boardStr += sheetData.bd[r][c];
+            }
+        }
+        var orbStr = "";
+        for (var o = 0; o < sheetData.ol.length; o++) {
+            var orb = sheetData.ol[o];
+            if (orbStr != "") orbStr += ",";
+            orbStr += orb.i + ":" + orb.n + ":" + orb.t;
+        }
+        var string = sheetData.tp + "|" + boardStr + "|" + orbStr;
+        var compressedString = encodeURIComponent(base64.encode(TinyLz77.compress(string)));
         return compressedString;
     };
     /**
     * デコード
     * @param compressedString エンコード文字列
-    * @return シート内に表示するデータのリスト
+    * @return シート内に表示するデータ
     */
     SheetData.decode = function (compressedString) {
-        string = TinyLz77.decompress(base64.decode(compressedString));
-        var sheetDataList = JSON.parse(string);
-        return sheetDataList;
+        var string = TinyLz77.decompress(base64.decode(decodeURIComponent(compressedString)));
+        var stringArr = string.split("|");
+        
+        var sheetData = new SheetData();
+        sheetData.tp = parseInt(stringArr[0], 10);
+
+        var boardStr = stringArr[1];
+        for (var r = 0; r < 6; r++) {
+            var row = [];
+            for (var c = 0; c < 6; c++) {
+                var num = parseInt(boardStr.charAt(r * 6 + c), 10);
+                row.push(num);
+            }
+            sheetData.bd.push(row);
+        }
+
+        var orbStr = stringArr[2];
+        var orbStrArr = orbStr.split(",");
+        for (var o = 0; o < orbStrArr.length; o++) {
+            var orbItemArr = orbStrArr[o].split(":");
+            var orb = new { i: parseInt(orbItemArr[0], 10), n: parseInt(orbItemArr[1], 10), t: parseInt(orbItemArr[2], 10) };
+            sheetData.ol.push(orb);
+        }
+
+        var sheetData = JSON.parse(string);
+        return sheetData;
     };
 
     SheetData.importFromHiroba = function () {
@@ -453,14 +487,23 @@
             var storedOrbList = storageJewels[orbNames[i]];
             var sheet = new SheetData();
             sheet.ol = [];
+            var orbNameList = OrbMaster[i];
             for (var o = 0; o < storedOrbList.length; o++) {
                 var orb = storedOrbList[o];
                 var type = shapeList[orb.shape];
                 if (type >= 0 && orb.isSetJewel == true) {
+                    // 宝珠名リストから名称が一致する要素のIDを取得する
+                    var nameId = -1;
+                    for (var n = 0; n < orbNameList.length; n++) {
+                        if (orbNameList[n].name == orb.name) {
+                            nameId = orbNameList[n].id;
+                            break;
+                        }
+                    }
                     sheet.ol.push({
                         i: o,
                         t: type,
-                        n: orb.name,
+                        n: nameId,
                         d: orb.isSetJewel ? 0 : 1
                     });
                 }
@@ -482,8 +525,8 @@
             sheetList[i] = sheet;
         }
 
-        var string = SheetData.encode(sheetList);
-        location.href = "http://holenews.github.io/orbmng/?d=" + string;
+        var string = SheetData.encode(sheetList[0]);
+        window.open(location.href, '_blank');
     };
 
     window.orbmng.SheetData = SheetData;

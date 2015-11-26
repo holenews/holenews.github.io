@@ -1,16 +1,19 @@
-.container { margin : 20px; }
+
+
+.container { margin : 20px;  }
 .container-fluid { margin : 0px; }
         
 .orb_panel { margin : auto; }
 .label-success { margin-left : 0.5em; margin-right : 0.5em; }
         
 h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
-.div_orb_result {  margin-bottom : 0px; position : relative; top : -1.5em; }
-.div_orb_list { position : relative;top : -1.5em;  }
+.div_orb_result { margin-bottom : 0px; position : relative; top : -1.5em; float : left; width : 400px; margin-right : 20px; }
+.div_orb_list { position : relative; top : -1.5em; float : left; }
 .div_border { border : 1px solid #999; padding : 20px; border-radius : 5px; padding : 20px 20px;  }
 .border_title { font-size : 1em; position : relative; top : 1.5em; left : 1em; background : #FFF; display : inline-block; padding : 0 0.5em; }
         
 .orb_panel { display : block; margin-bottom : 10px; }
+select.form-control { height : 32px; padding : 3px; }
 .orb_panel_button { width : 270px; margin: auto; text-align : right; }
         
 .orb_list { margin-top : 20px; margin-bottom : 30px; }
@@ -18,10 +21,10 @@ h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
 .orb_row { clear : both; margin : 0 0; min-height : 42px; }
 .orb_row .orb_list_cell { padding-left : 0px; padding-right : 10px; float : left; margin-bottom : 3px; }
 .orb_row .orb_cell_name { width : 250px; }
-.orb_row .orb_cell_name select { height : 32px; padding : 6px; }
+.orb_row .orb_cell_name select {  }
 .orb_row .orb_cell_img {  }
 .orb_row .orb_cell_level {  }
-.orb_row .orb_cell_level .btn_level { width : 65px; padding : 6px 4px; }
+.orb_row option { color : #333; background : #FFF; }
 .orb_row .orb_cell_delete { margin-bottom : 15px; }
 
 .orb_list .orb_form { width : 32px; height : 32px; background : url(./img/orbform.png) no-repeat 3px 1px; }
@@ -42,25 +45,13 @@ h2 { font-size : 1.2em; line-height : 20px; font-weight :normal; }
 .orb_list_add {  }
         
 .message_window { margin-top : 10px; background : #333; padding : 5px; border-radius : 5px; }
-.message_window_in { width : auto; font-size : 0.9em; padding : 5px; min-height : 68px;  color : #EEE; border : 2px solid #EEE;  }
+.message_window_in { width : auto; font-family : "Open Sans", "Helvetica Neue", Helvetica, "Arial"; font-size : 0.9em; padding : 5px; min-height : 68px;  color : #EEE; border : 2px solid #EEE;  }
         
-@media (max-width: 992px)  
+  
+@media (max-width: 929px)  
 {
-    body { padding-right: 0px; padding-left: 0px; }
-    .container { margin : 10px; }
-    .container-fluid { margin : 0px; }
-            
-    .div_orb_result {  }
-    .div_orb_list { margin-left : 0px; top : -1.5em; }
-            
-    .div_border { }
-                      
-    .orb_list_reset { margin-bottom : 5px; }
-    .orb_list { margin-bottom : 80px;  }     
-}
-        
-@media (max-width: 768px)  
-{
+    .div_orb_result { float : none; clear : both; margin-right : 0; width : auto; }
+    .div_orb_list { float :none; clear : both; top : -1.5em; width : auto; }
     .orb_list { padding : 0px;  }
     .orb_list input { width : 120px;  }
 }
