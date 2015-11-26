@@ -213,8 +213,7 @@
                 "</div>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list").append($row);
-            // 宝珠名称を設定する
-            $row.find(".orb_cell_name select").val(orb.p).change();
+            
             // 宝珠形状ボタンクリック
             $row.find(".orb_cell_img .orb_form").popover({
                 trigger: 'manual',
@@ -226,6 +225,8 @@
             $row.find(".orb_cell_level select").val(orb.p).change();
             // 宝珠名リストを作成する
             this.setOrbNameList($row.find(".orb_cell_name select"));
+            // 宝珠名称を設定する
+            $row.find(".orb_cell_name select").val(orb.p).change();
         },
 
         /**
