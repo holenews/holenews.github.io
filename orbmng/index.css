@@ -66,4 +66,5 @@ select.form-control { height : 32px; padding : 3px; }
 {
     .orb_row .orb_cell_level { clear : both; }
     .div_border { padding : 20px 10px; }
+    .orb_buttons button span { display : none; }
 }
