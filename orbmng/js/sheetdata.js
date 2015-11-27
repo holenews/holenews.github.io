@@ -12,6 +12,7 @@
         this.initFromTemplate();
         this.initOrbPanel();
         this.addOrbRow(null);
+        $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
     }
 
     OrbPanel.prototype = {
@@ -48,10 +49,17 @@
                 }
             });
             // 並べ替えボタンがクリックされたとき
-            $("#btn_orb_sort").on('tap', function () {
+            $(this.tabId + " .btn_orb_sort").on('tap', function () {
                 var sortMode = $("input[name=orb_sort_mode]:checked").val();
                 _this.sortOrbRowList(sortMode);
-                $("#modal_orb_sort").hide();
+            });
+            // 保存ボタンがクリックされたとき
+            $("#btn_save").on('tap', function () {
+                _this.loadSavedSheetList(true);
+            });
+            // 保存ボタンがクリックされたとき
+            $("#btn_load").on('tap', function () {
+                _this.loadSavedSheetList(false);
             });
             var tabId = this.tabId;
             // 宝珠リスト内のボタンがクリックされたとき
@@ -86,7 +94,7 @@
                 var $target = $(event.target);
                 // 宝珠名が変更されたとき
                 if ($target.is(".orb_cell_name select")) {
-                    $(tabId + " .message_window_in").html("違う形の宝珠に　同じ名前をつけると　<br/>その中から　一番よくハマる形を探してくれます。<br/>形の候補が複数あるときに　試してみてください。");
+                    $(tabId + " .message_window_in").html("同じ名前の宝珠を　複数用意すると<br/>その中から　一番よい形を探してくれます。");
                     return;
                 }
                 // 優先度が変更されたとき
@@ -116,12 +124,29 @@
                 // 宝珠名リストを作成する
                 _this.setOrbNameList($(".orb_cell_name select"));
             }).change();
+        },
 
-            $(this.tabId + " .orb_panel").tooltip({ trigger: 'manual', html: true, placement : 'bottom', title: "宝珠を" + _tap + "すると<br/>名前が下に表示されます。" }).on('tap', function () {
-                $(this).tooltip('hide');
-            });
-
-            $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
+        loadSavedSheetList: function (isSave) {
+            var sheetDataList = SheetData.loadCookieKeyList();
+            var id = isSave ? "#modal_orb_save" : "#modal_orb_load";
+            var $table = $(id + " .table tbody").empty();
+            var typeList = ["炎", "水", "風", "光", "闇"];
+            var glyph = isSave ? "glyphicon-floppy-save" : "glyphicon-floppy-load";
+            var btnClass = isSave ? "btn_item_save" : "btn_item_load";
+            for (var i = 0; i < sheetDataList.length; i++) {
+                var sheetData = sheetDataList[i];
+                var type = typeList[parseInt(sheetData.data.tp, 10)];
+                var $row = $(
+                    "<tr key='" + sheetData.key.id + "'>" +
+                    "   <td class='save_name'></td>" +
+                    "   <td class='save_type'>" + type + "</td>" +
+                    "   <td class='save_button'><button type='button' class='btn btn-sm btn-default btn_item_delte'><span class='glyphicon glyphicon-trash'></span></td>" +
+                    "   <td class='save_button'><button type='button' class='btn btn-sm btn-default " + btnClass + "'><span class='glyphicon " + glyph + "'></span></td>" +
+                    "</tr>"
+                );
+                $row.find(".save_name").text(sheetData.key.name);
+                $table.append($row);
+            }
         },
 
         /**
@@ -131,9 +156,8 @@
             var $target = $(this.tabId + " .orb_panel");
             $target.attr("id", "canvas_" + this.index);
             var stage = new createjs.Stage("canvas_" + this.index);
+            stage.enableMouseOver(10);
             this.stage = stage;
-            this.stage.enableMouseOver(50);
-
             var cellSize = orbmng.BoardCell.CellSize;
             var maxSize = orbmng.BoardCell.CellSize * 6 - 1;
             // 罫線を描画する
@@ -145,7 +169,7 @@
             for (var c = 1; c < 6; c++) {
                 g.moveTo(c * cellSize, 0).lineTo(c * cellSize, maxSize);
             }
-            g.setStrokeDash(null).setStrokeStyle(1.5);
+            g.setStrokeDash(null).setStrokeStyle(1);
             g.moveTo(1, 1).lineTo(1, maxSize).lineTo(maxSize, maxSize).lineTo(maxSize, 1).lineTo(1, 1);
             g.moveTo(0, maxSize / 2).lineTo(maxSize, maxSize / 2);
             g.moveTo(maxSize / 2, 0).lineTo(maxSize / 2, maxSize);
@@ -308,7 +332,7 @@
             // 宝珠を自動配置する
             this.startOrbDeploying();
             this.stage.update();
-            $(this.tabId + " .message_window_in").html("データを読み込みました。");
+            $(this.tabId + " .message_window_in").html("データを読み込みました。宝珠を" + _tap + "すると　名前が分かりますよ。");
         },
 
         /**
@@ -580,12 +604,10 @@
                 $(this.tabId + " .message_window_in").html(message);
             } else {
                 // 全て配置できたら成功メッセージを表示する
-                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！");
+                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！<br/>宝珠を" + _tap + "すると　名前が分かりますよ。");
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(deployListAll);
-
-            $(this.tabId + " .orb_panel").tooltip('show');
         }
     };
 

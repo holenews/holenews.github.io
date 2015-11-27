@@ -50,7 +50,8 @@ select.form-control { height : 32px; padding : 3px; }
         
 .message_window { margin-top : 10px; background : #333; padding : 5px; border-radius : 5px; }
 .message_window_in { width : auto; font-family : "Open Sans", "Helvetica Neue", Helvetica, "Arial"; font-size : 0.9em; padding : 5px; min-height : 72px;  color : #EEE; border : 2px solid #EEE;  }
-        
+
+footer { clear : both; }
   
 @media (max-width: 929px)  
 {

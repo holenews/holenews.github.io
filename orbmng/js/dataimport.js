@@ -383,7 +383,7 @@
     * @param sheetData シート内に表示するデータ
     * @return エンコード文字列
     */
-    SheetData.encode = function (sheetData) {
+    SheetData.encode = function (sheetData, notEncode) {
         var boardStr = "";
         for (var r = 0; r < 6; r++) {
             for (var c = 0; c < 6; c++) {
@@ -397,18 +397,23 @@
             orbStr += orb.i + ":" + orb.n + ":" + orb.t + orb.p;
         }
         var string = sheetData.tp + "|" + boardStr + "|" + orbStr;
-        var compressedString = encodeURIComponent(base64.encode(string));
-        return compressedString;
+        if (!notCompressed) {
+            string = encodeURIComponent(base64.encode(string));
+        }
+        return string;
     };
     /**
     * デコード
     * @param compressedString エンコード文字列
     * @return シート内に表示するデータ
     */
-    SheetData.decode = function (compressedString) {
-        var string = base64.decode(decodeURIComponent(compressedString));
+    SheetData.decode = function (compressedString, notEncode) {
+        var string = compressedString;
+        if (!notEncode) {
+            string = base64.decode(decodeURIComponent(compressedString));
+        }
         var stringArr = string.split("|");
-        
+
         var sheetData = new SheetData();
         sheetData.tp = parseInt(stringArr[0], 10);
 
@@ -430,7 +435,7 @@
             var name = parseInt(orbItemArr[1], 10);
             var type = parseInt(orbItemArr[2].charAt(0), 10);
             var primary = parseInt(orbItemArr[2].charAt(1), 10);
-            var orb = { i: id, n: name, t: type, p : primary };
+            var orb = { i: id, n: name, t: type, p: primary };
             sheetData.ol.push(orb);
         }
         return sheetData;
@@ -487,7 +492,7 @@
                 shapeList[key] = type;
             }
         }
-        
+
         var sheet = null;
         for (var i = 0; i < orbNames.length; i++) {
             if (selectedOrbName != orbNames[i]) continue;
@@ -534,6 +539,67 @@
 
         var string = SheetData.encode(sheet);
         location.href = "http://holenews.github.io/orbmng/?d=" + string;
+    };
+
+    SheetData.loadFromCookie = function () {
+        var sheetDataList = [];
+        var keyList = SheetData.loadCookieKeyList();
+        try {
+            for (var i = 0; i < keyList.length; i++) {
+                var string = $.cookie(keyList[i].id);
+                var sheetData = SheetData.decode(string, true);
+                sheetDataList.push({ key: keyList[i], data: sheetData });
+            }
+        } catch (e) {
+
+        }
+        return sheetDataList;
+    };
+
+    SheetData.loadCookieKeyList = function () {
+        var keystr = $.cookie("saved_orb_keys");
+        var keyList = [];
+        try {
+            var keystr = $.cookie("saved_orb_keys");
+            if (!keystr) {
+                keyList = JSON.parse(keystr);
+            }
+        } catch (e) {
+
+        }
+        return keyList;
+    };
+
+    SheetData.saveToCookie = function (key, sheetData) {
+        var keyList = SheetData.loadCookieKeyList();
+        var isNewKey = true;
+        for (var i = 0; i < keyList.length; i++) {
+            if (keyList[i].id == key.id) {
+                isNewKey = false;
+                break;
+            }
+        }
+        if (isNewKey == true) {
+            keyList.push(key);
+            $.cookie("saved_orb_keys", JSON.stringify(keyList), { expires: 365, secure: true });
+        }
+        var sheetStr = SheetData.encode(sheetData, true);
+        $.cookie(key.id, sheetStr, { expires: 365, secure: true });
+    };
+
+    SheetData.removeFromCookie = function (key) {
+        var keyList = SheetData.loadCookieKeyList();
+        var newKeyList = [];
+        var isNewKey = true;
+        for (var i = 0; i < keyList.length; i++) {
+            if (keyList[i].id != key.id) {
+                newKeyList.push(keyList[i]);
+            }
+        }
+        $.cookie("saved_orb_keys", JSON.stringify(newKeyList), { expires: 365, secure: true });
+
+        var sheetStr = SheetData.encode(sheetData, true);
+        $.removeCookie(key.id);
     };
 
     window.orbmng.SheetData = SheetData;
