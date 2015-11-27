@@ -62,8 +62,8 @@
     OrbMaster[1].push({ id: 0303, name: "不滅のテンション" });
     OrbMaster[1].push({ id: 0304, name: "不滅の攻撃力アップ" });
     OrbMaster[1].push({ id: 0401, name: "逆境のみかわしアップ" });
-    OrbMaster[1].push({ id: 0402, name: "復活のHP回復量アップ" });
-    OrbMaster[1].push({ id: 0403, name: "忍耐のMP回復" });
+    OrbMaster[1].push({ id: 0402, name: "復活のＨＰ回復量アップ" });
+    OrbMaster[1].push({ id: 0403, name: "忍耐のＭＰ回復" });
     OrbMaster[1].push({ id: 0501, name: "ヘナトスの技巧" });
     OrbMaster[1].push({ id: 0502, name: "ルカニ系呪文の技巧" });
     OrbMaster[1].push({ id: 0503, name: "ボミエ系呪文の技巧" });
@@ -86,7 +86,7 @@
     OrbMaster[2].push({ id: 0103, name: "果てなき攻撃呪文威力アップ" });
     OrbMaster[2].push({ id: 0104, name: "果てなき回復呪文威力アップ" });
     OrbMaster[2].push({ id: 0105, name: "果てなき聖女の守り" });
-    OrbMaster[2].push({ id: 0201, name: "禁断のMPアップ" });
+    OrbMaster[2].push({ id: 0201, name: "禁断のＭＰアップ" });
     OrbMaster[2].push({ id: 0202, name: "禁断のちからアップ" });
     OrbMaster[2].push({ id: 0203, name: "禁断のおもさアップ" });
     OrbMaster[2].push({ id: 0204, name: "禁断のこうげき魔力アップ" });
@@ -397,7 +397,7 @@
             orbStr += orb.i + ":" + orb.n + ":" + orb.t + orb.p;
         }
         var string = sheetData.tp + "|" + boardStr + "|" + orbStr;
-        var compressedString = encodeURIComponent(base64.encode(TinyLz77.compress(string)));
+        var compressedString = encodeURIComponent(base64.encode(string));
         return compressedString;
     };
     /**
@@ -406,7 +406,7 @@
     * @return シート内に表示するデータ
     */
     SheetData.decode = function (compressedString) {
-        var string = TinyLz77.decompress(base64.decode(decodeURIComponent(compressedString)));
+        var string = base64.decode(decodeURIComponent(compressedString));
         var stringArr = string.split("|");
         
         var sheetData = new SheetData();
@@ -537,52 +537,6 @@
     };
 
     window.orbmng.SheetData = SheetData;
-
-    var TinyLz77 = {
-        compress: function (s) {
-            var a = 53300, b, c, d, e, f, g = -1, h, r = [];
-            s = new Array(a--).join(' ') + s;
-            while ((b = s.substr(a, 256))) {
-                for (c = 2; c <= b.length; ++c) {
-                    d = s.substring(a - 52275, a + c - 1).lastIndexOf(b.substring(0, c));
-                    if (d === -1) {
-                        break;
-                    }
-                    e = d;
-                }
-                if (c === 2 || c === 3 && f === g) {
-                    f = g;
-                    h = s.charCodeAt(a++);
-                    r.push(h >> 8 & 255, h & 255);
-                } else {
-                    r.push((e >> 8 & 255) | 65280, e & 255, c - 3);
-                    a += c - 1;
-                }
-            }
-            return String.fromCharCode.apply(0, r);
-        },
-        decompress: function (s) {
-            var a = 53300, b = 0, c, d, e, f, g, h, r = new Array(a--).join(' ');
-            while (b < s.length) {
-                c = s.charCodeAt(b++);
-                if (c <= 255) {
-                    r += String.fromCharCode((c << 8) | s.charCodeAt(b++));
-                } else {
-                    e = ((c & 255) << 8) | s.charCodeAt(b++);
-                    f = e + s.charCodeAt(b++) + 2;
-                    h = r.slice(-52275);
-                    g = h.substring(e, f);
-                    if (g) {
-                        while (h.length < f) {
-                            h += g;
-                        }
-                        r += h.substring(e, f);
-                    }
-                }
-            }
-            return r.slice(a);
-        }
-    };
 
     // UTF8 octets encode/decode
     var utf8 = {

@@ -97,8 +97,6 @@
                 <div class="div_orb_list">
                     <h2 class="border_title">配置する宝珠リスト</h2>
                     <div class="div_border">
-                        <button type="button" class="btn btn-sm btn-primary orb_list_add "><span class="glyphicon glyphicon-plus icon-align-left icon-white"></span> 宝珠の追加</button>
-                        <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="icon-refresh icon-white"></span> 配置開始</button>
                         <select class="form-control orb_elem_type">
                             <option value="0">炎の宝珠</option>
                             <option value="1">水の宝珠</option>
@@ -106,9 +104,37 @@
                             <option value="3">光の宝珠</option>
                             <option value="4">闇の宝珠</option>
                         </select>
+                        <button type="button" class="btn btn-sm btn-primary orb_list_add "><span class="glyphicon glyphicon-plus icon-align-left icon-white"></span> 宝珠の追加</button>
+                        <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="glyphicon glyphicon-log-in"></span> 配置する</button>
+                        <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal_orb_sort"><span class="glyphicon glyphicon-random"></span> 並べ替え</button>
                         <div class="orb_list">
                             
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_orb_sort" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                        <p>並べ替え方法を選択してください。</p>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="orb_sort_mode" value="name" checked>
+                                名前
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="orb_sort_mode" value="primary">
+                                優先度
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" id="btn_orb_sort">並べ替え</button>
                     </div>
                 </div>
             </div>

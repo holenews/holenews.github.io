@@ -17,7 +17,7 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_panel_button { width : 270px; margin: auto; text-align : right; }
         
 .orb_list { margin-top : 20px; margin-bottom : 30px; }
-.orb_elem_type { width : 120px; display : inline-block; height : 32px; }
+.orb_elem_type { width : 90px; display : inline-block; height : 32px; }
 .orb_row { clear : both; margin : 0 0; min-height : 42px; position :relative; }
 .orb_row .orb_list_cell { padding-left : 0px; padding-right : 10px; float : left; margin-bottom : 3px; height : 32px; }
 .orb_row .orb_cell_name { width : 250px; }
@@ -65,4 +65,5 @@ select.form-control { height : 32px; padding : 3px; }
 @media (max-width: 529px)  
 {
     .orb_row .orb_cell_level { clear : both; }
+    .div_border { padding : 20px 10px; }
 }
