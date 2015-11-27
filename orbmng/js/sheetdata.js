@@ -396,7 +396,7 @@
             $.each($(this.tabId + " .orb_list .orb_row"), function (i, row) {
                 var number = parseInt($(row).attr("number"), 10);
                 var name = parseInt($(row).find(".orb_cell_name select").val(), 10);
-                var type = parseInt($(row).find(".orb_cell_img button").attr("name"), 10);
+                var type = parseInt($(row).find(".orb_cell_img a").attr("name"), 10);
                 var orb = new orbmng.Orb(number, name, type);
                 orb.p = parseInt($(row).find(".orb_cell_level select").val(), 10);
                 orbList.push(orb);
