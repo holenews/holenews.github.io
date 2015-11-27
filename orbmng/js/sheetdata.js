@@ -117,6 +117,10 @@
                 _this.setOrbNameList($(".orb_cell_name select"));
             }).change();
 
+            $(this.tabId + " .orb_panel").tooltip({ trigger: 'manual', html: true, placement : 'bottom', title: "宝珠を" + _tap + "すると<br/>名前が下に表示されます。" }).on('tap', function () {
+                $(this).tooltip('hide');
+            });
+
             $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
         },
 
@@ -421,11 +425,6 @@
         },
 
         /**
-        * 宝珠配置後のイベント
-        */
-        onAfterOrbDeploying: null,
-
-        /**
         * 宝珠を配置する
         */
         startOrbDeploying: function () {
@@ -571,24 +570,22 @@
                 if (deployListAll.length == 0) {
                     message = "宝珠がひとつも　ハマりませんでした…。";
                 } else {
-                    message = "ハマらない宝珠に<span class='dep_status glyphicon glyphicon-remove'></span>を付けておきました。<br/>";
+                    message = "宝珠を全て　ハメることが　出来ませんでした…。<br/>";
                     if (orbCount > holeCount) {
-                        message += "宝珠の数が　石板の穴より　多いみたいです。";
+                        message += "宝珠の玉数が　石板の穴より　多いみたいです。<br/>(宝珠の玉：" + orbCount + "個　石板の穴：" + holeCount + "個)";
                     } else {
-
+                        message += "<span class='dep_status glyphicon glyphicon-remove'></span>印のついている宝珠を諦めるか　優先度を変えてみましょう。<br/>";
                     }
                 }
                 $(this.tabId + " .message_window_in").html(message);
             } else {
                 // 全て配置できたら成功メッセージを表示する
-                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！<br/>宝珠を" + _tap + "すると　ここに　名前を表示します。");
+                $(this.tabId + " .message_window_in").html("宝珠がすべて　ハマりました！");
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(deployListAll);
 
-            if (this.onAfterOrbDeploying) {
-                this.onAfterOrbDeploying();
-            }
+            $(this.tabId + " .orb_panel").tooltip('show');
         }
     };
 
