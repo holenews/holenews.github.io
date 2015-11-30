@@ -82,7 +82,7 @@
     z-index : 9;
 }
 
-.orb_list { width : 500px; position : absolute; padding-top : 130px; }
+.orb_list { width : 500px; position : absolute; padding-top : 130px; margin-bottom : 50px; }
 .orb_row { clear : both; margin : 0 0; min-height : 42px; position :relative; }
 .orb_row .orb_list_cell { padding-left : 0px; padding-right : 10px; float : left; margin-bottom : 3px; height : 32px; }
 .orb_row .orb_cell_name { width : 250px; }

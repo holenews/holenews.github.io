@@ -60,6 +60,7 @@
                 _this.orbNameList = orbmng.OrbMaster[parseInt(val, 10)];
                 // 宝珠名リストを作成する
                 _this.setOrbNameList($(".orb_cell_name select"));
+                return;
             });
             $(this.tabId + " .orb_elem_type_item:first").trigger('tap');
 
@@ -94,14 +95,13 @@
                 }
                 // 宝珠形状ボタンがクリックされたとき
                 if ($target.is(".orb_cell_img .orb_form")) {
+
                     $target.popover("toggle");
-                    return;
+                    return false;
                 }
                 // 削除ボタンがクリックされたとき
-                if ($target.is(".orb_cell_delete button")) {
-                    $target.parents(".orb_row").fadeOut(function () {
-                        $(this).remove();
-                    });
+                if ($target.is(".orb_cell_delete button") || $target.parents(".orb_cell_delete button").length > 0) {
+                    $target.parents(".orb_row").remove();
                     return;
                 }
             });
@@ -244,22 +244,34 @@
         sortOrbRowList: function (sortMode) {
             var orbList = this.getOrbListData();
             var modeStr = sortMode == "name" ? "名前" : "優先度";
-            orbList.sort(function (a, b) {
+            var newOrbList = [];
+            for (var i = 0; i < orbList.length; i++) {
+                if (sortMode == "name" && orbList[i].n < 0) continue;
+                newOrbList.push(orbList[i]);
+            }
+            newOrbList = newOrbList.sort(function (a, b) {
                 if (sortMode == "name") {
-                    if (a.n < 0) return 1;
+                    if (a.n == b.n) return 0;
                     if (a.n < b.n) return -1;
                     if (a.n > b.n) return 1;
                 } else if (sortMode == "primary") {
+                    if (a.p == b.p) return 0;
                     if (a.p < b.p) return 1;
                     if (a.p > b.p) return -1;
                 }
                 return 0;
             });
+            if (sortMode == "name") {
+                for (var i = 0; i < orbList.length; i++) {
+                    if (orbList[i].n > 0) continue;
+                    newOrbList.push(orbList[i]);
+                }
+            }
             // 宝珠リストをリセット
             $(this.tabId + " .orb_list").empty();
             // 宝珠リストを追加する
-            for (var i = 0; i < orbList.length; i++) {
-                this.addOrbRow(orbList[i]);
+            for (var i = 0; i < newOrbList.length; i++) {
+                this.addOrbRow(newOrbList[i]);
             }
             $(this.tabId + " .message_window_in").html("宝珠リストを" + modeStr + "の順で並べ替えました。");
         },
@@ -307,7 +319,7 @@
 
             // 宝珠形状ボタンクリック
             var $img = $row.find(".orb_cell_img .orb_form").popover({
-                trigger: 'focus',
+                trigger: 'manual',
                 html: true,
                 placement: 'top',
                 content: selectFormTag
