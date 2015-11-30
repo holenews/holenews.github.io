@@ -10,8 +10,8 @@
     	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
     	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <link href="base.css" rel="stylesheet" />
-    <link href="index.css" rel="stylesheet" />
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
     <script type="text/javascript">        window.__FROM_ORIGIN__ = true; </script>
     <script type="text/javascript" src="js/easeljs-0.8.1.min.js"></script>
     <script type="text/javascript" src="js/orbdata.js"></script>
@@ -28,7 +28,7 @@
             if(sheetData != null){
             	orbPanel.loadSheetData(sheetData);
             }
-  
+  			
             $(".btn_tweet").on("tap", function(){
             	var sheetData = orbPanel.getSheetData();
             	var string = "?d=" + orbmng.SheetData.encode(sheetData);
@@ -68,6 +68,76 @@
 </head>
 <body>
     <div class="container">
+        <header>
+			<nav class="dq_window fixed_panel" id="introduction">
+                <div class="dq_window_in">
+                    <h1 class="inline">そいや１号</h1>は　宝珠を入れ替えるたびに　配置に苦労する<br />
+                    悩める冒険者を　支援するための　ツール　です。
+                    <div class="nav_menu">
+                        <a href="/howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>　
+                        <a href="/bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
+                        <a href="#"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> セーブ・ロード</a>
+                        <a href="http://twitter.com/share?url=" rel="nofollow" class="btn_tweet" target="_tweet">
+                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ツイート</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div id="orb_panel">
+            <div class="div_orb_result fixed_panel fixed_control">
+                <div class="fixed_control_in">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> 宝珠の石板</h2>
+                    <canvas class="orb_panel" width="270" height="270"></canvas>
+                    <div class="orb_panel_button">
+                        <button type="button" class="btn btn-sm btn-default panel_reset"><span class="glyphicon glyphicon-erase"></span> 石板をリセット</button>
+                        <button type="button" class="btn btn-sm btn-default orb_list_reset"><span class="glyphicon glyphicon-share-alt"></span> 宝珠を外す</button>
+                    </div>
+                </div>
+                <div class="message_window dq_window col-md-12">
+                    <div class="message_window_in dq_window_in">
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="div_orb_control fixed_panel fixed_control">
+                <div class="fixed_control_in">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> 配置する宝珠</h2>
+                    <div class="btn-group" role="group">
+                        <div class="btn-group orb_elem_type" role="group">
+                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" value="0">
+                                <span class="orb_elem_type_name">炎の宝珠</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="orb_elem_type_item" value="0">炎の宝珠</a></li>
+                                <li><a href="#" class="orb_elem_type_item" value="1">水の宝珠</a></li>
+                                <li><a href="#" class="orb_elem_type_item" value="2">風の宝珠</a></li>
+                                <li><a href="#" class="orb_elem_type_item" value="3">光の宝珠</a></li>
+                                <li><a href="#" class="orb_elem_type_item" value="4">闇の宝珠</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary orb_list_add"><span class="glyphicon glyphicon-plus icon-align-left icon-white hidden-xs"></span> 宝珠の追加</button>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-random hidden-xs"></span> 並べ替え <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="sort_type" value="name">名前順</a></li>
+                                <li><a href="#" class="sort_type" value="primary">優先度順</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="glyphicon glyphicon-log-in hidden-xs"></span> 配置する</button>
+                </div>
+            </div>
+            <div class="orb_list">
+            
+            </div>
+        </div>
+        <!--
+
         <header>
             <article class="alert alert-info">
                 <a href="http://twitter.com/share?url=" rel="nofollow" class="btn btn-info btn-sm btn_tweet" target="_tweet">
@@ -192,6 +262,8 @@
                 </div>
             </div>
         </div>
+          -->
     </div>
+  
 </body>
 </html>

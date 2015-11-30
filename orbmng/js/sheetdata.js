@@ -48,11 +48,27 @@
                     _this.clearDepoloyedOrb();
                 }
             });
-            // 並べ替えボタンがクリックされたとき
-            $(this.tabId + " .btn_orb_sort").on('tap', function () {
-                var sortMode = $("input[name=orb_sort_mode]:checked").val();
-                _this.sortOrbRowList(sortMode);
+            // 宝珠タイプドロップダウンが変更されたとき
+            $(this.tabId + " .orb_elem_type_item").on('tap', function () {
+                // 宝珠タイプの選択値を取得する
+                var val = $(this).attr("value");
+                var text = $(this).text();
+                var $target = $(this).parents(".orb_elem_type").find("button");
+                $target.children(".orb_elem_type_name").text(text);
+                $target.attr("value", val);
+
+                _this.orbNameList = orbmng.OrbMaster[parseInt(val, 10)];
+                // 宝珠名リストを作成する
+                _this.setOrbNameList($(".orb_cell_name select"));
             });
+            $(this.tabId + " .orb_elem_type_item:first").trigger('tap');
+
+            // 並べ替えボタンがクリックされたとき
+            $(this.tabId + " .sort_type").on('tap', function () {
+                var sortType = $(this).attr("value");
+                _this.sortOrbRowList(sortType);
+            });
+
             // 保存ボタンがクリックされたとき
             $("#btn_save").on('tap', function () {
                 _this.loadSavedSheetList(true);
@@ -117,13 +133,31 @@
                 }
             });
 
-            $(this.tabId + " .orb_elem_type").on('change', function (event) {
-                // 宝珠タイプの選択値を取得する
-                var orbElemType = $(this).val();
-                _this.orbNameList = orbmng.OrbMaster[parseInt(orbElemType, 10)];
-                // 宝珠名リストを作成する
-                _this.setOrbNameList($(".orb_cell_name select"));
-            }).change();
+            $(window).resize(function () {
+                var $divOrbResult = $(_this.tabId + " .div_orb_result");
+                var $divOrbControl = $(_this.tabId + " .div_orb_control");
+                var $divOrbList = $(_this.tabId + " .orb_list");
+                var $intro = $("#introduction");
+                var $container = $(".container");
+                if ($intro.css("position") == "fixed") {
+                    var introWidth = $intro.width();
+                    $intro.css("margin-left", introWidth / (-2));
+                } else {
+                    $intro.css("margin-left", "0px");
+                }
+                if ($divOrbResult.css("position") == "fixed") {
+                    $divOrbResult.css("left", $intro.offset().left);
+                    $divOrbResult.css("top", $intro.height() + $intro.offset().top + 20);
+                }
+                if ($divOrbControl.css("position") == "fixed") {
+                    $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
+                    $divOrbControl.css("top", 0);
+                }
+                if ($divOrbList.css("position") == "absolute") {
+                    $divOrbList.css("left", $divOrbControl.offset().left + 10);
+                    $divOrbList.css("top", $divOrbControl.height() + $divOrbControl.offset().top + 20);
+                }
+            }).resize();
         },
 
         loadSavedSheetList: function (isSave) {
