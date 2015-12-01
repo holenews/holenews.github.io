@@ -543,12 +543,18 @@
 
     SheetData.loadFromCookie = function () {
         var sheetDataList = [];
-        var keyList = SheetData.loadCookieKeyList();
+        var keyList = SheetData.getCookieKeyList();
         try {
             for (var i = 0; i < keyList.length; i++) {
-                var string = $.cookie(keyList[i].id);
-                var sheetData = SheetData.decode(string, true);
-                sheetDataList.push({ key: keyList[i], data: sheetData });
+                var string = $.cookie(keyList[i]);
+                var name = "";
+                var sheetData = null;
+                if (string) {
+                    var stringArr = string.split("@");
+                    sheetData = SheetData.decode(stringArr[1], true);
+                    name = stringArr[0];
+                }
+                sheetDataList.push({ key: keyList[i], name: name, data: sheetData });
             }
         } catch (e) {
 
@@ -556,50 +562,29 @@
         return sheetDataList;
     };
 
-    SheetData.loadCookieKeyList = function () {
-        var keystr = $.cookie("saved_orb_keys");
+    SheetData.getCookieKeyList = function () {
         var keyList = [];
-        try {
-            var keystr = $.cookie("saved_orb_keys");
-            if (!keystr) {
-                keyList = JSON.parse(keystr);
-            }
-        } catch (e) {
-
+        for (var i = 0; i < 15; i++) {
+            keyList.push("odt" + i);
         }
         return keyList;
     };
 
-    SheetData.saveToCookie = function (key, sheetData) {
-        var keyList = SheetData.loadCookieKeyList();
+    SheetData.saveToCookie = function (key, name, sheetData) {
+        var keyList = SheetData.getCookieKeyList();
         var isNewKey = true;
         for (var i = 0; i < keyList.length; i++) {
-            if (keyList[i].id == key.id) {
+            if (keyList[i] == key) {
                 isNewKey = false;
                 break;
             }
         }
-        if (isNewKey == true) {
-            keyList.push(key);
-            $.cookie("saved_orb_keys", JSON.stringify(keyList), { expires: 365, secure: true });
-        }
-        var sheetStr = SheetData.encode(sheetData, true);
-        $.cookie(key.id, sheetStr, { expires: 365, secure: true });
+        var sheetStr = name + "@" + SheetData.encode(sheetData, true);
+        $.cookie(key, sheetStr, { expires: 365, secure: true });
     };
 
     SheetData.removeFromCookie = function (key) {
-        var keyList = SheetData.loadCookieKeyList();
-        var newKeyList = [];
-        var isNewKey = true;
-        for (var i = 0; i < keyList.length; i++) {
-            if (keyList[i].id != key.id) {
-                newKeyList.push(keyList[i]);
-            }
-        }
-        $.cookie("saved_orb_keys", JSON.stringify(newKeyList), { expires: 365, secure: true });
-
-        var sheetStr = SheetData.encode(sheetData, true);
-        $.removeCookie(key.id);
+        $.removeCookie(key);
     };
 
     window.orbmng.SheetData = SheetData;

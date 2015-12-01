@@ -19,6 +19,14 @@ body
     margin : 0 auto 20px auto;
 }
 
+h2
+{
+    font-size : 1em;
+    line-height : 1em;
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
 .dq_window 
 {
     background : rgba(0,0,0,0.7);
@@ -48,6 +56,19 @@ body
     margin : 0;
     padding : 0;
     display : inline-block;
+}
+
+.modal{
+    
+}
+
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 250px;
+    overflow-y: auto;
 }
 
 @media (max-width: 950px)  

@@ -6,6 +6,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.mobile.events.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" 
     	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
@@ -71,12 +72,12 @@
         <header>
 			<nav class="dq_window fixed_panel" id="introduction">
                 <div class="dq_window_in">
-                    <h1 class="inline">そいや１号</h1>は　宝珠を入れ替えるたび　配置に苦労する<br />
-                    悩める冒険者を　支援するための　ツール　です。
+                    達人の宝珠を　入れ替えるたびに<br />
+                    配置に悩む　冒険者たち　を支援するツールです。
                     <div class="nav_menu">
-                        <a href="/howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>　
-                        <a href="/bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
-                        <a href="#"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> セーブ・ロード</a>
+                        <a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>　
+                        <a href="bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
+                        <a href="#" class="btn_save_load" data-toggle="modal" data-target="#modal_orb_load"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> セーブ・ロード</a>
                         <a href="http://twitter.com/share?url=" rel="nofollow" class="btn_tweet" target="_tweet">
                             <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ツイート</a>
                         <div class="clearfix"></div>
@@ -138,18 +139,36 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-success orb_list_deploy">
                         <span class="glyphicon glyphicon-log-in hidden-xs"></span> 
-                        <span class="hidden-xs">配置する</span>
-                        <span class="visible-xs hidden-sm">配置</span>
+                        <span class="hidden-xs"> 配置する</span>
+                        <span class="visible-xs hidden-sm"> 配置</span>
                     </button>
                     <button type="button" class="btn btn-sm btn-danger orb_clear_all">
-                        <span class="glyphicon glyphicon-plus icon-align-left icon-white hidden-xs"></span> 
-                        <span class="hidden-xs">すべて削除</span>
+                        <span class="glyphicon glyphicon-trash icon-align-left icon-white hidden-xs"></span> 
+                        <span class="hidden-xs">リストをクリア</span>
                         <span class="visible-xs hidden-sm">全削除</span>
                     </button>
                 </div>
             </div>
             <div class="orb_list">
             
+            </div>
+            <div class="modal" id="modal_orb_load" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">ロード</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!--

@@ -30,8 +30,8 @@
             // 宝珠追加ボタンがクリックされたとき
             $(this.tabId + " .orb_list_add").on('tap', function () {
                 _this.addOrbRow(null);
-                $(this.tabId + " .message_window_in").html(
-                    "宝珠の形ボタンを" + _tap + "すると　形を変えることができます。");
+                $(_this.tabId + " .message_window_in").html(
+                    "宝珠の形ボタンを" + _tap + "すると　形を変えることができます。<br/>宝珠の　用意が出来たら　配置ボタンを" + _tap + "します。");
             });
             // 宝珠配置ボタンがクリックされたとき
             $(this.tabId + " .orb_list_deploy").on('tap', function () {
@@ -70,6 +70,7 @@
                 _this.sortOrbRowList(sortType);
             });
 
+            // 全削除ボタンがクリックされたとき
             $(this.tabId + " .orb_clear_all").on('tap', function () {
                 if (confirm("宝珠のリストを全てクリアします。よろしいですか？")) {
                     // 宝珠リストをリセット
@@ -78,14 +79,11 @@
                 }
             });
 
-            // 保存ボタンがクリックされたとき
-            $("#btn_save").on('tap', function () {
-                _this.loadSavedSheetList(true);
+            // セーブ・ロードボタンがクリックされたとき
+            $(".btn_save_load").on('tap', function () {
+                _this.loadSavedSheetList();
             });
-            // 保存ボタンがクリックされたとき
-            $("#btn_load").on('tap', function () {
-                _this.loadSavedSheetList(false);
-            });
+
             var tabId = this.tabId;
             // 宝珠リスト内のボタンがクリックされたとき
             $(this.tabId + " .orb_list").on('tap', function (event) {
@@ -149,46 +147,48 @@
                 var $divOrbList = $(_this.tabId + " .orb_list");
                 var $intro = $("#introduction");
                 var $container = $(".container");
-                if ($intro.css("position") == "fixed") {
+                if ($intro.css("position") == "fixed" || $intro.css("position") == "absolute") {
                     var introWidth = $intro.width();
                     $intro.css("margin-left", introWidth / (-2));
                 } else {
                     $intro.css("margin-left", "0px");
                 }
-                if ($divOrbResult.css("position") == "fixed") {
+                if ($divOrbResult.css("position") == "fixed" || $divOrbResult.css("position") == "absolute") {
                     $divOrbResult.css("left", $intro.offset().left);
-                    $divOrbResult.css("top", $intro.height() + $intro.offset().top + 20);
+                    $divOrbResult.css("top", $intro.height() + 32);
                 }
-                if ($divOrbControl.css("position") == "fixed") {
+                if ($divOrbControl.css("position") == "fixed" || $divOrbControl.css("position") == "absolute") {
                     $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
                     $divOrbControl.css("top", 0);
                 }
-                if ($divOrbList.css("position") == "absolute") {
+                if ($divOrbList.css("position") == "fixed" || $divOrbList.css("position") == "absolute") {
                     $divOrbList.css("left", $divOrbControl.offset().left + 10);
                     $divOrbList.css("top", $divOrbControl.height() + $divOrbControl.offset().top + 20);
                 }
             }).resize();
         },
 
-        loadSavedSheetList: function (isSave) {
-            var sheetDataList = SheetData.loadCookieKeyList();
-            var id = isSave ? "#modal_orb_save" : "#modal_orb_load";
-            var $table = $(id + " .table tbody").empty();
+        loadSavedSheetList: function () {
+            var sheetDataList = orbmng.SheetData.loadFromCookie();
+            var $table = $("#modal_orb_load .table tbody").empty();
             var typeList = ["炎", "水", "風", "光", "闇"];
-            var glyph = isSave ? "glyphicon-floppy-save" : "glyphicon-floppy-load";
-            var btnClass = isSave ? "btn_item_save" : "btn_item_load";
+
             for (var i = 0; i < sheetDataList.length; i++) {
                 var sheetData = sheetDataList[i];
-                var type = typeList[parseInt(sheetData.data.tp, 10)];
+                var type = "";
+                if (sheetData.data) {
+                    type = typeList[parseInt(sheetData.data.tp, 10)];
+                }
                 var $row = $(
-                    "<tr key='" + sheetData.key.id + "'>" +
+                    "<tr>" +
+                    "   <td class='save_select'><input type='radio' name='orb_save_select'/></td>" +
                     "   <td class='save_name'></td>" +
                     "   <td class='save_type'>" + type + "</td>" +
-                    "   <td class='save_button'><button type='button' class='btn btn-sm btn-default btn_item_delte'><span class='glyphicon glyphicon-trash'></span></td>" +
-                    "   <td class='save_button'><button type='button' class='btn btn-sm btn-default " + btnClass + "'><span class='glyphicon " + glyph + "'></span></td>" +
                     "</tr>"
                 );
-                $row.find(".save_name").text(sheetData.key.name);
+                $row.attr("key", sheetData.key);
+                $row.find(".save_name").text(sheetData.name);
+                $row.find(".save_select input").val(sheetData.key);
                 $table.append($row);
             }
         },
