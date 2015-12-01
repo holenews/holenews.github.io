@@ -43,7 +43,7 @@
             });
             // 全リセットボタンがクリックされたとき
             $(this.tabId + " .panel_reset").on('tap', function () {
-                if (confirm("石板の穴もすべてリセットされます。本当にリセットしますか？")) {
+                if (confirm("石板の穴がすべてリセットされます。よろしいですか？")) {
                     _this.clearOrbPanel();
                     _this.clearDepoloyedOrb();
                 }
@@ -68,6 +68,14 @@
             $(this.tabId + " .sort_type").on('tap', function () {
                 var sortType = $(this).attr("value");
                 _this.sortOrbRowList(sortType);
+            });
+
+            $(this.tabId + " .orb_clear_all").on('tap', function () {
+                if (confirm("宝珠のリストを全てクリアします。よろしいですか？")) {
+                    // 宝珠リストをリセット
+                    $(_this.tabId + " .orb_list").empty();
+                    _this.addOrbRow(null);
+                }
             });
 
             // 保存ボタンがクリックされたとき
@@ -101,7 +109,9 @@
                 }
                 // 削除ボタンがクリックされたとき
                 if ($target.is(".orb_cell_delete button") || $target.parents(".orb_cell_delete button").length > 0) {
-                    $target.parents(".orb_row").remove();
+                    $target.parents(".orb_row").fadeOut(function () {
+                        $(this).remove();
+                    });
                     return;
                 }
             });

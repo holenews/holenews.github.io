@@ -117,19 +117,35 @@
                                 <li><a class="orb_elem_type_item" value="4">闇の宝珠</a></li>
                             </ul>
                         </div>
-                        <button type="button" class="btn btn-sm btn-primary orb_list_add"><span class="glyphicon glyphicon-plus icon-align-left icon-white hidden-xs"></span> 宝珠の追加</button>
+                        <button type="button" class="btn btn-sm btn-primary orb_list_add">
+                            <span class="glyphicon glyphicon-plus icon-align-left icon-white hidden-xs"></span> 
+                            <span class="hidden-xs">宝珠の追加</span>
+                            <span class="visible-xs hidden-sm">追加</span>
+                        </button>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon-random hidden-xs"></span> 並べ替え <span class="caret"></span>
+                                <span class="glyphicon glyphicon-random hidden-xs"></span> 
+                                <span class="hidden-xs">並べ替え</span>
+                                <span class="visible-xs hidden-sm">並替</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="sort_type" value="name">名前順</a></li>
                                 <li><a class="sort_type" value="primary">優先度順</a></li>
                             </ul>
                         </div>
+                        
                     </div>
-                    <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="glyphicon glyphicon-log-in hidden-xs"></span> 配置する</button>
+                    <button type="button" class="btn btn-sm btn-success orb_list_deploy">
+                        <span class="glyphicon glyphicon-log-in hidden-xs"></span> 
+                        <span class="hidden-xs">配置する</span>
+                        <span class="visible-xs hidden-sm">配置</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger orb_clear_all">
+                        <span class="glyphicon glyphicon-plus icon-align-left icon-white hidden-xs"></span> 
+                        <span class="hidden-xs">すべて削除</span>
+                        <span class="visible-xs hidden-sm">全削除</span>
+                    </button>
                 </div>
             </div>
             <div class="orb_list">

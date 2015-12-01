@@ -132,7 +132,7 @@ select.form-control { height : 32px; padding : 3px; }
     }
 }
 
-@media (max-width: 529px)  
+@media (max-width: 767px)  
 {
-
+    button .visible-xs { display : inline!important; }
 }
