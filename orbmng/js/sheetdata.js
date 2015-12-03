@@ -9,7 +9,7 @@
     **********************************************************************************************************/
     function OrbPanel() {
         this.tabId = "#orb_panel";
-        this.initFromTemplate();
+        this.initSheetEvent();
         this.initOrbPanel();
         this.addOrbRow(null);
         $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
@@ -25,7 +25,7 @@
         /**
         * 宝珠シートを初期化する
         */
-        initFromTemplate: function () {
+        initSheetEvent: function () {
             var _this = this;
             // 宝珠追加ボタンがクリックされたとき
             $(this.tabId + " .orb_list_add").on('tap', function () {
@@ -141,6 +141,11 @@
                 }
             });
 
+            $(this.tabId + " .btn_save").on('tap', function () {
+                var sheetDataList = orbmng.SheetData.loadFromCookie();
+                var maxKey = "odt" + sheetDataList.length;
+            });
+
             $(window).resize(function () {
                 var $divOrbResult = $(_this.tabId + " .div_orb_result");
                 var $divOrbControl = $(_this.tabId + " .div_orb_control");
@@ -170,6 +175,8 @@
 
         loadSavedSheetList: function () {
             var sheetDataList = orbmng.SheetData.loadFromCookie();
+            $(".saved_data_message").hide();
+            if (sheetDataList.length == 0) $(".saved_data_message").show();
             var $table = $("#modal_orb_load .table tbody").empty();
             var typeList = ["炎", "水", "風", "光", "闇"];
 
@@ -180,11 +187,11 @@
                     type = typeList[parseInt(sheetData.data.tp, 10)];
                 }
                 var $row = $(
-                    "<tr>" +
-                    "   <td class='save_select'><input type='radio' name='orb_save_select'/></td>" +
-                    "   <td class='save_name'></td>" +
-                    "   <td class='save_type'>" + type + "</td>" +
-                    "</tr>"
+                    "<div class='saved_data_item'>" +
+                    "   <input type='radio' name='orb_save_select'/>" +
+                    "   <p class='save_name'></p>" +
+                    "   <p class='save_type'>" + type + "</p>" +
+                    "</div>"
                 );
                 $row.attr("key", sheetData.key);
                 $row.find(".save_name").text(sheetData.name);

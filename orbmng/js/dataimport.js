@@ -553,8 +553,9 @@
                     var stringArr = string.split("@");
                     sheetData = SheetData.decode(stringArr[1], true);
                     name = stringArr[0];
+                    sheetDataList.push({ key: keyList[i], name: name, data: sheetData });
                 }
-                sheetDataList.push({ key: keyList[i], name: name, data: sheetData });
+                
             }
         } catch (e) {
 
@@ -564,21 +565,13 @@
 
     SheetData.getCookieKeyList = function () {
         var keyList = [];
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < 16; i++) {
             keyList.push("odt" + i);
         }
         return keyList;
     };
 
     SheetData.saveToCookie = function (key, name, sheetData) {
-        var keyList = SheetData.getCookieKeyList();
-        var isNewKey = true;
-        for (var i = 0; i < keyList.length; i++) {
-            if (keyList[i] == key) {
-                isNewKey = false;
-                break;
-            }
-        }
         var sheetStr = name + "@" + SheetData.encode(sheetData, true);
         $.cookie(key, sheetStr, { expires: 365, secure: true });
     };

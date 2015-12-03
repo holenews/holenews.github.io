@@ -112,6 +112,15 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_select .orb_form:hover { border : 1px solid #b94a48; }
 
 
+#modal_orb_save .modal-sm { height : 100px; width : 400px; }
+#modal_orb_save .modal-body { height : 100px; width : 400px; }
+#modal_orb_save label { margin-right : 10px; }
+#modal_orb_save .form-control { width : 250px; }
+
+.saved_data_list { }
+.saved_data_message { width : auto; text-align : center; margin-top : 80px; color : #d9534f; }
+.saved_data_list .saved_data_item { float : left; width : 300px; position : relative; }
+
 @media (min-width: 950px) and (max-height: 800px)
 {
     .fixed_panel { position : absolute; }
