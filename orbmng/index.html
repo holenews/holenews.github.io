@@ -155,40 +155,48 @@
             <div class="orb_list">
             
             </div>
-            <div class="modal" id="modal_orb_load" tabindex="-1" role="dialog">
+            <div class="modal orb_dialog" id="modal_orb_load" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">ロード</h4>
-                        </div>
                         <div class="modal-body">
                             <div class="saved_data_list">
-                                <p class="saved_data_message">保存された宝珠データはありません。</p>
+                                
                             </div>
+                            <p class="saved_data_message">保存された宝珠データはありません。</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                            <div class="button_group button_group_left">
+                                <button type="button" class="btn btn-sm btn-warning btn_load_delete">
+                                    <span class="hidden-xs"> 選択した設定を削除</span>
+                                    <span class="visible-xs hidden-sm"> 削除</span>
+                                </button>
+                            </div>
+                            <div class="button_group button_group_right">
+                                <button type="button" class="btn btn-sm btn-primary btn_load_open">
+                                    <span class="hidden-xs"> 選択した設定を開く</span>
+                                    <span class="visible-xs hidden-sm"> 開く</span>
+                                </button>
+                                <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal" id="modal_orb_save" tabindex="-1" role="dialog">
+            <div class="modal orb_dialog" id="modal_orb_save" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">セーブ</h4>
-                        </div>
                         <div class="modal-body">
                             <form class="form-inline">
-                            <div class="form-group">
-                                <label>タイトル</label>
-                                <input type="text" class="form-control save_title" placeholder="">
-                            </div>
+                                <div class="form-group">
+                                    <label>タイトル</label>
+                                    <input type="text" class="form-control save_title" placeholder="保存する宝珠設定のタイトル">
+                                </div>
+                            </form>
+                            <p class="alert alert-danger dialog_message"></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-primary btn_save">登録する</button>
+                            <button type="button" class="btn btn-sm btn-success btn_save_over">上書き保存</button>
+                            <button type="button" class="btn btn-sm btn-primary btn_save_new">新規登録</button>
                             <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
                         </div>
                     </div>

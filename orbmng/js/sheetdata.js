@@ -22,6 +22,7 @@
         deployList: null,
         boardCells: null,
         orbNameList: [],
+        currentKey: null,
         /**
         * 宝珠シートを初期化する
         */
@@ -141,9 +142,18 @@
                 }
             });
 
-            $(this.tabId + " .btn_save").on('tap', function () {
-                var sheetDataList = orbmng.SheetData.loadFromCookie();
-                var maxKey = "odt" + sheetDataList.length;
+
+            $(".orb_dialog .btn").on('tap', function () {
+                // ダイアログ内のボタンがクリックされた時、メッセージを非表示にする
+                $(".dialog_message").hide();
+            });
+            $(this.tabId + " .btn_save_new").on('tap', function () {
+                // 新規登録時
+                _this.saveSheetData(true);
+            });
+            $(this.tabId + " .btn_save_over").on('tap', function () {
+                // 上書き保存時
+                _this.saveSheetData(false);
             });
 
             $(window).resize(function () {
@@ -173,11 +183,14 @@
             }).resize();
         },
 
+        /**
+        * 宝珠設定を保存する
+        */
         loadSavedSheetList: function () {
             var sheetDataList = orbmng.SheetData.loadFromCookie();
             $(".saved_data_message").hide();
             if (sheetDataList.length == 0) $(".saved_data_message").show();
-            var $table = $("#modal_orb_load .table tbody").empty();
+            var $table = $("#modal_orb_load .saved_data_list").empty();
             var typeList = ["炎", "水", "風", "光", "闇"];
 
             for (var i = 0; i < sheetDataList.length; i++) {
@@ -187,17 +200,74 @@
                     type = typeList[parseInt(sheetData.data.tp, 10)];
                 }
                 var $row = $(
-                    "<div class='saved_data_item'>" +
-                    "   <input type='radio' name='orb_save_select'/>" +
-                    "   <p class='save_name'></p>" +
-                    "   <p class='save_type'>" + type + "</p>" +
+                    "<div class='saved_data_item form-group'>" +
+                    "   <label>" +
+                    "       <input type='radio' name='orb_save_select'/>" +
+                    "       <span class='save_type'>(" + type + ")</span> " +
+                    "       <span class='save_name'></span>" +
+                    "   </label>" +
                     "</div>"
                 );
-                $row.attr("key", sheetData.key);
+                $row.attr("value", sheetData.key);
                 $row.find(".save_name").text(sheetData.name);
                 $row.find(".save_select input").val(sheetData.key);
                 $table.append($row);
             }
+            $table.find("input[name=orb_save_select]:first").prop('checked', true);
+            $table.append("<p class='clearfix'></p>");
+        },
+
+        /**
+        * 宝珠設定を保存する
+        */
+        saveSheetData: function (isNew) {
+            var sheetDataList = orbmng.SheetData.loadFromCookie();
+            var $titleForm = $("#modal_orb_save .form-group");
+            var $message = $("#modal_orb_save .dialog_message");
+
+            $titleForm.removeClass("has-error");
+            if (isNew && sheetDataList.length >= 16) {
+                $message.html("これ以上設定を保存することが出来ません！<br />ロード画面から不要な設定を削除してください。").show();
+                return;
+            }
+            var title = $titleForm.find(".save_title").val();
+            if (!title || title.trim() == "") {
+                $message.html("タイトルを入力してください。").show();
+                $titleForm.addClass("has-error");
+                return;
+            }
+            if (title.length > 15) {
+                $message.html("タイトルは15文字以内でお願いします。").show();
+                $titleForm.addClass("has-error");
+                return;
+            }
+            var maxKey = null;
+            if (isNew == true) {
+                // 新規保存の場合は未使用のキーを検索する
+                for (var i = 0; i < 16; i++) {
+                    var findKey = false;
+                    var key = "odt" + i;
+                    for (var s = 0; s < sheetDataList.length; s++) {
+                        if (sheetDataList[s].key == key) {
+                            findKey = true;
+                            break;
+                        }
+                    }
+                    if (findKey == false) {
+                        maxKey = key;
+                        break;
+                    }
+                }
+            } else {
+                // 上書き保存の場合は現在読み込んでいるキーを設定する
+                maxKey = this.currentKey;
+            }
+            if (maxKey == null) return;
+
+            var sheetData = this.getSheetData();
+            // Cookieに保存する
+            orbmng.SheetData.saveToCookie(key, title, sheetData);
+            $(".modal").hide();
         },
 
         /**
@@ -474,7 +544,7 @@
             var data = new orbmng.SheetData();
             data.bd = this.getBoardCell();
             data.ol = this.getOrbListData();
-            data.tp = parseInt($(this.tabId + " .orb_elem_type").val(), 10);
+            data.tp = parseInt($(this.tabId + " .orb_elem_type .dropdown-toggle").attr("value"), 10);
             return data;
         },
 

@@ -397,7 +397,7 @@
             orbStr += orb.i + ":" + orb.n + ":" + orb.t + orb.p;
         }
         var string = sheetData.tp + "|" + boardStr + "|" + orbStr;
-        if (!notCompressed) {
+        if (!notEncode) {
             string = encodeURIComponent(base64.encode(string));
         }
         return string;
@@ -414,7 +414,11 @@
         }
         var stringArr = string.split("|");
 
-        var sheetData = new SheetData();
+        var sheetData = {
+            tp: 0,      // 石板タイプ
+            ol: [],     // 宝珠リスト
+            bd: []      // 石板データ
+        };
         sheetData.tp = parseInt(stringArr[0], 10);
 
         var boardStr = stringArr[1];
@@ -573,7 +577,7 @@
 
     SheetData.saveToCookie = function (key, name, sheetData) {
         var sheetStr = name + "@" + SheetData.encode(sheetData, true);
-        $.cookie(key, sheetStr, { expires: 365, secure: true });
+        $.cookie(key, sheetStr, { expires: 365 });
     };
 
     SheetData.removeFromCookie = function (key) {

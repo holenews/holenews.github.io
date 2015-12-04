@@ -58,18 +58,10 @@ h2
     display : inline-block;
 }
 
-.modal{
-    
-}
-
-/* Important part */
-.modal-dialog{
-    overflow-y: initial !important
-}
-.modal-body{
-    height: 250px;
-    overflow-y: auto;
-}
+.modal-footer { position : relative; min-height : 50px;  }
+.modal-footer .button_group { position : absolute; top : 10px; }
+.modal-footer .button_group_left { left : 10px; }
+.modal-footer .button_group_right { right : 10px; }
 
 @media (max-width: 950px)  
 {
