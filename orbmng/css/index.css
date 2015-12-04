@@ -122,26 +122,35 @@ select.form-control { height : 32px; padding : 3px; }
  
 .dialog_message { display : none; }
  
-#modal_orb_load .saved_data_list { margin-top : 10px; }
+#modal_orb_load .saved_data_list { margin-top : 10px; padding-left : 0; }
 #modal_orb_load .saved_data_message { width : auto; text-align : center; margin-top : 30px; color : #d9534f; }
 #modal_orb_load .saved_data_item  
 {
     float : left; 
-    width : 250px; 
+    width : 270px; 
     position : relative; 
     margin-right : 5px;
     margin-bottom : 5px;
-}
-#modal_orb_load .saved_data_item label  
-{
-    font-weight : normal; 
-    background : #DDD;
-    height : 40px; 
-    padding : 5px;
-    cursor : pointer; 
-    border-radius : 5px; 
+    overflow : hidden;
+    border : 1px solid #999;
+    padding : 10px;
+    background : #EEE;
+    border-radius : 5px;
+    cursor : pointer;
 }
 
+#modal_orb_load .saved_data_item .glyphicon { margin-right : 5px; }
+#modal_orb_load .saved_data_item.type0 .glyphicon { color : #E60012; }
+#modal_orb_load .saved_data_item.type1 .glyphicon { color : #0068B7; }
+#modal_orb_load .saved_data_item.type2 .glyphicon { color : #009944; }
+#modal_orb_load .saved_data_item.type3 .glyphicon { color : #009944; }
+#modal_orb_load .saved_data_item.type4 .glyphicon { color : #F39800; }
+#modal_orb_load .saved_data_item.type5 .glyphicon { color : #920783; }
+
+#modal_orb_load .saved_data_item .glyphicon-folder-open { display : none; }
+#modal_orb_load .saved_data_item .glyphicon-folder-close { display : inline-block; }
+#modal_orb_load .saved_data_item.selected .glyphicon-folder-open { display : inline-block; }
+#modal_orb_load .saved_data_item.selected .glyphicon-folder-close { display : none; }
 
 @media (min-width: 950px) and (max-height: 800px)
 {
@@ -173,4 +182,10 @@ select.form-control { height : 32px; padding : 3px; }
 @media (max-width: 767px)  
 {
     button .visible-xs { display : inline!important; }
+    
+    #modal_orb_load .saved_data_item  
+    {
+        float : none;
+        width : auto; 
+    }
 }

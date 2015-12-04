@@ -200,20 +200,22 @@
                     type = typeList[parseInt(sheetData.data.tp, 10)];
                 }
                 var $row = $(
-                    "<div class='saved_data_item form-group'>" +
-                    "   <label>" +
-                    "       <input type='radio' name='orb_save_select'/>" +
-                    "       <span class='save_type'>(" + type + ")</span> " +
-                    "       <span class='save_name'></span>" +
-                    "   </label>" +
-                    "</div>"
+                    "<li class='saved_data_item type" + sheetData.data.tp + "'>" +
+                    "   <span class='glyphicon glyphicon-folder-close'></span>" +
+                    "   <span class='glyphicon glyphicon-folder-open'></span>" +
+                    "   <span class='save_name'></span>" +
+                    "</li>"
                 );
+                $row.on('tap', function () {
+                    $("#modal_orb_load .saved_data_item").removeClass("selected");
+                    $(this).addClass("selected");
+                });
                 $row.attr("value", sheetData.key);
                 $row.find(".save_name").text(sheetData.name);
                 $row.find(".save_select input").val(sheetData.key);
                 $table.append($row);
             }
-            $table.find("input[name=orb_save_select]:first").prop('checked', true);
+            $table.find(".saved_data_item:first").addClass("selected");
             $table.append("<p class='clearfix'></p>");
         },
 
