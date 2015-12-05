@@ -95,7 +95,7 @@
         this.initOrb();
     }
 
-    DeployedOrb.Colors = ["#E60012", "#F39800", "#FFF100", "#009944", "#0068B7", "#1D2088", "#920783", "#ff69b4"];
+    DeployedOrb.Colors = ["#E60012", "#F39800", "#fcc800", "#009944", "#0068B7", "#1D2088", "#b44c97", "#ff69b4"];
 
     DeployedOrb.prototype = {
         px: 0,

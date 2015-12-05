@@ -1,0 +1,17 @@
+.container { margin : 20px; }
+.bookmark_url { width : 90%; }
+h1 { font-size : 1.5em; line-height : 1em; margin-bottom : 20px; }
+.panel-default>h2.panel-heading { margin-top : 0px; background-color : #337ab7; border-color : #337ab7; color : #FFF; }
+.panel-body { border-bottom : 1px solid #DDD; }
+.panel-body:last-child { border-bottom : 0px solid #DDD; }
+.panel-body ul { margin-top : 20px; padding-bottom : 10px; }
+.panel-body li { margin-top : 10px; }
+.alert a { text-decoration : underline; }
+@media (max-width: 480px)  
+{
+    .container { margin : 10px; }
+}
+@media (max-width: 979px)  
+{
+    .panel-body ul { margin-top : 0px; margin-left : 20px; }
+}

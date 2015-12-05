@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,29 +9,43 @@
     	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
     	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <link href="base.css" rel="stylesheet" />
-    <style>
-        .container { margin : 20px; }
-        .bookmark_url { width : 90%; }
-        h1 { font-size : 1em; line-height : 1em; }
-        
-        @media (max-width: 480px)  
-        {
-            .container { margin : 10px; }
-        }
-    </style>
-    <script type="text/javascript">
-        (function () {
-            $(function () {
-                $(".bookmark_url").on("focus", function(){
-                    $(this).select();
-                });
-            });
-        })();
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/howto.css" rel="stylesheet" />
+    <script>
+        var url = "javascript:(function(d){var%20s;s=d.createElement('script');s.src='http://holenews.github.io/orbmng/js/dataimport.js?' + new Date().getTime();d.getElementsByTagName('head')[0].appendChild(s);})(document);";
+        $(function () {
+            $(".bookmark").attr("href", url);
+        });
     </script>
 </head>
 <body>
     <div class="container">
+        <h1>冒険者の広場からの取り込み方法</h1>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> Chromeの場合</h2>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/book_chrome1.png" class="thumbnail">
+                        <img src="./img/book_chrome1.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>右上のメニュー＞ブックマーク＞ブックマークバーを表示　をクリックします。</li>
+                    <li>「<a class="bookmark" href="#">達人のオーブを読み込む</a>」←このリンクをブックマークバーにドラッグ＆ドロップします。</li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/book_chrome2.png" class="thumbnail">
+                        <img src="./img/book_chrome2.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>冒険者の広場の<a href="http://hiroba.dqx.jp/sc/home/orb/" target="_blank">達人のオーブ</a>のページを開き、読み込みたい宝珠のタブを開きます。</li>
+                    <li>ブックマークバーにある<mark>達人のオーブを読み込む</mark>をクリックすると、石板の形と持っている宝珠データが取り込まれます。</li>
+                </ul>
+            </div>
+        </section>
         <header class="alert alert-info">
             <h1>ブックマークレットの使い方</h1>
             <p>

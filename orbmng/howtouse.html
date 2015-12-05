@@ -10,40 +10,15 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
             integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <link href="css/base.css" rel="stylesheet" />
-    <style>
-        .container { margin : 20px; }
-        .bookmark_url { width : 90%; }
-        h1 { font-size : 1.5em; line-height : 1em; margin-bottom : 20px; }
-        .panel-default>h2.panel-heading { margin-top : 0px; background-color : #337ab7; border-color : #337ab7; color : #FFF; }
-        .howto_step { border : 1px solid #999; padding : 10px; border-radius : 3px; }
-        .panel-body ul { margin-top : 20px; padding-bottom : 10px; }
-        .panel-body li { margin-top : 10px; }
-        .section_split { border-bottom : 1px dotted #CCC; width : auto; margin : 20px 10px 20px 10px; }
-        @media (max-width: 480px)  
-        {
-            .container { margin : 10px; }
-        }
-        @media (max-width: 979px)  
-        {
-            .panel-body ul { margin-top : 0px; margin-left : 20px; }
-        }
-    </style>
-    <script type="text/javascript">
-        (function () {
-            $(function () {
-                $(".bookmark_url").on("focus", function(){
-                    $(this).select();
-                });
-            });
-        })();
-    </script>
+    <link href="css/howto.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
         <h1>達人のオーブ配置ツール「SOIYA」の使い方</h1>
+        <div class="alert alert-info">１から設定しようと思うと結構面倒くさいので、<a href="bookmark.html">ブックマークレット</a>を使って冒険者の広場から取り込むことをオススメします。</div>
         <div class="alert alert-warning visible-xs hidden-sm">※PC版の画面を元に説明しているので、スマホ版の場合はボタンの表記が若干異なります。</div>
         <section class="panel panel-default">
-            <h2 class="panel-heading"><span class="glyphicon glyphicon glyphicon-asterisk"></span> <b>STEP.1</b> 宝珠の石板に穴を空ける</h2>
+            <h2 class="panel-heading"> <b>STEP.1</b> 宝珠の石板に穴を空ける</h2>
             <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_panel.png" class="thumbnail">
@@ -57,7 +32,7 @@
             </div>
         </section>
         <section class="panel panel-default">
-            <h2 class="panel-heading"><span class="glyphicon glyphicon glyphicon-asterisk"></span> <b>STEP.2</b> 宝珠を追加する</h2>
+            <h2 class="panel-heading"> <b>STEP.2</b> 宝珠を追加する</h2>
             <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_list1.png" class="thumbnail">
@@ -68,7 +43,8 @@
                     <li>炎・水・風・光・闇の中から<mark>宝珠の種類</mark>を選びます。</li>
                     <li><mark>宝珠の追加</mark>ボタンで配置したい宝珠を追加していきます。</li>
                 </ul>
-                <p class="section_split clearfix"></p>
+            </div>
+            <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_list2.png" class="thumbnail">
                         <img src="./img/howto_list2.png" />
@@ -81,7 +57,7 @@
             </div>
         </section>
         <section class="panel panel-default">
-            <h2 class="panel-heading"><span class="glyphicon glyphicon glyphicon-asterisk"></span> <b>STEP.3</b> 宝珠を配置する</h2>
+            <h2 class="panel-heading"> <b>STEP.3</b> 宝珠を配置する</h2>
             <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_list3.png" class="thumbnail">
@@ -94,7 +70,8 @@
                     できなかった宝珠には<span class="glyphicon glyphicon-remove" style="color:#d9534f;"></span>マークが表示されます。</li>
                     <li>どうしても配置したい宝珠があるときは<mark>優先度</mark>を上げてみましょう。</li>
                 </ul>
-                <p class="section_split clearfix"></p>
+            </div>
+            <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_list4.png" class="thumbnail">
                         <img src="./img/howto_list4.png" />
@@ -107,7 +84,7 @@
             </div>
         </section>
         <section class="panel panel-default">
-            <h2 class="panel-heading"><span class="glyphicon glyphicon glyphicon-asterisk"></span> <b>STEP.4</b> 宝珠の配置を保存する・読み込む</h2>
+            <h2 class="panel-heading"> <b>STEP.4</b> 宝珠の配置を保存する・読み込む</h2>
             <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_save1.png" class="thumbnail">
@@ -118,7 +95,8 @@
                     <li>トップメニューの「<mark>セーブ</mark>」から現在の宝珠のリストと石板の穴を保存することができます。</li>
                     <li>タイトルは何でも構いませんがあとで見て分かりやすいものにしましょう。</li>
                 </ul>
-                <p class="section_split clearfix"></p>
+            </div>
+            <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/howto_save2.png" class="thumbnail">
                         <img src="./img/howto_save2.png" />
