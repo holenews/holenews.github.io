@@ -2,32 +2,44 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Untitled Page</title>
+    <title>せいや！ 達人のオーブ配置サポートツール</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/tinylz77.js"></script>
-    <script type="text/javascript" src="js/base64.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile.events.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" 
+    	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" 
+    	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
+    <script type="text/javascript">        window.__FROM_ORIGIN__ = true; </script>
     <script type="text/javascript" src="js/easeljs-0.8.1.min.js"></script>
+    <script type="text/javascript" src="js/orbdata.js"></script>
+    <script type="text/javascript" src="js/boarddata.js"></script>
     <script type="text/javascript" src="js/sheetdata.js"></script>
+    <script type="text/javascript" src="js/dataimport.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     <script type="text/javascript">
     (function () {
 
         $(function () {
-            var sheetDataList = loadParam();
-            for (var i = 0; i < 5; i++) {
-                var orbPanel = new OrbPanel(i);
-                if (sheetDataList != null) {
-                    orbPanel.loadSheetData(sheetDataList[i]);
-                }
+            var sheetData = loadParam();
+            var orbPanel = new orbmng.OrbPanel();
+            if(sheetData != null){
+            	orbPanel.loadSheetData(sheetData);
             }
+  			
+            $(".btn_tweet").on("tap", function(){
+            	var sheetData = orbPanel.getSheetData();
+            	var string = "?d=" + orbmng.SheetData.encode(sheetData);
+            	$(this).attr("href", "http://twitter.com/share?hashtags=orbseiya&url=" + location.protocol + "//" + location.hostname + location.pathname + string);
+            });
         });
-
+        
         function loadParam() {
-            var sheetDataList = null;
+            var sheetData = null;
             try {
                 var vars = {};
                 var param = location.search.substring(1).split('&');
@@ -39,99 +51,289 @@
                     if (key != '') vars[key] = decodeURI(val);
                 }
                 if (vars["d"]) {
-                    sheetDataList = SheetData.decode(vars["d"]);
+                    sheetData = orbmng.SheetData.decode(vars["d"]);
+                }else{
+                	
                 }
             } catch (e) {
 
             }
-            if (sheetDataList == null || sheetDataList.length != 5) {
-                sheetDataList = null;
-            }
-            return sheetDataList;
+            return sheetData;
         }
 
     })();
     </script>
     <style>
-        .container { margin : 20px; }
-        .container-fluid { margin : 20px; }
         
-        .orb_panel { margin : auto; width : 312px; height : 312px; }
-        .label-success { margin-left : 0.5em; margin-right : 0.5em; }
-        
-        h2 { font-size : 1.2em; line-height : 20px; }
-        .div_orb_result { width : 350px; margin-bottom : 20px; float: left; position : relative; }
-        .div_orb_list { width : 400px; margin-left : 20px; position : relative; float: left;  }
-        
-        .orb_hole_count { margin : 10px auto; text-align : center; font-size : 0.9em; }
-
-        .orb_list { margin-top : 20px; margin-bottom : 20px; }
-        .orb_list tr { background : #FFF; }
-        .orb_list tr:active { cursor : move; }
-        .orb_list tr.disabled input { background : #BBB; color : #EEE }
-        .orb_list thead { font-size : 0.9em; }
-        .orb_list th, .orb_list td { font-weight : normal; border-top : none; vertical-align : middle; padding : 1px; }
-        .orb_list td { text-align : center; }
-        .orb_list input { margin-bottom : 0px; }
-        
-        .orb_select { width : 180px; }
-        .orb_select img { width : 40px; height : 40px; cursor : pointer; margin : 1px; border : 1px solid #FFF; }
-        .orb_select img:hover { border : 1px solid #b94a48; }
-        .orb_list_add {  }
         
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <article class="alert alert-info">
-                <h2>使い方</h2>
-                <ul>
-                    <li>左側の石板をクリックすると、穴を開けることができます。</li>
-                    <li>右側の宝珠リストに、配置したい宝珠を追加していきます。</li>
-                    <ul>
-                        <li>上にある宝珠を優先して配置します。ドラッグ＆ドロップで順番を入れ替えることも出来ます。</li>
-                        <li>形の違う同じ宝珠があるときは、宝珠名を同じにして複数並べてください。その中から型にハマる宝珠を自動で選んでくれます。</li>
-                    </ul>
-                </ul>
-            </article>
-        </header>
-        <ul class="nav nav-tabs" id="orb_tabs">
-            <li class="active"><a href="#orbtab0" data-toggle="tab">炎</a></li>
-            <li><a href="#orbtab1" data-toggle="tab">水</a></li>
-            <li><a href="#orbtab2" data-toggle="tab">風</a></li>
-            <li><a href="#orbtab3" data-toggle="tab">光</a></li>
-            <li><a href="#orbtab4" data-toggle="tab">闇</a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active orb_tab" id="orbtab0"></div>
-          <div class="tab-pane orb_tab" id="orbtab1"></div>
-          <div class="tab-pane orb_tab" id="orbtab2"></div>
-          <div class="tab-pane orb_tab" id="orbtab3"></div>
-          <div class="tab-pane orb_tab" id="orbtab4"></div>
-        </div>
-        <div id="orb_tab_template" class="hidden">
-            <div class="container-fluid">
-                <div class="row-fluid">
-                    <div class="div_orb_result">
-                        <canvas class="orb_panel" width="316" height="316">
-            
-                        </canvas>
-                        <div class="orb_deploy"></div>
+			<nav class="dq_window fixed_panel" id="introduction">
+                <div class="dq_window_in">
+                    「<h1><a href="./"><strong>せいや！</strong></a></h1>」　は、宝珠を入れ替えるたびに<br class="visible-xs hidden-sm" />
+                    配置に悩む　冒険者たちを　支援するツールです。<br/><br class="visible-xs hidden-sm" />
+                    石板の穴と　宝珠のリストを　指定すれば　<br class="visible-xs hidden-sm" />自動でハマる配置を考えてくれます。
+                    <div class="nav_menu">
+                        <a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>　
+                        <a href="bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
+                        <br class="visible-xs hidden-sm" />
+                        <a href="#" class="btn_open_save">
+                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> セーブ</a>
+                        <a href="#" class="btn_open_load">
+                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ロード</a>
+                        <a href="http://twitter.com/share?url=" rel="nofollow" class="btn_tweet" target="_tweet">
+                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ツイート</a>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="div_orb_list">
-                        <button type="button" class="orb_list_add btn btn-small"><i class="icon-plus icon-align-left"></i> 宝珠の追加</button>
-                        <button type="button" class="btn btn-small btn-success orb_list_setting"><i class="icon-check icon-white"></i> 配置開始</button>
-                        <table class="table orb_list">
-                            <thead><tr><th>宝珠名</th><td>形状</td><td>対象外</td><td>削除</td></tr></thead>
-                            <tbody></tbody>
-                        </table>
+                </div>
+            </nav>
+        </header>
+        <div id="orb_panel">
+            <div class="div_orb_result fixed_panel fixed_control">
+                <div class="fixed_control_in">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> 宝珠の石板</h2>
+                    <canvas class="orb_panel" width="270" height="270"></canvas>
+                    <div class="orb_panel_button">
+                        <button type="button" class="btn btn-sm btn-default panel_reset"><span class="glyphicon glyphicon-erase"></span> 石板をリセット</button>
+                        <button type="button" class="btn btn-sm btn-default orb_list_reset"><span class="glyphicon glyphicon-share-alt"></span> 宝珠を外す</button>
+                    </div>
+                </div>
+                <div class="message_window dq_window col-md-12">
+                    <div class="message_window_in dq_window_in">
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="div_orb_control fixed_panel fixed_control">
+                <div class="fixed_control_in">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> 配置する宝珠</h2>
+                    <div class="btn-group" role="group">
+                        <div class="btn-group orb_elem_type" role="group">
+                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" value="0">
+                                <span class="orb_elem_type_name">炎の宝珠</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="orb_elem_type_item" value="0">炎の宝珠</a></li>
+                                <li><a class="orb_elem_type_item" value="1">水の宝珠</a></li>
+                                <li><a class="orb_elem_type_item" value="2">風の宝珠</a></li>
+                                <li><a class="orb_elem_type_item" value="3">光の宝珠</a></li>
+                                <li><a class="orb_elem_type_item" value="4">闇の宝珠</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary orb_list_add">
+                            <span class="glyphicon glyphicon-plus icon-align-left icon-white hidden-xs"></span> 
+                            <span class="hidden-xs">宝珠の追加</span>
+                            <span class="visible-xs hidden-sm">追加</span>
+                        </button>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-random hidden-xs"></span> 
+                                <span class="hidden-xs">並べ替え</span>
+                                <span class="visible-xs hidden-sm">並替</span> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="sort_type" value="name">名前順</a></li>
+                                <li><a class="sort_type" value="primary">優先度順</a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success orb_list_deploy">
+                        <span class="glyphicon glyphicon-log-in hidden-xs"></span> 
+                        <span class="hidden-xs"> 配置する</span>
+                        <span class="visible-xs hidden-sm"> 配置</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger orb_clear_all">
+                        <span class="glyphicon glyphicon-trash icon-align-left icon-white hidden-xs"></span> 
+                        <span class="hidden-xs">リストをクリア</span>
+                        <span class="visible-xs hidden-sm">全削除</span>
+                    </button>
+                </div>
+            </div>
+            <div class="orb_list">
+            
+            </div>
+            <div class="modal orb_dialog" id="modal_orb_load" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p class="saved_data_message">保存された宝珠データはありません。</p>
+                            <ul class="saved_data_list">
+                                
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="button_group button_group_left">
+                                <button type="button" class="btn btn-sm btn_load_delete">
+                                    <span class="hidden-xs"> 選択した設定を削除</span>
+                                    <span class="visible-xs hidden-sm"> 削除</span>
+                                </button>
+                            </div>
+                            <div class="button_group button_group_right">
+                                <button type="button" class="btn btn-sm btn-primary btn_load_open">
+                                    <span class="hidden-xs"> 選択した設定を開く</span>
+                                    <span class="visible-xs hidden-sm"> 開く</span>
+                                </button>
+                                <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal orb_dialog" id="modal_orb_save" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label>タイトルを入力して下さい</label>
+                                    <input type="text" class="form-control save_title" placeholder="保存する宝珠設定のタイトル">
+                                </div>
+                            </form>
+                            <p class="alert alert-danger dialog_message"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-primary btn_save_new">新規登録</button>
+                            <button type="button" class="btn btn-sm btn-success btn_save_over">上書き保存</button>
+                            <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!--
+
+        <header>
+            <article class="alert alert-info">
+                <a href="http://twitter.com/share?url=" rel="nofollow" class="btn btn-info btn-sm btn_tweet" target="_tweet">
+                	<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> ツイート</a>
+                <button type="button" class="btn btn-default btn-sm" id="btn_save" data-toggle="modal" data-target="#modal_orb_save">
+                    <span class="glyphicon glyphicon glyphicon-floppy-save"></span> セーブ
+                </button>
+                <button type="button" class="btn btn-default btn-sm" id="btn_load" data-toggle="modal" data-target="#modal_orb_load">
+                    <span class="glyphicon glyphicon glyphicon-floppy-load"></span> ロード
+                </button>
+            </article>
+        </header>
+        <div id="orb_panel">
+            <div class="div_orb_result">
+                <h2 class="border_title">宝珠の石板</h2>
+                <div class="div_border">
+                    <canvas class="orb_panel" width="270" height="270">
         
-        <input type="text" id="url"/>
+                    </canvas>
+                    <div class="orb_panel_button">
+                        <button type="button" class="btn btn-sm btn-default panel_reset"><span class="glyphicon glyphicon-erase"></span> 石板をリセット</button>
+                        <button type="button" class="btn btn-sm btn-default orb_list_reset"><span class="glyphicon glyphicon-share-alt"></span> 宝珠を外す</button>
+                    </div>
+                </div>
+                <div class="message_window col-md-12">
+                    <div class="message_window_in">
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="div_orb_list">
+                <h2 class="border_title">配置する宝珠リスト</h2>
+                <div class="div_border">
+                    <select class="form-control orb_elem_type">
+                        <option value="0">炎の宝珠</option>
+                        <option value="1">水の宝珠</option>
+                        <option value="2">風の宝珠</option>
+                        <option value="3">光の宝珠</option>
+                        <option value="4">闇の宝珠</option>
+                    </select>
+                    <span class="orb_buttons">
+                        <button type="button" class="btn btn-sm btn-primary orb_list_add "><span class="glyphicon glyphicon-plus icon-align-left icon-white"></span> 宝珠の追加</button>
+                        <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="glyphicon glyphicon-log-in"></span> 配置する</button>
+                        <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal_orb_sort"><span class="glyphicon glyphicon-random"></span> 並べ替え</button>
+                    </span>
+                    <div class="orb_list">
+                            
+                    </div>
+                </div>
+            </div>
+            <footer>
+                連絡先：<a href="http://twitter.com/hole_dqx">@hole_dqx</a>
+            </footer>
+        </div>
+        <div class="modal" id="modal_orb_sort" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                        <p>並べ替え方法を選択してください。</p>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="orb_sort_mode" value="name" checked>
+                                名前
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="orb_sort_mode" value="primary">
+                                優先度
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-sm btn_orb_sort" data-dismiss="modal">並べ替え</button>
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modal_orb_save" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">セーブ</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control new_save_name" placeholder="保存する名前を入力してください">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">新規保存</button>
+                        </form>
+                        <table class="table">
+                            <thead><tr><td>名前</td><td>種類</td><td>保存</td><td>削除</td></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modal_orb_load" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">ロード</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead><tr><td>名前</td><td>種類</td><td>保存</td><td>削除</td></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+          -->
     </div>
+  
 </body>
 </html>
