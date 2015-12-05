@@ -8,11 +8,10 @@ h1 { font-size : 1.5em; line-height : 1em; margin-bottom : 20px; }
 .panel-body li { margin-top : 10px; }
 .alert a { text-decoration : underline; }
 .url_copy { width : 100%; height : 120px; }
-@media (max-width: 480px)  
+@media (max-width: 767px)   
 {
-    .container { margin : 10px; }
-}
-@media (max-width: 979px)  
-{
-    .panel-body ul { margin-top : 0px; margin-left : 20px; }
+    .container { margin : 0px; }
+    .container h1 { margin : 5px; }
+    .container .alert { margin : 10px 5px; }
+    .panel-body { padding : 5px; }
 }
