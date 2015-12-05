@@ -15,25 +15,49 @@
         var url = "javascript:(function(d){var s;s=d.createElement('script');s.src='http://holenews.github.io/orbmng/js/dataimport.js?' + new Date().getTime();d.getElementsByTagName('head')[0].appendChild(s);})(document);";
         $(function () {
             $(".bookmark").attr("href", url);
+            $("textarea").val(url);
         });
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>冒険者の広場からの取り込み方法</h1>
+        <h1>冒険者の広場から取り込む</h1>
         <section class="panel panel-default">
-            <h2 class="panel-heading"> Chromeの場合</h2>
+            <h2 class="panel-heading"> スマホからの場合</h2>
             <div class="panel-body">
+                <div class="alert alert-warning"> ※スクリーンショットは一例です。どうしても出来ない場合は「ブックマークレット　スマホ　ブラウザ名」などで検索してみてください。</div>
                 <div class="col-xs-12 col-md-6">
-                    <a href="./img/book_chrome1.png" class="thumbnail">
-                        <img src="./img/book_chrome1.png" />
+                    <a href="./img/book_phone1.png" class="thumbnail">
+                        <img src="./img/book_phone1.png" />
                     </a>
                 </div>
                 <ul class="col-xs-12 col-md-6">
-                    <li>右上のメニュー＞ブックマーク＞ブックマークバーを表示　をクリックします。</li>
-                    <li>「<a class="bookmark" href="#">達人のオーブを読み込む</a>」←このリンクをブックマークバーにドラッグ＆ドロップします。</li>
+                    <li>このページをブックマークします。</li>
                 </ul>
             </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/book_phone2.png" class="thumbnail">
+                        <img src="./img/book_phone2.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>ブックマークを編集し、URLを下のテキストボックスの内容に書き換えます。<br /><textarea class="url_copy"></textarea></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/book_phone2.png" class="thumbnail">
+                        <img src="./img/book_phone2.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>ブックマークを編集し、URLを上でコピーした内容に書き換えます。</li>
+                </ul>
+            </div>
+        </section>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> パソコンからの場合</h2>
             <div class="panel-body">
                 <div class="col-xs-12 col-md-6">
                     <a href="./img/book_chrome2.png" class="thumbnail">
@@ -41,38 +65,15 @@
                     </a>
                 </div>
                 <ul class="col-xs-12 col-md-6">
+                    <li>「<a class="bookmark" href="#">達人のオーブを読み込む</a>」<br/>↑このリンクをブックマーク(お気に入り登録)します。</li>
+                    <ul>
+                        <li>Chromeの場合はCtrl+Shift+Bでブックマークバーを表示し、上のリンクをブックマークバーにドラッグ＆ドロップします。</li>
+                    </ul>
                     <li>冒険者の広場の<a href="http://hiroba.dqx.jp/sc/home/orb/" target="_blank">達人のオーブ</a>のページを開き、読み込みたい宝珠のタブを開きます。</li>
-                    <li>ブックマークバーにある<mark>達人のオーブを読み込む</mark>をクリックすると、石板の形と持っている宝珠データが取り込まれます。</li>
+                    <li>ブックマーク(お気に入り)の中にある「<mark>達人のオーブを読み込む</mark>」をクリックすると、石板の形と持っている宝珠データが取り込まれます。</li>
                 </ul>
             </div>
         </section>
-        <header class="alert alert-info">
-            <h1>ブックマークレットの使い方</h1>
-            <p>
-                以下の手順で、冒険者の広場から宝珠のデータを取得することができます。<br />
-                もっと詳しい解説が<b><a href="http://dq10autoskill.herokuapp.com/import_hiroba.html" target="_blank">自動振り分けツール</a></b>さんのほうにあるので、よくわからなかったらそちらをご覧ください（丸投げ）
-            </p>
-        </header>
-        <ol>
-            <li>「<a href="javascript:(function(d){var%20s;s=d.createElement('script');s.src='http://holenews.github.io/orbmng/js/dataimport.js?' + new Date().getTime();d.getElementsByTagName('head')[0].appendChild(s);})(document);">達人のオーブを読み込む</a>」　
-                    ←このリンクをブラウザのブックマークに登録して下さい。</li>
-            <ul>
-                <li>
-                    スマホの方はこのページをブックマークし、その後リンクを以下の文字列で書き換えてください。<br />
-                    <input type="text" class="bookmark_url" value="javascript:(function(d){var%20s;s=d.createElement('script');s.src='http://holenews.github.io/orbmng/js/dataimport.js?' + new Date().getTime();d.getElementsByTagName('head')[0].appendChild(s);})(document);" />
-                </li>
-            </ul>
-            <li>冒険者の広場の<a href="http://hiroba.dqx.jp/sc/home/orb/" target="_blank">達人のオーブ</a>のページを開き、登録したブックマークを開いてください。</li>
-            <li>うまく取り込めれば、石板の穴と宝珠のリストが読み込まれているはずです。</li>
-            <ul>
-                <li>石板にハメこんでいる宝珠の配置は読み込みません。</li>
-                <li>預けている宝珠を全て取得するにはデータ量が多すぎるので、現在ハメこんでいる宝珠のみ取得しています。ご了承ください。</li>
-            </ul>
-        </ol>
-        <footer>
-            <a href="./index.html">←戻る</a>
-        </footer>
     </div>
-
 </body>
 </html>
