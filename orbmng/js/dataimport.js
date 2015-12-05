@@ -526,6 +526,17 @@
                     });
                 }
             }
+
+            for (var o = 0; o < sheet.ol.length; o++) {
+                var orb = sheet.ol[o];
+                if (orb.p == 0) continue;
+                for (var r = 0; r < sheet.ol.length; r++) {
+                    var orb2 = sheet.ol[r];
+                    if (orb.n == orb2.n && orb.p > orb2.p) {
+                        orb2.p = orb.p;
+                    }
+                }
+            }
             sheet.bd = [];
             var cellData = lithographJewel[orbNames[i]];
             for (var r = 0; r < 6; r++) {
