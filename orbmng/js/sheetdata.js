@@ -459,7 +459,9 @@
             var sheetData = this.getSheetData();
             // Cookieに保存する
             orbmng.SheetData.saveToCookie(maxKey, title, sheetData);
-            $("#modal_orb_save").modal('hide');
+            setTimeout(function () {
+                $("#modal_orb_save").modal('hide');
+            }, 100);
 
             $(this.tabId + " .message_window_in").html("宝珠の設定を　保存しました。<br/>ロード画面から　また読み込むことができます。");
         },
@@ -484,7 +486,9 @@
             $("#modal_orb_save .save_title").val(sheetData.name);
             // データを表示する
             this.loadSheetData(sheetData.data);
-            $("#modal_orb_load").modal('hide');
+            setTimeout(function () {
+                $("#modal_orb_load").modal('hide');
+            }, 100);
         },
 
         /**
