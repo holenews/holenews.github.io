@@ -9,10 +9,17 @@ h1 a { color : #333; text-decoration : none; }
 .panel-body li { margin-top : 10px; }
 .alert a { text-decoration : underline; }
 .url_copy { width : 100%; height : 120px; }
+footer { margin : 15px; }
+@media (max-width: 929px)   
+{
+    .panel-body { padding : 5px; }
+    .panel-body>ul { margin : 0px 15px 30px 15px; }
+    .thumbnail { margin-top : 10px; margin-bottom : 10px; }
+}
 @media (max-width: 767px)   
 {
+    .panel-heading { border-radius : 0px; }
     .container { margin : 0px; }
     .container h1 { margin : 10px 5px; }
     .container .alert { margin : 10px 5px; }
-    .panel-body { padding : 5px; }
 }
