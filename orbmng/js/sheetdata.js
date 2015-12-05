@@ -81,8 +81,13 @@
             });
 
             // セーブ・ロードボタンがクリックされたとき
-            $(".btn_save_load").on('tap', function () {
+            $(".btn_open_save").on('tap', function () {
                 _this.loadSavedSheetList();
+                $("#modal_orb_save").modal('show');
+            });
+            $(".btn_open_load").on('tap', function () {
+                _this.loadSavedSheetList();
+                $("#modal_orb_load").modal('show');
             });
 
             var tabId = this.tabId;
@@ -155,6 +160,14 @@
                 // 上書き保存時
                 _this.saveSheetData(false);
             });
+            $(this.tabId + " .btn_load_delete").on('tap', function () {
+                // 設定削除
+                _this.removeSelectedSheetData(false);
+            });
+            $(this.tabId + " .btn_load_open").on('tap', function () {
+                // 設定ロード
+                _this.loadSelectedSheetData(false);
+            });
 
             $(window).resize(function () {
                 var $divOrbResult = $(_this.tabId + " .div_orb_result");
@@ -172,105 +185,19 @@
                     $divOrbResult.css("left", $intro.offset().left);
                     $divOrbResult.css("top", $intro.height() + 32);
                 }
+                var padding = $intro.height() + 32;
                 if ($divOrbControl.css("position") == "fixed" || $divOrbControl.css("position") == "absolute") {
                     $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
                     $divOrbControl.css("top", 0);
+                    $divOrbControl.css("padding-top", padding);
                 }
                 if ($divOrbList.css("position") == "fixed" || $divOrbList.css("position") == "absolute") {
                     $divOrbList.css("left", $divOrbControl.offset().left + 10);
-                    $divOrbList.css("top", $divOrbControl.height() + $divOrbControl.offset().top + 20);
+                    $divOrbList.css("top", $divOrbControl.height() + padding);
                 }
             }).resize();
         },
 
-        /**
-        * 宝珠設定を保存する
-        */
-        loadSavedSheetList: function () {
-            var sheetDataList = orbmng.SheetData.loadFromCookie();
-            $(".saved_data_message").hide();
-            if (sheetDataList.length == 0) $(".saved_data_message").show();
-            var $table = $("#modal_orb_load .saved_data_list").empty();
-            var typeList = ["炎", "水", "風", "光", "闇"];
-
-            for (var i = 0; i < sheetDataList.length; i++) {
-                var sheetData = sheetDataList[i];
-                var type = "";
-                if (sheetData.data) {
-                    type = typeList[parseInt(sheetData.data.tp, 10)];
-                }
-                var $row = $(
-                    "<li class='saved_data_item type" + sheetData.data.tp + "'>" +
-                    "   <span class='glyphicon glyphicon-folder-close'></span>" +
-                    "   <span class='glyphicon glyphicon-folder-open'></span>" +
-                    "   <span class='save_name'></span>" +
-                    "</li>"
-                );
-                $row.on('tap', function () {
-                    $("#modal_orb_load .saved_data_item").removeClass("selected");
-                    $(this).addClass("selected");
-                });
-                $row.attr("value", sheetData.key);
-                $row.find(".save_name").text(sheetData.name);
-                $row.find(".save_select input").val(sheetData.key);
-                $table.append($row);
-            }
-            $table.find(".saved_data_item:first").addClass("selected");
-            $table.append("<p class='clearfix'></p>");
-        },
-
-        /**
-        * 宝珠設定を保存する
-        */
-        saveSheetData: function (isNew) {
-            var sheetDataList = orbmng.SheetData.loadFromCookie();
-            var $titleForm = $("#modal_orb_save .form-group");
-            var $message = $("#modal_orb_save .dialog_message");
-
-            $titleForm.removeClass("has-error");
-            if (isNew && sheetDataList.length >= 16) {
-                $message.html("これ以上設定を保存することが出来ません！<br />ロード画面から不要な設定を削除してください。").show();
-                return;
-            }
-            var title = $titleForm.find(".save_title").val();
-            if (!title || title.trim() == "") {
-                $message.html("タイトルを入力してください。").show();
-                $titleForm.addClass("has-error");
-                return;
-            }
-            if (title.length > 15) {
-                $message.html("タイトルは15文字以内でお願いします。").show();
-                $titleForm.addClass("has-error");
-                return;
-            }
-            var maxKey = null;
-            if (isNew == true) {
-                // 新規保存の場合は未使用のキーを検索する
-                for (var i = 0; i < 16; i++) {
-                    var findKey = false;
-                    var key = "odt" + i;
-                    for (var s = 0; s < sheetDataList.length; s++) {
-                        if (sheetDataList[s].key == key) {
-                            findKey = true;
-                            break;
-                        }
-                    }
-                    if (findKey == false) {
-                        maxKey = key;
-                        break;
-                    }
-                }
-            } else {
-                // 上書き保存の場合は現在読み込んでいるキーを設定する
-                maxKey = this.currentKey;
-            }
-            if (maxKey == null) return;
-
-            var sheetData = this.getSheetData();
-            // Cookieに保存する
-            orbmng.SheetData.saveToCookie(key, title, sheetData);
-            $(".modal").hide();
-        },
 
         /**
         * 石板グリッドを初期化する
@@ -438,6 +365,146 @@
             }
         },
 
+
+        /**
+        * 宝珠設定一覧をロードする
+        */
+        loadSavedSheetList: function () {
+            var sheetDataList = orbmng.SheetData.loadFromCookie();
+            $(".saved_data_message").removeClass("alert alert-danger").text("ロードしたい設定を" + _tap + "して選択して下さい。");
+            if (sheetDataList.length == 0) {
+                $(".saved_data_message").text("保存された宝珠データはありません。").addClass("alert alert-danger");
+            }
+            var $table = $("#modal_orb_load .saved_data_list").empty();
+            var typeList = ["炎", "水", "風", "光", "闇"];
+
+            for (var i = 0; i < sheetDataList.length; i++) {
+                var sheetData = sheetDataList[i];
+                var type = "";
+                if (sheetData.data) {
+                    type = typeList[parseInt(sheetData.data.tp, 10)];
+                }
+                var $row = $(
+                    "<li class='saved_data_item type" + sheetData.data.tp + "'>" +
+                    "   <span class='orb_type'>" + type + "</span>" +
+                    "   <span class='save_name'></span>" +
+                    "</li>"
+                );
+                $row.on('tap', function () {
+                    $("#modal_orb_load .saved_data_item").removeClass("selected");
+                    $(this).addClass("selected");
+                });
+                $row.attr("key", sheetData.key);
+                $row.find(".save_name").text(sheetData.name);
+                $row.find(".save_select input").val(sheetData.key);
+                $table.append($row);
+            }
+            $table.find(".saved_data_item:first").addClass("selected");
+            $table.append("<p class='clearfix'></p>");
+        },
+
+        /**
+        * 宝珠設定を保存する
+        */
+        saveSheetData: function (isNew) {
+            var sheetDataList = orbmng.SheetData.loadFromCookie();
+            var $titleForm = $("#modal_orb_save .form-group");
+            var $message = $("#modal_orb_save .dialog_message");
+
+            $titleForm.removeClass("has-error");
+            if (isNew && sheetDataList.length >= 16) {
+                $message.html("これ以上設定を保存することが出来ません！<br />ロード画面から不要な設定を削除してください。").show();
+                return;
+            }
+            var title = $titleForm.find(".save_title").val();
+            if (!title || title.trim() == "") {
+                $message.html("タイトルを入力してください。").show();
+                $titleForm.addClass("has-error");
+                return;
+            }
+            if (title.length > 15) {
+                $message.html("タイトルは15文字以内でお願いします。").show();
+                $titleForm.addClass("has-error");
+                return;
+            }
+            var maxKey = null;
+            if (isNew == true) {
+                // 新規保存の場合は未使用のキーを検索する
+                for (var i = 0; i < 16; i++) {
+                    var findKey = false;
+                    var key = "odt" + i;
+                    for (var s = 0; s < sheetDataList.length; s++) {
+                        if (sheetDataList[s].key == key) {
+                            findKey = true;
+                            break;
+                        }
+                    }
+                    if (findKey == false) {
+                        maxKey = key;
+                        break;
+                    }
+                }
+            } else {
+                // 上書き保存の場合は現在読み込んでいるキーを設定する
+                maxKey = this.currentKey.key;
+                if (!confirm("宝珠の設定を上書き保存してしまってよろしいですか？")) {
+                    return;
+                }
+            }
+            if (maxKey == null) return;
+
+            var sheetData = this.getSheetData();
+            // Cookieに保存する
+            orbmng.SheetData.saveToCookie(maxKey, title, sheetData);
+            $("#modal_orb_save").modal('hide');
+
+            $(this.tabId + " .message_window_in").html("宝珠の設定を　保存しました。<br/>ロード画面から　また読み込むことができます。");
+        },
+
+        /**
+        * ロード画面で選択された宝珠設定をロードする
+        */
+        loadSelectedSheetData: function () {
+            var sheetDataList = orbmng.SheetData.loadFromCookie(true);
+            var key = $("#modal_orb_load .saved_data_item.selected").attr("key");
+            var sheetData = null;
+            // キーが一致する設定を取得する
+            for (var i = 0; i < sheetDataList.length; i++) {
+                if (key == sheetDataList[i].key) {
+                    sheetData = sheetDataList[i];
+                    break;
+                }
+            }
+            // 現在のキーを保存
+            this.currentKey = { key: sheetData.key, name: sheetData.name };
+            $("#modal_orb_save .btn_save_over").show();
+            $("#modal_orb_save .save_title").val(sheetData.name);
+            // データを表示する
+            this.loadSheetData(sheetData.data);
+            $("#modal_orb_load").modal('hide');
+        },
+
+        /**
+        * 宝珠設定を削除する
+        */
+        removeSelectedSheetData: function () {
+            var $table = $("#modal_orb_load .saved_data_list")
+            var $selected = $("#modal_orb_load .saved_data_item.selected");
+            var name = $selected.find(".save_name").text();
+            if (!confirm("「" + name + "」を削除してよろしいですか？")) {
+                return;
+            }
+            var key = $selected.attr("key");
+            $selected.fadeOut();
+            orbmng.SheetData.removeFromCookie(key);
+            $table.find(".saved_data_item:first").addClass("selected");
+
+            if ($table.find(".saved_data_item").size() == 0) {
+                $(".saved_data_message").text("保存された宝珠データはありません。").addClass("alert alert-danger");
+            }
+            
+        },
+
         /**
         * データを読み込む
         * @param sheetData SheetDataオブジェクト
@@ -446,7 +513,7 @@
             // 宝珠リストをリセット
             $(this.tabId + " .orb_list").empty();
 
-            $(".orb_elem_type").val(sheetData.tp).change();
+            $(this.tabId + " .orb_elem_type_item[value='" + sheetData.tp + "']").trigger("tap");
 
             // 宝珠リストを追加する
             if (sheetData.ol) {

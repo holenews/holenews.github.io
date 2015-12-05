@@ -158,7 +158,7 @@
             if (this.status == Board.Hole) {
                 color = "rgba(0,0,0,0.7)";
             }
-            g.beginFill(color).beginStroke("#999").setStrokeStyle(1.5);
+            g.beginFill(color).beginStroke("#AAA").setStrokeStyle(1.5);
             g.drawCircle(BoardCell.CellSize / 2, BoardCell.CellSize / 2, BoardCell.CellSize / 2 - 4);
             if (update) this.getStage().update();
         }

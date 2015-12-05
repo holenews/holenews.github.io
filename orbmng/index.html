@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>aaa</title>
+    <title>SOIYA 達人のオーブ配置サポートツール</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.mobile.events.js"></script>
@@ -72,14 +72,15 @@
         <header>
 			<nav class="dq_window fixed_panel" id="introduction">
                 <div class="dq_window_in">
-                    達人の宝珠を　入れ替えるたびに<br />
+                    「<h1>SOIYA</h1>」とは？<br />
+                    宝珠を　入れ替えるたびに<br />
                     配置に悩む　冒険者たち　を支援するツールです。
                     <div class="nav_menu">
                         <a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>　
                         <a href="bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
-                        <a href="#" class="btn_save_load" data-toggle="modal" data-target="#modal_orb_save">
+                        <a href="#" class="btn_open_save">
                             <span class="glyphicon glyphicon glyphicon-chevron-right"></span> セーブ</a>
-                        <a href="#" class="btn_save_load" data-toggle="modal" data-target="#modal_orb_load">
+                        <a href="#" class="btn_open_load">
                             <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ロード</a>
                         <a href="http://twitter.com/share?url=" rel="nofollow" class="btn_tweet" target="_tweet">
                             <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ツイート</a>
@@ -159,10 +160,10 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
+                            <p class="saved_data_message">保存された宝珠データはありません。</p>
                             <ul class="saved_data_list">
                                 
                             </ul>
-                            <p class="saved_data_message">保存された宝珠データはありません。</p>
                         </div>
                         <div class="modal-footer">
                             <div class="button_group button_group_left">
