@@ -190,6 +190,8 @@
                     $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
                     $divOrbControl.css("top", 0);
                     $divOrbControl.css("padding-top", padding);
+                } else {
+                    $divOrbControl.css("padding-top", 0);
                 }
                 if ($divOrbList.css("position") == "fixed" || $divOrbList.css("position") == "absolute") {
                     $divOrbList.css("left", $divOrbControl.offset().left + 10);
