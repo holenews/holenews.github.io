@@ -77,6 +77,7 @@
                     // 宝珠リストをリセット
                     $(_this.tabId + " .orb_list").empty();
                     _this.addOrbRow(null);
+                    $(tabId + " .message_window_in").html("宝珠のリストを　クリアしました。");
                 }
             });
 
@@ -492,19 +493,19 @@
         removeSelectedSheetData: function () {
             var $table = $("#modal_orb_load .saved_data_list")
             var $selected = $("#modal_orb_load .saved_data_item.selected");
+            if ($selected.size() != 1) return;
             var name = $selected.find(".save_name").text();
             if (!confirm("「" + name + "」を削除してよろしいですか？")) {
                 return;
             }
             var key = $selected.attr("key");
-            $selected.fadeOut();
+            $selected.fadeOut(function () {
+                $table.find(".saved_data_item:first").addClass("selected");
+                if ($table.find(".saved_data_item").size() == 0) {
+                    $(".saved_data_message").text("保存された宝珠データはありません。").addClass("alert alert-danger");
+                }
+            });
             orbmng.SheetData.removeFromCookie(key);
-            $table.find(".saved_data_item:first").addClass("selected");
-
-            if ($table.find(".saved_data_item").size() == 0) {
-                $(".saved_data_message").text("保存された宝珠データはありません。").addClass("alert alert-danger");
-            }
-            
         },
 
         /**
@@ -536,7 +537,7 @@
             // 宝珠を自動配置する
             this.startOrbDeploying();
             this.stage.update();
-            $(this.tabId + " .message_window_in").html("データを読み込みました。宝珠を" + _tap + "すると　名前が分かりますよ。");
+            $(this.tabId + " .message_window_in").html("データを読み込みました。<br/>宝珠を" + _tap + "すると　名前が分かりますよ。");
         },
 
         /**

@@ -126,8 +126,8 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_select .orb_form:hover { border : 1px solid #b94a48; }
 
 
-#modal_orb_save .modal-sm { width : 400px; }
-#modal_orb_save .modal-body { width : 400px; padding-top : 30px; padding-bottom : 10px; }
+#modal_orb_save .modal-sm {  }
+#modal_orb_save .modal-body {  padding-top : 30px; padding-bottom : 10px; }
 #modal_orb_save label { margin-right : 10px; }
 #modal_orb_save .form-inline {  margin-bottom : 20px; }
 #modal_orb_save .form-control { width : 250px;  }
