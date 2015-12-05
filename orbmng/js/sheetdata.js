@@ -734,6 +734,7 @@
 
             var deployListAll = [];
             var maxDeployedCount = 0;
+            var maxDeployedPoint = 0;
             var search = function (board, deployList, index) {
                 if (index >= orbGrpList.length) {
                     // 最後まで検索出来ていれば成功とする
@@ -756,10 +757,17 @@
                             deployList.length = index + 1;
                             deployList[index] = deployed;
                             var nowDeployedCount = 0;
-                            $.each(deployList, function (i, d) { if (d) nowDeployedCount++; });
-                            if (nowDeployedCount > maxDeployedCount) {
+                            var nowDeployedPoint = 0;
+                            $.each(deployList, function (i, d) {
+                                if (d) {
+                                    nowDeployedCount++;
+                                    nowDeployedPoint += d.p;
+                                }
+                            });
+                            if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint > maxDeployedPoint) {
                                 deployListAll = [].concat(deployList);
                                 maxDeployedCount = nowDeployedCount;
+                                maxDeployedPoint = nowDeployedPoint;
                             }
                             // 次の宝珠をチェックする
                             if (search(newBoard, deployList, index + 1) == false) {
