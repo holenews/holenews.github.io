@@ -213,7 +213,7 @@
     OrbMaster[3].push({ id: 1104, name: "あんこくのきりの技巧" });
     OrbMaster[3].push({ id: 1105, name: "フェンリルアタックの極意" });
     OrbMaster[3].push({ id: 1106, name: "妖精たちのポルカの閃き" });
-    OrbMaster[3].push({ id: 1201, name: "いやしの雨の輝き" });
+    OrbMaster[3].push({ id: 1201, name: "いやしの雨の瞬き" });
     OrbMaster[3].push({ id: 1202, name: "魔導の書の技巧" });
     OrbMaster[3].push({ id: 1203, name: "果てなき神の息吹" });
     OrbMaster[3].push({ id: 1204, name: "神の息吹の閃き" });
