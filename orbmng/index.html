@@ -81,7 +81,7 @@
                     石板の穴と　宝珠のリストを　指定すれば　<br class="visible-xs hidden-sm" />自動でハマる配置を考えてくれます。
                     <div class="nav_menu">
                     	<span class="nav_menu_row">
-                    		<a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>　
+                    		<a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方</a>
                         	<a href="bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 広場から読み込む</a>
                         	<a href="history.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 更新履歴</a>
                     	</span>
@@ -213,133 +213,6 @@
                 </div>
             </div>
         </div>
-        <!--
-
-        <header>
-            <article class="alert alert-info">
-                <a href="http://twitter.com/share?url=" rel="nofollow" class="btn btn-info btn-sm btn_tweet" target="_tweet">
-                	<span class="glyphicon glyphicon-comment" aria-hidden="true"></span> ツイート</a>
-                <button type="button" class="btn btn-default btn-sm" id="btn_save" data-toggle="modal" data-target="#modal_orb_save">
-                    <span class="glyphicon glyphicon glyphicon-floppy-save"></span> セーブ
-                </button>
-                <button type="button" class="btn btn-default btn-sm" id="btn_load" data-toggle="modal" data-target="#modal_orb_load">
-                    <span class="glyphicon glyphicon glyphicon-floppy-load"></span> ロード
-                </button>
-            </article>
-        </header>
-        <div id="orb_panel">
-            <div class="div_orb_result">
-                <h2 class="border_title">宝珠の石板</h2>
-                <div class="div_border">
-                    <canvas class="orb_panel" width="270" height="270">
-        
-                    </canvas>
-                    <div class="orb_panel_button">
-                        <button type="button" class="btn btn-sm btn-default panel_reset"><span class="glyphicon glyphicon-erase"></span> 石板をリセット</button>
-                        <button type="button" class="btn btn-sm btn-default orb_list_reset"><span class="glyphicon glyphicon-share-alt"></span> 宝珠を外す</button>
-                    </div>
-                </div>
-                <div class="message_window col-md-12">
-                    <div class="message_window_in">
-                            
-                    </div>
-                </div>
-            </div>
-            <div class="div_orb_list">
-                <h2 class="border_title">配置する宝珠リスト</h2>
-                <div class="div_border">
-                    <select class="form-control orb_elem_type">
-                        <option value="0">炎の宝珠</option>
-                        <option value="1">水の宝珠</option>
-                        <option value="2">風の宝珠</option>
-                        <option value="3">光の宝珠</option>
-                        <option value="4">闇の宝珠</option>
-                    </select>
-                    <span class="orb_buttons">
-                        <button type="button" class="btn btn-sm btn-primary orb_list_add "><span class="glyphicon glyphicon-plus icon-align-left icon-white"></span> 宝珠の追加</button>
-                        <button type="button" class="btn btn-sm btn-success orb_list_deploy"><span class="glyphicon glyphicon-log-in"></span> 配置する</button>
-                        <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal_orb_sort"><span class="glyphicon glyphicon-random"></span> 並べ替え</button>
-                    </span>
-                    <div class="orb_list">
-                            
-                    </div>
-                </div>
-            </div>
-            <footer>
-                連絡先：<a href="http://twitter.com/hole_dqx">@hole_dqx</a>
-            </footer>
-        </div>
-        <div class="modal" id="modal_orb_sort" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                        <p>並べ替え方法を選択してください。</p>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="orb_sort_mode" value="name" checked>
-                                名前
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="orb_sort_mode" value="primary">
-                                優先度
-                            </label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-sm btn_orb_sort" data-dismiss="modal">並べ替え</button>
-                        <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal" id="modal_orb_save" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">セーブ</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <input type="text" class="form-control new_save_name" placeholder="保存する名前を入力してください">
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-sm">新規保存</button>
-                        </form>
-                        <table class="table">
-                            <thead><tr><td>名前</td><td>種類</td><td>保存</td><td>削除</td></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal" id="modal_orb_load" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">ロード</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table">
-                            <thead><tr><td>名前</td><td>種類</td><td>保存</td><td>削除</td></tr></thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm" data-dismiss="modal">閉じる</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-          -->
     </div>
   
 </body>

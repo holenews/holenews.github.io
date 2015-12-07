@@ -21,7 +21,7 @@
 .nav_menu a
 {
     height : 1em;
-    margin-right : 1em;
+    margin-right : 0.5em;
     margin-bottom : 5px;
     color : #fef263;
 }
@@ -187,11 +187,10 @@ select.form-control { height : 32px; padding : 3px; }
     }
 }
 
-
 @media (max-width: 767px)  
 {
     button .visible-xs { display : inline!important; }
-    .nav_menu a	{ margin-bottom : 15px;	}
+    .nav_menu .nav_menu_row { margin-bottom : 10px;	}
     #modal_orb_load .saved_data_item  
     {
         float : none;
