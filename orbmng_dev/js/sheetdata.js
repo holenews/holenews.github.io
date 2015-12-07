@@ -757,7 +757,6 @@
                             deployList[index] = deployed;
                             var nowDeployedCount = 0;
                             var nowDeployedPoint = 0;
-                            
                             $.each(deployList, function (i, d) {
                                 if (d) {
                                     nowDeployedCount++;
@@ -766,7 +765,7 @@
                             });
                             if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint >= maxDeployedPoint) {
                             	var nowSepalatePoint = newBoard.getSeparationPoint();
-                            	if(nowSepalatePoint <= minSepalatePoint){
+                            	if(nowSepalatePoint < minSepalatePoint){
 	                                deployListAll = [].concat(deployList);
 	                                maxDeployedCount = nowDeployedCount;
 	                                maxDeployedPoint = nowDeployedPoint;
