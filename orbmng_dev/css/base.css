@@ -1,0 +1,93 @@
+body 
+{
+    font-size: 14px;
+    line-height: 1.42857;
+}
+
+.fixed_panel
+{
+    position : fixed;
+    z-index : 10;
+}
+
+.dropdown-menu a { cursor : pointer; }
+
+/* コンテナ全体 */
+.container
+{
+	width : 930px;
+    margin : 0 auto 20px auto;
+}
+
+h2
+{
+    font-size : 1em;
+    line-height : 1em;
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
+.dq_window 
+{
+    background : rgba(0,0,0,0.7);
+    margin : 10px;
+    padding : 5px 5px;
+    border-radius : 2px;
+    font-size : 0.9em;
+}
+
+.dq_window_in
+{
+    color : #EEE;
+    border : 3px solid #EEE;
+    padding : 0.5em;
+    min-height : 4em;
+}
+
+.dq_window_in a
+{
+    color : #EEE;
+}
+
+.dq_window_in h1.inline, .dq_window_in h2.inline
+{
+    font-size : 1em;
+    line-height : 1em;
+    margin : 0;
+    padding : 0;
+    display : inline-block;
+}
+
+.modal-footer { position : relative; min-height : 50px;  }
+.modal-footer .button_group { position : absolute; top : 10px; }
+.modal-footer .button_group_left { left : 10px; }
+.modal-footer .button_group_right { right : 10px; }
+
+@media (max-width: 950px)  
+{
+    /* コンテナ全体 */
+    .container
+    {
+	    width : auto;
+        margin : 0 5px 20px 5px;
+        padding : 0;
+    }
+    
+    .fixed_panel
+    {
+        position : static;
+        width : auto;
+        margin-bottom : 20px;
+    }
+    
+    .dq_window 
+    {
+        padding : 3px 3px;
+        margin : 5px;
+    }
+    
+    .dq_window_in
+    {
+        border-width : 2px;
+    }
+}

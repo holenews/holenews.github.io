@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>せいや！の使い方 達人の宝珠 配置サポートツール</title>
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+            integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/howto.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1>「<a href="./">せいや！</a>」の使い方</h1>
+        <div class="alert alert-warning visible-xs hidden-sm">※PC版の画面を元に説明しているので、スマホ版の場合はボタンの表記が若干異なります。</div>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> 何ができるの？</h2>
+            <div class="panel-body">
+                <code>
+                    <p>「新しい宝珠をハメようと試行錯誤していたけど結局ハマらなかった」</p>
+                    <p>「今持っている宝珠をハメるにはどこに穴を空ければ？」</p>
+                    <p>「目的によって宝珠を切り替えたいけど、パターンごとに覚えるのが面倒」</p>
+                </code>
+                <p>このツールはこれらの方におすすめです。</p>
+                <p>
+                    石板の穴と宝珠のリストを設定すると、<mark>自動でうまくハマる配置を探してくれます</mark>。<br />
+                    (逆に言えばこのツールでハマらなかったらどう頑張っても無理なので諦めましょう)
+                </p>
+                <p>設定した内容は<mark>名前をつけて保存</mark>したり、<mark>ツイートで共有</mark>することも出来ます。</p>
+                <div class="alert alert-info">※１から設定しようと思うと結構面倒くさいので、<a href="bookmark.html">ブックマークレット</a>を使って冒険者の広場から取り込むことをオススメします。</div>
+            </div>
+        </section>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> <b>STEP.1</b> 宝珠の石板に穴を空ける</h2>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_panel.png" class="thumbnail">
+                        <img src="./img/howto_panel.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li><mark>石板をクリック</mark>するとその位置に<mark>穴を空ける</mark>ことができます。<br />手持ちの石板の形に合わせて穴を空けていきましょう。</li>
+                    <li>穴を全てクリアしたいときは、「石板をリセット」ボタンをクリック。</li>
+                </ul>
+            </div>
+        </section>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> <b>STEP.2</b> 宝珠を追加する</h2>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_list1.png" class="thumbnail">
+                        <img src="./img/howto_list1.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>炎・水・風・光・闇の中から<mark>宝珠の種類</mark>を選びます。</li>
+                    <li><mark>宝珠の追加</mark>ボタンで配置したい宝珠を追加していきます。</li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_list2.png" class="thumbnail">
+                        <img src="./img/howto_list2.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>持っている宝珠に合わせて、名前や形状を変えていきます。</li>
+                    <li>形状の違う宝珠に同じ名前をつけると、配置するときにその中から最適な形を選んでくれます。</li>
+                </ul>
+            </div>
+        </section>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> <b>STEP.3</b> 宝珠を配置する</h2>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_list3.png" class="thumbnail">
+                        <img src="./img/howto_list3.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>宝珠と石板の準備ができたら、<mark>配置する</mark>ボタンをクリックします。</li>
+                    <li>配置できた宝珠には<span class="glyphicon glyphicon-ok-circle" style="color:#5cb85c;"></span>マーク、
+                    できなかった宝珠には<span class="glyphicon glyphicon-remove" style="color:#d9534f;"></span>マークが表示されます。</li>
+                    <li>どうしても配置したい宝珠があるときは<mark>優先度</mark>を上げてみましょう。</li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_list4.png" class="thumbnail">
+                        <img src="./img/howto_list4.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>石板に配置された宝珠をクリックすると、名前が下に表示されます。</li>
+                    <li>宝珠を外すボタンをクリックすると、穴はそのままで宝珠だけを外すことができます。</li>
+                </ul>
+            </div>
+        </section>
+        <section class="panel panel-default">
+            <h2 class="panel-heading"> <b>STEP.4</b> 宝珠の配置を保存する・読み込む</h2>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_save1.png" class="thumbnail">
+                        <img src="./img/howto_save1.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>トップメニューの「<mark>セーブ</mark>」から現在の宝珠のリストと石板の穴を保存することができます。</li>
+                    <li>タイトルは何でも構いませんがあとで見て分かりやすいものにしましょう。</li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-6">
+                    <a href="./img/howto_save2.png" class="thumbnail">
+                        <img src="./img/howto_save2.png" />
+                    </a>
+                </div>
+                <ul class="col-xs-12 col-md-6">
+                    <li>トップメニューの「<mark>ロード</mark>」から保存した設定を開くことができます。</li>
+                    <li>保存できる設定は最大16件です。</li>
+                </ul>
+            </div>
+        </section>
+        <footer>
+            <a href="./index.html">←戻る</a>
+        </footer>
+    </div>
+
+</body>
+</html>

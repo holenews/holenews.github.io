@@ -1,0 +1,207 @@
+
+
+/* ナビゲーション */
+#introduction
+{
+    width : 929px;
+    top : 5px;
+    left : 50%;
+}
+
+#introduction h1
+{
+    font-weight : normal;
+    font-size : 1em;
+    margin : 0;
+    margin-bottom : 10px;
+    display : inline;
+    letter-spacing : 1px;
+}
+
+.nav_menu
+{
+    margin : 20px 5px 5px 5px;
+}
+
+.nav_menu a
+{
+    display : block;
+    float : left;
+    height : 1em;
+    margin-right : 1em;
+    margin-bottom : 5px;
+    color : #fef263;
+}
+
+.nav_menu .clearfix
+{
+    margin-bottom : 5px;
+}
+
+/* メインコンテンツ */
+#orb_panel
+{
+    width : auto;
+    clear : both;
+}
+
+#orb_panel h2
+{
+    font-size : 1em;
+    line-height : 1em;
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
+.fixed_control_in
+{
+    padding : 10px;
+}
+
+/* 石板パネル */
+.div_orb_result
+{
+    width : 400px;
+    
+}
+
+.div_orb_result .orb_panel
+{
+    margin : auto;
+    display : block;
+    margin-bottom : 10px;
+    background : url(../img/panel.png);
+}
+
+.div_orb_result .orb_panel_button
+{
+    margin : 10px auto 20px auto;
+    display : block;
+    width : 270px;
+    text-align : right;
+}
+
+/* メッセージ */
+.div_orb_result .message_window { margin : 0;}
+.div_orb_result .message_window_in { min-height : 80px; }
+
+/* 宝珠リストコントロールパネル */
+.div_orb_control  
+{
+    width : 529px; 
+    background : rgba(255,255,255,0.9); 
+    box-shadow : 0 5px 5px 10px rgba(255,255,255,0.7); 
+    z-index : 9;
+}
+
+.div_orb_control .fixed_control_in { padding : 10px 10px 0 10px; }
+
+.orb_list { width : 500px; position : absolute; padding-top : 20px; margin-bottom : 50px; }
+.orb_row { clear : both; margin : 0 0; min-height : 42px; position :relative; }
+.orb_row .orb_list_cell { padding-left : 0px; padding-right : 10px; float : left; margin-bottom : 3px; height : 32px; }
+.orb_row .orb_cell_name { width : 250px; }
+.orb_row .orb_cell_name select { width : 240px; }
+.orb_row .orb_cell_img {  }
+.orb_row .alert-inverse { background : #888; color :#CCC; }
+.orb_row option { color : #333; background : #FFF; }
+.orb_row .orb_cell_delete { margin-bottom : 15px; }
+.orb_row .dep_status { position : absolute; left : -7px; top : 9px; display : none; background : rgba(255,255,255,0.7); }
+.orb_row .dep_status.glyphicon-ok-circle { color : #5cb85c; }
+.orb_row .dep_status.glyphicon-remove { color : #d9534f; }
+
+select.form-control { height : 32px; padding : 3px; }
+
+.orb_list .orb_form { width : 32px; height : 32px; background : url(../img/orbform.png) no-repeat 3px 1px; }
+.orb_list .orb_form.type0 { background-position : 3px 1px; }
+.orb_list .orb_form.type1 { background-position : -29px 1px; }
+.orb_list .orb_form.type2 { background-position : -60px 1px; }
+.orb_list .orb_form.type3 { background-position : -90px 1px; }
+.orb_list .orb_form.type4 { background-position : 3px -30px; }
+.orb_list .orb_form.type5 { background-position : -29px -30px; }
+.orb_list .orb_form.type6 { background-position : -60px -30px; }
+.orb_list .orb_form.type7 { background-position : -90px -30px; }
+
+.orb_select { width : 130px; }
+.orb_select .orb_form { float: left; border : 1px solid #FFF; border-radius : 2px; }
+.orb_select .orb_form:hover { border : 1px solid #b94a48; }
+
+
+#modal_orb_save .modal-sm {  }
+#modal_orb_save .modal-body {  padding-top : 30px; padding-bottom : 10px; }
+#modal_orb_save label { margin-right : 10px; }
+#modal_orb_save .form-inline {  margin-bottom : 20px; }
+#modal_orb_save .form-control { width : 250px;  }
+#modal_orb_save .btn_save_over { display : none; }
+ 
+.dialog_message { display : none; }
+ 
+#modal_orb_load .saved_data_list { margin-top : 10px; padding-left : 0; max-height : 500px; overflow : auto; }
+#modal_orb_load .saved_data_message { width : auto; }
+#modal_orb_load .saved_data_message.alert-danger { 
+    margin-top : 30px; 
+    text-align : center; 
+}
+#modal_orb_load .saved_data_item  
+{
+    float : left; 
+    width : 270px; 
+    position : relative; 
+    margin-right : 5px;
+    margin-bottom : 5px;
+    overflow : hidden;
+    border: 1px solid #FFF;
+    padding : 10px;
+    background : #FFF;
+    border-radius : 5px;
+    cursor : pointer;
+    line-height : 22px; 
+}
+#modal_orb_load .saved_data_item.selected
+{
+    background-color: #0095d9;
+    color : #FFF;
+}
+#modal_orb_load .saved_data_item .orb_type { display : inline-block; text-align : center; width : 22px; height : 22px; border-radius : 11px; color : #FFF; }
+#modal_orb_load .saved_data_item.type0 .orb_type { background-color : #E60012; }
+#modal_orb_load .saved_data_item.type1 .orb_type { background-color : #0068B7; }
+#modal_orb_load .saved_data_item.type2 .orb_type { background-color : #009944; }
+#modal_orb_load .saved_data_item.type3 .orb_type { background-color : #F39800; }
+#modal_orb_load .saved_data_item.type4 .orb_type { background-color : #920783; }
+
+@media (min-width: 950px) and (max-height: 650px)
+{
+    .fixed_panel { position : absolute; }
+    .orb_list { position : absolute; }
+}
+
+@media (max-width: 950px)  
+{
+    /* ナビゲーション */
+    #introduction { width : auto; }
+    
+    .div_orb_result, .div_orb_control { width : auto; }
+    
+    .fixed_control_in { padding : 5px; }
+    
+    /* 宝珠リストコントロールパネル */
+    .div_orb_control { padding-top : 0px; }
+
+    .orb_list
+    {
+        width : auto;
+        position : static;
+        padding : 10px;
+    }
+}
+
+
+@media (max-width: 767px)  
+{
+    button .visible-xs { display : inline!important; }
+    
+    #modal_orb_load .saved_data_item  
+    {
+        float : none;
+        width : auto; 
+    }
+}
