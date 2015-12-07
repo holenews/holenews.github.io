@@ -150,7 +150,6 @@
                 }
             });
 
-
             $(".orb_dialog .btn").on('tap', function () {
                 // ダイアログ内のボタンがクリックされた時、メッセージを非表示にする
                 $(".dialog_message").hide();
@@ -172,35 +171,55 @@
                 _this.loadSelectedSheetData(false);
             });
 
+            var $divOrbResult = $(_this.tabId + " .div_orb_result");
+            var $divOrbControl = $(_this.tabId + " .div_orb_control");
+            var $divOrbList = $(_this.tabId + " .orb_list");
+            var $intro = $("#introduction");
+            var $container = $(".container");
+            
+            // メニューのtop座標を取得する
+            var offsetControl = $divOrbControl.offset().top;
+            var offsetPanel = $divOrbResult.offset().top;
+            var floatMenu = function() {
+                // スクロール位置がメニューのtop座標を超えたら固定にする
+                if ($(window).scrollTop() > offsetControl) {
+                	$divOrbControl.addClass('fixed');
+                } else {
+                	$divOrbControl.removeClass('fixed');
+                }
+                if ($divOrbResult.css("width") != "auto" && $(window).scrollTop() > offsetPanel) {
+                	$divOrbResult.addClass('fixed');
+                } else {
+                	$divOrbResult.removeClass('fixed');
+                }
+            };
+            $(window).scroll(floatMenu);
+            $('body').bind('touchmove', floatMenu);
+            
+            /*
             $(window).resize(function () {
-                var $divOrbResult = $(_this.tabId + " .div_orb_result");
-                var $divOrbControl = $(_this.tabId + " .div_orb_control");
-                var $divOrbList = $(_this.tabId + " .orb_list");
-                var $intro = $("#introduction");
-                var $container = $(".container");
                 if ($intro.css("position") == "fixed" || $intro.css("position") == "absolute") {
                     var introWidth = $intro.width();
                     $intro.css("margin-left", introWidth / (-2));
                 } else {
                     $intro.css("margin-left", "0px");
                 }
-                if ($divOrbResult.css("position") == "fixed" || $divOrbResult.css("position") == "absolute") {
+                if ($divOrbResult.css("position") == "absolute") {
                     $divOrbResult.css("left", $intro.offset().left);
                     $divOrbResult.css("top", $intro.height() + 69);
                 }
                 var padding = $intro.height() + 69;
-                if ($divOrbControl.css("position") == "fixed" || $divOrbControl.css("position") == "absolute") {
+                if ($divOrbControl.css("position") == "absolute") {
                     $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
-                    $divOrbControl.css("top", 0);
-                    $divOrbControl.css("padding-top", padding);
-                } else {
-                    $divOrbControl.css("padding-top", 0);
-                }
+                    $divOrbControl.css("top", padding);
+                } 
                 if ($divOrbList.css("position") == "fixed" || $divOrbList.css("position") == "absolute") {
                     $divOrbList.css("left", $divOrbControl.offset().left + 10);
                     $divOrbList.css("top", $divOrbControl.height() + padding);
                 }
             }).resize();
+
+            */
         },
 
 
