@@ -184,9 +184,9 @@
                 }
                 if ($divOrbResult.css("position") == "fixed" || $divOrbResult.css("position") == "absolute") {
                     $divOrbResult.css("left", $intro.offset().left);
-                    $divOrbResult.css("top", $intro.height() + 32);
+                    $divOrbResult.css("top", $intro.height() + 84);
                 }
-                var padding = $intro.height() + 32;
+                var padding = $intro.height() + 84;
                 if ($divOrbControl.css("position") == "fixed" || $divOrbControl.css("position") == "absolute") {
                     $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
                     $divOrbControl.css("top", 0);
