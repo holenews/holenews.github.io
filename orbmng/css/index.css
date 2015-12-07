@@ -8,6 +8,11 @@
     left : 50%;
 }
 
+#introduction .nav_menu_row
+{
+	display : inline-block;
+}
+
 .nav_menu
 {
     margin : 20px 5px 5px 5px;
@@ -15,8 +20,6 @@
 
 .nav_menu a
 {
-    display : block;
-    float : left;
     height : 1em;
     margin-right : 1em;
     margin-bottom : 5px;
