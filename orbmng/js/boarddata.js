@@ -37,7 +37,7 @@
         * @param orb 宝珠データ
         * @param x X座標
         * @param y Y座標
-        * @retrun 配置可能ならtrue
+        * @return 配置可能ならtrue
         */
         isPlacable: function (orb, x, y) {
             var placeList = [];
@@ -79,6 +79,7 @@
             var deployed = { i: orb.i, p : orb.p, x: x, y: y };
             return deployed;
         },
+        
         /**
         * 配置可能な位置リストを検索する
         * @param orb 宝珠データ
@@ -95,6 +96,41 @@
                 }
             }
             return placableList;
+        },
+        
+        /**
+         * 分離度を取得する
+         * @return 分離度
+         */
+        getSeparationPoint : function(){
+        	var sepPoint = 0;
+        	var sepCount = 1;
+        	var max = this.cells.length - 1;
+        	// 穴セルの上下左右に穴以外のセルがあれば、分離度を+1する
+        	for (var y = 0; y <= max; y++) {
+                for (var x = 0; x <= max; x++) {
+                    if(this.cells[y][x] == Board.Hole){
+                    	var curSepPoint = 0;
+                    	if(y == 0 || this.cells[y - 1][x] != Board.Hole){
+                    		curSepPoint++;
+                    	}
+                    	if(y == max || this.cells[y + 1][x] != Board.Hole){
+                    		curSepPoint++;
+                    	}
+                    	if(x == 0 || this.cells[y][x - 1] != Board.Hole){
+                    		curSepPoint++;
+                    	}
+                    	if(x == max || this.cells[y][x + 1] != Board.Hole){
+                    		curSepPoint++;
+                    	}
+                    	if(curSepPoint == 4){
+                    		sepCount++;
+                    	}
+                    	sepPoint += sepCount;
+                    }
+                }
+            }
+        	return sepPoint * sepCount;
         }
     };
 

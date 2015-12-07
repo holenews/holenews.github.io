@@ -4,18 +4,8 @@
 #introduction
 {
     width : 929px;
-    top : 5px;
+    top : 50px;
     left : 50%;
-}
-
-#introduction h1
-{
-    font-weight : normal;
-    font-size : 1em;
-    margin : 0;
-    margin-bottom : 10px;
-    display : inline;
-    letter-spacing : 1px;
 }
 
 .nav_menu
@@ -198,7 +188,7 @@ select.form-control { height : 32px; padding : 3px; }
 @media (max-width: 767px)  
 {
     button .visible-xs { display : inline!important; }
-    
+    .nav_menu a	{ margin-bottom : 15px;	}
     #modal_orb_load .saved_data_item  
     {
         float : none;

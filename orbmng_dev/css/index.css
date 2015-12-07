@@ -4,7 +4,7 @@
 #introduction
 {
     width : 929px;
-    top : 65px;
+    top : 50px;
     left : 50%;
 }
 
@@ -188,7 +188,7 @@ select.form-control { height : 32px; padding : 3px; }
 @media (max-width: 767px)  
 {
     button .visible-xs { display : inline!important; }
-    
+    .nav_menu a	{ margin-bottom : 15px;	}
     #modal_orb_load .saved_data_item  
     {
         float : none;

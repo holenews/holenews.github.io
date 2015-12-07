@@ -7,8 +7,8 @@ body
 .app_title h1
 {
 	text-indent : -9999px;
-	width : 178px;
-	height : 42px;
+	width : 105px;
+	height : 27px;
 	background : url(../img/title.gif);
 	margin : 20px auto 10px 0px;
 	display : inline-block;
