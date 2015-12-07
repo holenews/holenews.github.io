@@ -81,6 +81,8 @@
                 }
             });
 
+            $("#modal_orb_save").modal({ backdrop : 'static', show : false });
+            $("#modal_orb_load").modal({ backdrop : 'static', show : false });
             // セーブ・ロードボタンがクリックされたとき
             $(".btn_open_save").on('tap', function () {
                 _this.loadSavedSheetList();
