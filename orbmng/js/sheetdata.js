@@ -751,8 +751,8 @@
             var minSepalatePoint = Number.MAX_VALUE;
             var search = function (board, deployList, index) {
                 if (index >= orbGrpList.length) {
-                    // 最後まで検索出来ていれば終了
-                    return;
+                    // 最後まで検索出来ていれば成功とする
+                    return true;
                 }
                 var orbGrp = orbGrpList[index];
                 var deployed = null;
@@ -778,26 +778,32 @@
                                     nowDeployedPoint += d.p;
                                 }
                             });
-                            if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint >= maxDeployedPoint) {
-                            	var nowSepalatePoint = newBoard.getSeparationPoint();
-                            	if(nowSepalatePoint < minSepalatePoint){
-	                                deployListAll = [].concat(deployList);
-	                                maxDeployedCount = nowDeployedCount;
-	                                maxDeployedPoint = nowDeployedPoint;
-	                                minSepalatePoint = nowSepalatePoint;
-                            	}
+                            if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint > maxDeployedPoint) {
+                                deployListAll = [].concat(deployList);
+                                maxDeployedCount = nowDeployedCount;
+                                maxDeployedPoint = nowDeployedPoint;
                             }
                             // 次の宝珠をチェックする
-                        	search(newBoard, deployList, index + 1);
+                            if (search(newBoard, deployList, index + 1) == false) {
+                                continue;
+                            } else {
+                                complete = true;
+                                break;
+                            }
                         }
+                    }
+                    if (complete == true) {
+                        break;
                     }
                 }
                 // 配置に失敗しても、次の宝珠がある場合はそれを調査する
-                if (deployed == null && (index + 1) < orbGrpList.length) {
+                if (complete == false && deployed == null && (index + 1) < orbGrpList.length) {
                     search(board.clone(), deployList, index + 1);
+                    return false;
                 }
+                return complete;
             };
-            search(baseBoard, [], 0);
+            var result = search(baseBoard, [], 0);
             	
             var deployedCount = 0;
             for (var d = 0; d < deployListAll.length; d++) {
@@ -807,7 +813,7 @@
                 }
             }
 
-            if (orbGrpList.length > deployedCount) {
+            if (result == false) {
                 // 配置に失敗した宝珠がある場合は、アイコンを表示する
                 for (var g = 0; g < orbGrpList.length; g++) {
                     if (!deployListAll[g]) {
