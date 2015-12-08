@@ -187,7 +187,7 @@
                 } else {
                 	$divOrbControl.removeClass('fixed');
                 }
-                if ($divOrbResult.css("width") != "auto" && $(window).scrollTop() > offsetPanel) {
+                if ($(window).scrollTop() > offsetPanel) {
                 	$divOrbResult.addClass('fixed');
                 } else {
                 	$divOrbResult.removeClass('fixed');
@@ -195,31 +195,6 @@
             };
             $(window).scroll(floatMenu);
             $('body').bind('touchmove', floatMenu);
-            
-            /*
-            $(window).resize(function () {
-                if ($intro.css("position") == "fixed" || $intro.css("position") == "absolute") {
-                    var introWidth = $intro.width();
-                    $intro.css("margin-left", introWidth / (-2));
-                } else {
-                    $intro.css("margin-left", "0px");
-                }
-                if ($divOrbResult.css("position") == "absolute") {
-                    $divOrbResult.css("left", $intro.offset().left);
-                    $divOrbResult.css("top", $intro.height() + 69);
-                }
-                var padding = $intro.height() + 69;
-                if ($divOrbControl.css("position") == "absolute") {
-                    $divOrbControl.css("left", $divOrbResult.offset().left + $divOrbResult.width() + 20);
-                    $divOrbControl.css("top", padding);
-                } 
-                if ($divOrbList.css("position") == "fixed" || $divOrbList.css("position") == "absolute") {
-                    $divOrbList.css("left", $divOrbControl.offset().left + 10);
-                    $divOrbList.css("top", $divOrbControl.height() + padding);
-                }
-            }).resize();
-
-            */
         },
 
 
@@ -775,6 +750,7 @@
                 }
                 var orbGrp = orbGrpList[index];
                 var deployed = null;
+                var complete = false;
                 // グループ内でループする
                 for (var g = 0; g < orbGrp.length; g++) {
                     var orb = orbGrp[g];
@@ -805,11 +781,18 @@
 	                                maxDeployedPoint = nowDeployedPoint;
 	                                minSepalatePoint = nowSepalatePoint;
                             	}
+                            	if(nowSepalatePoint == 0){
+                            		complete = true;
+                            		break;
+                            	}
                             }
                             // 次の宝珠をチェックする
                         	search(newBoard, deployList, index + 1);
                         }
                     }
+                    if(complete == true){
+                		break;
+                	}
                 }
                 // 配置に失敗しても、次の宝珠がある場合はそれを調査する
                 if (deployed == null && (index + 1) < orbGrpList.length) {

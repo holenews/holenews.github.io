@@ -103,34 +103,33 @@
          * @return 分離度
          */
         getSeparationPoint : function(){
-        	var sepPoint = 0;
-        	var sepCount = 1;
+        	var sepPointAll = 0;
         	var max = this.cells.length - 1;
         	// 穴セルの上下左右に穴以外のセルがあれば、分離度を+1する
         	for (var y = 0; y <= max; y++) {
                 for (var x = 0; x <= max; x++) {
                     if(this.cells[y][x] == Board.Hole){
-                    	var curSepPoint = 0;
+                    	var sepPoint = 0;
                     	if(y == 0 || this.cells[y - 1][x] != Board.Hole){
-                    		curSepPoint++;
+                    		sepPoint++;
                     	}
                     	if(y == max || this.cells[y + 1][x] != Board.Hole){
-                    		curSepPoint++;
+                    		sepPoint++;
                     	}
                     	if(x == 0 || this.cells[y][x - 1] != Board.Hole){
-                    		curSepPoint++;
+                    		sepPoint++;
                     	}
                     	if(x == max || this.cells[y][x + 1] != Board.Hole){
-                    		curSepPoint++;
+                    		sepPoint++;
                     	}
                     	if(curSepPoint == 4){
-                    		sepCount++;
+                    		sepPoint++;
                     	}
-                    	sepPoint += sepCount;
+                    	sepPointAll += Math.pow(sepPoint, 2);
                     }
                 }
             }
-        	return sepPoint * sepCount;
+        	return sepPointAll;
         }
     };
 

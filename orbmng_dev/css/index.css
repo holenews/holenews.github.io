@@ -105,6 +105,7 @@
 
 .orb_list { 
 	width : 500px; 
+	min-height : 400px;
 	position : absolute; 
 	left : 50%;
 	margin-top : 100px;
@@ -192,18 +193,19 @@ select.form-control { height : 32px; padding : 3px; }
 @media (max-width: 950px)  
 {
     /* ナビゲーション */
-    #introduction { width : auto; position : static; }
-    .div_orb_result, .div_orb_control { width : auto; position : static!important; top : 0; margin-left : auto; }
-    .fixed_control_in { padding : 5px; }
+    #introduction, .div_orb_result { width : auto; position : static!important; margin-left : auto; }
+    .control_in { padding : 5px; }
     
     /* 宝珠リストコントロールパネル */
-    .div_orb_control { padding-top : 0px; }
-
+    .div_orb_control { padding-top : 0px; position : static; margin-left : 0; }
+	.div_orb_control.fixed { width : 100%; left : 5px; top : -10px; }
     .orb_list
     {
         width : auto;
         position : static;
         padding : 10px;
+        margin-top : 10px;
+        margin-left : 0px;
     }
 }
 
