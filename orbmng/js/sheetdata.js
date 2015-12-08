@@ -756,6 +756,7 @@
                 }
                 var orbGrp = orbGrpList[index];
                 var deployed = null;
+                var complete = false;
                 // グループ内でループする
                 for (var g = 0; g < orbGrp.length; g++) {
                     var orb = orbGrp[g];
