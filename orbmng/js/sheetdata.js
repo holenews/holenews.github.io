@@ -807,7 +807,7 @@
                 }
             }
 
-            if (deployListAll.length > deployedCount) {
+            if (orbGrpList.length > deployedCount) {
                 // 配置に失敗した宝珠がある場合は、アイコンを表示する
                 for (var g = 0; g < orbGrpList.length; g++) {
                     if (!deployListAll[g]) {
