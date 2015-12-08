@@ -746,7 +746,24 @@
             var search = function (board, deployList, index) {
                 if (index >= orbGrpList.length) {
                     // 最後まで検索出来ていれば終了
-                    return;
+                	var nowDeployedCount = 0;
+                    var nowDeployedPoint = 0;
+                    $.each(deployList, function (i, d) {
+                        if (d) {
+                            nowDeployedCount++;
+                            nowDeployedPoint += d.p;
+                        }
+                    });
+                    if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint >= maxDeployedPoint) {
+                    	var nowSepalatePoint = newBoard.getSeparationPoint();
+                    	if(nowSepalatePoint < minSepalatePoint){
+                            deployListAll = [].concat(deployList);
+                            maxDeployedCount = nowDeployedCount;
+                            maxDeployedPoint = nowDeployedPoint;
+                            minSepalatePoint = nowSepalatePoint;
+                    	}
+                    }
+                    return nowSepalatePoint == 0;
                 }
                 var orbGrp = orbGrpList[index];
                 var deployed = null;
@@ -765,29 +782,9 @@
                             deployed = newBoard.deploy(orb, place.x, place.y);
                             deployList.length = index + 1;
                             deployList[index] = deployed;
-                            var nowDeployedCount = 0;
-                            var nowDeployedPoint = 0;
-                            $.each(deployList, function (i, d) {
-                                if (d) {
-                                    nowDeployedCount++;
-                                    nowDeployedPoint += d.p;
-                                }
-                            });
-                            if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint >= maxDeployedPoint) {
-                            	var nowSepalatePoint = newBoard.getSeparationPoint();
-                            	if(nowSepalatePoint < minSepalatePoint){
-	                                deployListAll = [].concat(deployList);
-	                                maxDeployedCount = nowDeployedCount;
-	                                maxDeployedPoint = nowDeployedPoint;
-	                                minSepalatePoint = nowSepalatePoint;
-                            	}
-                            	if(nowSepalatePoint == 0){
-                            		complete = true;
-                            		break;
-                            	}
-                            }
+                            
                             // 次の宝珠をチェックする
-                        	search(newBoard, deployList, index + 1);
+                            complete = search(newBoard, deployList, index + 1);
                         }
                     }
                     if(complete == true){
