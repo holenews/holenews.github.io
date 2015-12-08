@@ -34,15 +34,15 @@
         },
         /**
         * 指定した位置に配置できるかどうかチェックする
-        * @param orb 宝珠データ
+        * @param cells 宝珠座標リスト
         * @param x X座標
         * @param y Y座標
         * @return 配置可能ならtrue
         */
-        isPlacable: function (orb, x, y) {
+        isPlacable: function (cells, x, y) {
             var placeList = [];
-            for (var c = 0; c < orb.cells.length; c++) {
-                var cell = orb.cells[c];
+            for (var c = 0; c < cells.length; c++) {
+                var cell = cells[c];
                 var row = this.cells[y + cell.y];
                 if (!row) return false;
 
@@ -53,7 +53,7 @@
                     return false;
                 }
             }
-            if (placeList.length == orb.cells.length) {
+            if (placeList.length == cells.length) {
                 return true;
             }
             return false;
@@ -61,36 +61,34 @@
 
         /**
         * 指定した位置に宝珠を配置する
-        * @param orb 宝珠データ
+        * @param cells 宝珠座標リスト
         * @param x X座標
         * @param y Y座標
-        * @return 配置した座標リスト
+        * @return 配置した基準位置
         */
-        deploy: function (orb, x, y) {
-            for (var c = 0; c < orb.cells.length; c++) {
-                var cell = orb.cells[c];
+        deploy: function (cells, x, y) {
+            for (var c = 0; c < cells.length; c++) {
+                var cell = cells[c];
                 var status = parseInt(this.cells[y + cell.y][x + cell.x], 10);
                 if (status == Board.Hole) {
                     this.cells[y + cell.y][x + cell.x] = Board.Placed;
-                } else {
-                    throw new Error("X:" + (x + cell.x) + " Y:" + (y + cell.y) + " には配置できません。");
-                }
+                } 
             }
-            var deployed = { i: orb.i, p : orb.p, x: x, y: y };
+            var deployed = { x: x, y: y };
             return deployed;
         },
         
         /**
         * 配置可能な位置リストを検索する
-        * @param orb 宝珠データ
+        * @param cells 宝珠座標リスト
         * @return 配置可能な位置リスト
         */
-        searchPlacableList: function (orb) {
+        searchPlacableList: function (cells) {
             var placableList = [];
             for (var y = 0; y < this.cells.length; y++) {
                 var row = this.cells[y];
                 for (var x = 0; x < row.length; x++) {
-                    if (this.isPlacable(orb, x, y)) {
+                    if (this.isPlacable(cells, x, y)) {
                         placableList.push({ x: x, y: y });
                     }
                 }
@@ -99,17 +97,19 @@
         },
         
         /**
-         * 分離度を取得する
-         * @return 分離度
+         * 現在の穴の状態を取得する
+         * @return 分離度と残りの穴の数
          */
-        getSeparationPoint : function(){
+        getCurrentHoleState : function(){
         	var sepPointAll = 0;
+        	var holeCount = 0;
         	var max = this.cells.length - 1;
         	// 穴セルの上下左右に穴以外のセルがあれば、分離度を+1する
         	for (var y = 0; y <= max; y++) {
                 for (var x = 0; x <= max; x++) {
                     if(this.cells[y][x] == Board.Hole){
                     	var sepPoint = 0;
+                    	holeCount++;
                     	if(y == 0 || this.cells[y - 1][x] != Board.Hole){
                     		sepPoint++;
                     	}
@@ -122,14 +122,11 @@
                     	if(x == max || this.cells[y][x + 1] != Board.Hole){
                     		sepPoint++;
                     	}
-                    	if(curSepPoint == 4){
-                    		sepPoint++;
-                    	}
                     	sepPointAll += Math.pow(sepPoint, 2);
                     }
                 }
             }
-        	return sepPointAll;
+        	return { sepPoint : sepPointAll, holeCount : holeCount };
         }
     };
 

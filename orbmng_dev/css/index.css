@@ -65,7 +65,7 @@
     display : block;
     margin-bottom : 10px;
     background : url(../img/panel.png);
-    visibility:hidden;
+    /*visibility:hidden;*/
 }
 
 .div_orb_result .orb_panel_button
@@ -84,6 +84,7 @@
 .div_orb_control  
 {
     width : 529px; 
+    height: 70px;
     background : rgba(255,255,255,0.9); 
     box-shadow : 0 5px 5px 10px rgba(255,255,255,0.7); 
     position : absolute;
@@ -197,8 +198,8 @@ select.form-control { height : 32px; padding : 3px; }
     .control_in { padding : 5px; }
     
     /* 宝珠リストコントロールパネル */
-    .div_orb_control { padding-top : 0px; position : static; margin-left : 0; }
-	.div_orb_control.fixed { width : 100%; left : 5px; top : -10px; }
+    .div_orb_control { width : auto; padding-top : 0px; position : static; margin-left : 0; }
+	.div_orb_control.fixed { left : 5px; top : -40px; }
     .orb_list
     {
         width : auto;
