@@ -777,7 +777,7 @@
 	                            return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
 	                        }
 	                        retryCount++;
-	                        if(retryCount > 1000) return true;
+	                        if(retryCount > 500) return true;
 	                    }
 	                    return false;
 	                }
