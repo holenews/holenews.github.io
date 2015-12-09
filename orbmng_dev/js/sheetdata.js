@@ -727,6 +727,14 @@
 	                _this.displayLoading(false);
 	                return;
 	            }
+	            
+	            if (holeCount >= 16 && (orbCount - holeCount) >= 15) {
+	                $(_this.tabId + " .message_window_in").html(
+	                "宝珠の玉数が　石板の穴より　多すぎます！<br/>疲れるので　配置を考えるのをやめました…。<br/>(宝珠の玉：" + orbCount + "個　石板の穴：" + holeCount + "個)");
+	                _this.displayLoading(false);
+	                return;
+	            }
+	            
 	            // 仮の石板を作成し、配置可能な位置に手当たり次第に配置していく
 	            var copyBoard = baseBoard.clone();
 	            for (var i = 0; i < orbList.length; i++) {
@@ -776,7 +784,10 @@
 	                            minSepalatePoint = holeState.sepPoint;
 	                            return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
 	                        }
-	                        if (nowDeployedCount == maxDeployedCount && nowDeployedPoint == maxDeployedPoint) retryCount++;
+	                        if (nowDeployedCount == maxDeployedCount && nowDeployedPoint == maxDeployedPoint) {
+	                        	retryCount++;
+	                        	console.log(retryCount);
+	                        }
 	                        if (retryCount > 500) return true;
 	                    }
 	                    return false;
