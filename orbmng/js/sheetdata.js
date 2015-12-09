@@ -823,17 +823,16 @@
 	                    	
 	                    	if(update == false){
 	                    		var holeState = board.getCurrentHoleState();
-	                    		if(successAllDeploy == true){
-	                    			if(maxHoleCount < holeState.holeCount){
-	                    				update = true;
-	                    				maxHoleCount = holeState.holeCount;
-	                    				complete = targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
-	                    			}
-	                    		}else{
-	                    			if (holeState.sepPoint < minSepalatePoint){
-		                    			update = true;
-		                    			minSepalatePoint = holeState.sepPoint;
-		                    		}
+	                    		if (successAllDeploy == true) {
+	                    		    if (maxHoleCount < holeState.holeCount) {
+	                    		        update = true;
+	                    		        maxHoleCount = holeState.holeCount;
+	                    		        complete = targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
+	                    		    }
+	                    		}
+	                    		if (update == false && holeState.sepPoint < minSepalatePoint) {
+	                    		    update = true;
+	                    		    minSepalatePoint = holeState.sepPoint;
 	                    		}
 	                    	}
 	                        if (update == true) {
