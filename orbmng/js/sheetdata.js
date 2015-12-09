@@ -715,6 +715,7 @@
 	                if (orb.t == 2 || orb.t == 3) {
 	                    orbCountList[n] = 2;
 	                }
+	                if(orb.p == 0) orbCountList[n] = 0;
 	            }
 	            var orbCount = 0;
 	            for (var c = 0; c < orbCountList.length; c++) {
