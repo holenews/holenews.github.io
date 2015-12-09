@@ -737,6 +737,7 @@
 	                    copyBoard.deploy(cells, place.x, place.y);
 	                }
 	            }
+	            
 	            // それでも配置できなかったときの穴の状態を取得する
 	            var targetHoleState = copyBoard.getCurrentHoleState();
 
@@ -754,6 +755,7 @@
 	            var maxDeployedCount = 0;
 	            var maxDeployedPoint = 0;
 	            var minSepalatePoint = Number.MAX_VALUE;
+	            var retryCount = 0;
 	            var search = function (board, deployList, group) {
 	                if (group >= orbGrpPrimaryList.length) {
 	                    // 最後のグループまで走査し終わったら終了
@@ -774,6 +776,8 @@
 	                            minSepalatePoint = holeState.sepPoint;
 	                            return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
 	                        }
+	                        retryCount++;
+	                        if(retryCount > 1000) return true;
 	                    }
 	                    return false;
 	                }
