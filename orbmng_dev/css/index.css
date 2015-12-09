@@ -199,7 +199,7 @@ select.form-control { height : 32px; padding : 3px; }
     
     /* 宝珠リストコントロールパネル */
     .div_orb_control { width : auto; padding-top : 0px; position : static; margin-left : 0; }
-	.div_orb_control.fixed { left : 5px; top : -40px; }
+	.div_orb_control.fixed { left : 5px; top : 0px; }
     .orb_list
     {
         width : auto;

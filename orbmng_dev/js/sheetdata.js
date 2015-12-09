@@ -81,8 +81,8 @@
                 }
             });
 
-            $("#modal_orb_save").modal({ backdrop : 'static', show : false });
-            $("#modal_orb_load").modal({ backdrop : 'static', show : false });
+            $("#modal_orb_save").modal({ backdrop: 'static', show: false });
+            $("#modal_orb_load").modal({ backdrop: 'static', show: false });
             // セーブ・ロードボタンがクリックされたとき
             $(".btn_open_save").on('tap', function () {
                 _this.loadSavedSheetList();
@@ -176,21 +176,21 @@
             var $divOrbList = $(_this.tabId + " .orb_list");
             var $intro = $("#introduction");
             var $container = $(".container");
-            
+
             // メニューのtop座標を取得する
             var offsetControl = $divOrbControl.offset().top;
             var offsetPanel = $divOrbResult.offset().top;
-            var floatMenu = function() {
+            var floatMenu = function () {
                 // スクロール位置がメニューのtop座標を超えたら固定にする
                 if ($(window).scrollTop() > offsetControl) {
-                	$divOrbControl.addClass('fixed');
+                    $divOrbControl.addClass('fixed');
                 } else {
-                	$divOrbControl.removeClass('fixed');
+                    $divOrbControl.removeClass('fixed');
                 }
                 if ($(window).scrollTop() > offsetPanel) {
-                	$divOrbResult.addClass('fixed');
+                    $divOrbResult.addClass('fixed');
                 } else {
-                	$divOrbResult.removeClass('fixed');
+                    $divOrbResult.removeClass('fixed');
                 }
             };
             $(window).scroll(floatMenu);
@@ -259,7 +259,7 @@
         sortOrbRowList: function (sortMode) {
             var newOrbList = orbmng.Orb.sort(this.getOrbListData(), sortMode);
             var modeStr = sortMode == "name" ? "名前" : "優先度";
-            
+
             // 宝珠リストをリセット
             $(this.tabId + " .orb_list").empty();
             // 宝珠リストを追加する
@@ -639,6 +639,7 @@
             this.clearDepoloyedOrb();
             // 配置できた・できなかった宝珠へのクラスを削除する
             $(this.tabId + " .orb_list .dep_status").hide();
+            $(this.tabId + " .orb_list .orb_row").removeAttr("px").removeAttr("py");
             // シート内データを取得する
             var data = this.getSheetData();
             var baseBoard = new orbmng.Board(data.bd);
@@ -658,26 +659,26 @@
                 "石板を" + _tap + "して　穴を増やしましょう。");
                 return;
             }
-            
+
             // 形状ごとのテンプレートを作成する
             var typeTemplate = [];
-            for(var t = 0; t < 8; t++){
-            	var template = new orbmng.OrbCells({ t : t });
-            	typeTemplate[t] = {
-            		// 形状座標リスト
-            		cells : template.cells,
-            		// 配置可能な位置リスト
-            		placableList : baseBoard.searchPlacableList(template.cells)
-            	};
+            for (var t = 0; t < 8; t++) {
+                var template = new orbmng.OrbCells({ t: t });
+                typeTemplate[t] = {
+                    // 形状座標リスト
+                    cells: template.cells,
+                    // 配置可能な位置リスト
+                    placableList: baseBoard.searchPlacableList(template.cells)
+                };
             }
-            
+
             // 名前→優先度順にソートする
             var orbList = orbmng.Orb.sort(data.ol, "name");
-            
-	    	var orbGrpList = [];
-	    	var orbCountList = [];
-	    	var n = -1;
-	    	for (var i = 0; i < orbList.length; i++) {
+
+            var orbGrpList = [];
+            var orbCountList = [];
+            var n = -1;
+            for (var i = 0; i < orbList.length; i++) {
                 var orb = orbList[i];
                 // 同じ名称でグループ化する
                 if (i == 0 || orb.n < 0 || orb.n != orbList[i - 1].n) {
@@ -687,70 +688,51 @@
                 }
                 orbGrpList[n].push(orb);
                 // グループごとの最低玉数を記録する
-                if(orb.t == 2 || orb.t == 3){
-                	orbCountList[n] = 2;
+                if (orb.t == 2 || orb.t == 3) {
+                    orbCountList[n] = 2;
                 }
-        	}
-	    	var orbCount = 0;
-	    	for (var c = 0; c < orbCountList.length; c++) {
+            }
+            var orbCount = 0;
+            for (var c = 0; c < orbCountList.length; c++) {
                 orbCount += orbCountList[c];
             }
-	    	if (orbCount == 0) {
+            if (orbCount == 0) {
                 $(this.tabId + " .message_window_in").html(
                 "配置する宝珠が　ないみたいです。<br/>" +
                 "「宝珠の追加」ボタンを　押してみてください。");
                 return;
             }
-	    	// 仮の石板を作成し、配置可能な位置に手当たり次第に配置していく
-	    	var copyBoard = baseBoard.clone();
-	    	for (var i = 0; i < orbList.length; i++) {
+            // 仮の石板を作成し、配置可能な位置に手当たり次第に配置していく
+            var copyBoard = baseBoard.clone();
+            for (var i = 0; i < orbList.length; i++) {
                 var orb = orbList[i];
                 var cells = typeTemplate[orb.t].cells;
                 for (var p = 0; p < typeTemplate[orb.t].placableList.length; p++) {
-                	var place = typeTemplate[orb.t].placableList[p];
-                	copyBoard.deploy(cells, place.x, place.y);
+                    var place = typeTemplate[orb.t].placableList[p];
+                    copyBoard.deploy(cells, place.x, place.y);
                 }
-        	}
-	    	// それでも配置できなかったときの穴の状態を取得する
-	    	var targetHoleState = copyBoard.getCurrentHoleState();
-	    	            
-            // 優先度の順に宝珠グループを取得する
-            var combByPrimaryList = [];
-            for (var p = 3; p > 0; p--) {
-            	combByPrimaryList[p] = [];
-            	// 優先度ランク内のグループリスト
-            	var groupInPrimaryList = [];
-            	var totalCombCount = 1;
-            	for(var g = 0; g < orbGrpList.length; g++){
-            		if (orbGrpList[g][0].p == p){
-            			// グループ内の組み合わせ総数を計算する
-            			totalCombCount *= orbGrpList[g].length;
-            			groupInPrimaryList.push(orbGrpList[g]);
-            		}
-            	}
-            	if(groupInPrimaryList.length == 0){ 
-            		continue;
-            	}
-            	var combInPrimaryList = [];
-            	for(var c = 0; c < totalCombCount; c++){
-            		var combItem = [];
-            		for(var gp = 0; gp < groupInPrimaryList.length; gp++){
-            			var group = groupInPrimaryList[gp];
-            			combItem[gp] = group[c % group.length].t;
-            		}
-            		combInPrimaryList.push(combItem);
-            	}
-            	combByPrimaryList[p].push(combInPrimaryList);
             }
-            
+            // それでも配置できなかったときの穴の状態を取得する
+            var targetHoleState = copyBoard.getCurrentHoleState();
+
+            // 優先度の順に宝珠グループを取得する
+            var orbGrpPrimaryList = [];
+            for (var p = 3; p > 0; p--) {
+                for (var g = 0; g < orbGrpList.length; g++) {
+                    if (orbGrpList[g][0].p == p) {
+                        orbGrpPrimaryList.push(orbGrpList[g]);
+                    }
+                }
+            }
+
             var deployListAll = [];
             var maxDeployedCount = 0;
             var maxDeployedPoint = 0;
             var minSepalatePoint = Number.MAX_VALUE;
-            var search = function(board, deployList, primary, comb, index){
-            	if(primary <= 0){
-            		// 優先度：低 の最後の設定まで走査し終わったら終了
-            		var nowDeployedCount = 0;
+            var search = function (board, deployList, group) {
+                if (group >= orbGrpPrimaryList.length) {
+                    // 最後のグループまで走査し終わったら終了
+                    var nowDeployedCount = 0;
                     var nowDeployedPoint = 0;
                     $.each(deployList, function (i, d) {
                         if (d) {
@@ -759,93 +741,86 @@
                         }
                     });
                     if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint >= maxDeployedPoint) {
-                    	var holeState = board.getCurrentHoleState();
-                    	if(holeState.sepPoint < minSepalatePoint){
+                        var holeState = board.getCurrentHoleState();
+                        if (holeState.sepPoint < minSepalatePoint) {
                             deployListAll = [].concat(deployList);
                             maxDeployedCount = nowDeployedCount;
                             maxDeployedPoint = nowDeployedPoint;
                             minSepalatePoint = holeState.sepPoint;
-                        	return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
-                    	}
+                            return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
+                        }
                     }
-            		return false;
-            	}
-            	// 優先度クラス内の組み合わせリストを取得する
-            	var combList = combByPrimaryList[primary];
-            	if(combList.length <= comb){
-            		// 優先度クラス内に組み合わせリストがなければ、次の優先度クラスを検索する
-            		return search(board, deployList, --primary, 0, 0);
-            	}
-            	// 優先度クラスの組み合わせリスト数を合計して、宝珠リスト全体でのインデックス位置を取得する
-            	var primaryIndex = 0;
-            	for(var p = 3; p > primary; p--){
-            		primaryIndex += combByPrimaryList[p].length;
-            	}
-            	// 組み合わせリストから１件取得する
-            	var orbListInComb = combList[comb];
-            	if(orbListInComb.length <= index){
-            		// 組み合わせリスト内の宝珠形状を走査し終わっていれば、次の組み合わせを検索する
-            		return search(board, deployList, primary, ++comb, 0);
-            	}
-            	
-            	// 組み合わせ内の宝珠形状を取得する
-    			var type = orbListInComb[index];
-    			var cells = typeTemplate[type].cells;
-    			var deployed = null;
-    			var prevPlace = null;
-                for(var d = 0; d < deployList.length; d++){
-                	if(deployList[d].t == type){
-                		prevPlace = deployList[d];
-                		break;
-                	}
+                    return false;
                 }
-    			// 配置可能位置のリストでループする
-                for (var p = 0; p < typeTemplate[type].placableList.length; p++) {
-                    var place = typeTemplate[type].placableList[p];
-                    if(prevPlace != null && (prevPlace.y > place.y || (prevPlace.x >= place.x && prevPlace.y == place.y))){
-                    	continue;
+                // 宝珠グループを取得する
+                var orbListInGroup = orbGrpPrimaryList[group];
+
+                var deployed = null;
+                var complete = false;
+                for (var gi = 0; gi < orbListInGroup.length; gi++) {
+                    // グループ内の宝珠データを取得する
+                    var orb = orbListInGroup[gi];
+                    var cells = typeTemplate[orb.t].cells;
+                    var prevPlace = null;
+                    for (var d = deployList.length - 1; d >= 0; d--) {
+                        if (deployList[d].t == orb.t) {
+                            prevPlace = deployList[d];
+                            break;
+                        }
                     }
-                    // 配置可能かチェックする
-                    if (board.isPlacable(cells, place.x, place.y) == true) {
-                    	var newBoard = board.clone();
-                    	// 可能であれば配置する
-                        deployed = newBoard.deploy(cells, place.x, place.y);
-                        deployed.t = type;
-                        deployed.p = primary;
-                        deployList.length = primaryIndex + index + 1;
-                        deployList[primaryIndex + index] = deployed;
-                        // 次の宝珠をチェックする
-                        var complete = search(newBoard, deployList, primary, comb, ++index);
-                        if(complete == true){
-            				break;
-            			}
+                    // 配置可能位置のリストでループする
+                    for (var p = 0; p < typeTemplate[orb.t].placableList.length; p++) {
+                        var place = typeTemplate[orb.t].placableList[p];
+                        if (prevPlace != null && (prevPlace.y > place.y || (prevPlace.x >= place.x && prevPlace.y == place.y))) {
+                            continue;
+                        }
+                        // 配置可能かチェックする
+                        if (board.isPlacable(cells, place.x, place.y) == true) {
+                            var newBoard = board.clone();
+                            // 可能であれば配置する
+                            deployed = newBoard.deploy(cells, place.x, place.y);
+                            deployed.t = orb.t;
+                            deployed.p = orb.p;
+                            deployed.i = orb.i;
+                            deployList.length = group + 1;
+                            deployList[group] = deployed;
+                            // 次の宝珠をチェックする
+                            complete = search(newBoard, deployList, group + 1);
+                            if (complete == true) {
+                                break;
+                            }
+                        }
+                    }
+                    if (complete == true) {
+                        break;
                     }
                 }
                 // 配置に失敗しても、次の宝珠がある場合はそれを調査する
                 if (deployed == null) {
-                	var newBoard = board.clone();
-                	search(newBoard, deployList, primary, comb, ++index);
-                	return false;
+                    var newBoard = board.clone();
+                    search(newBoard, deployList, group + 1);
+                    return false;
                 }
                 return complete;
             };
-            
-            var complete = search(baseBoard, [], 3, 0, 0);
-            	
+
+            var complete = search(baseBoard, [], 0);
+
             var deployedCount = 0;
             for (var d = 0; d < deployListAll.length; d++) {
                 if (deployListAll[d]) {
                     $(this.tabId + " .orb_list .orb_row[number=" + deployListAll[d].i + "] .glyphicon-ok-circle").show();
+                    $(this.tabId + " .orb_list .orb_row[number=" + deployListAll[d].i + "]").attr("px", deployListAll[d].x).attr("py", deployListAll[d].y);
                     deployedCount++;
                 }
             }
 
-            if (orbGrpList.length > deployedCount) {
+            if (orbGrpPrimaryList.length > deployedCount) {
                 // 配置に失敗した宝珠がある場合は、アイコンを表示する
-                for (var g = 0; g < orbGrpList.length; g++) {
+                for (var g = 0; g < orbGrpPrimaryList.length; g++) {
                     if (!deployListAll[g]) {
-                        for (var o = 0; o < orbGrpList[g].length; o++) {
-                            $(this.tabId + " .orb_list .orb_row[number=" + orbGrpList[g][o].i + "] .glyphicon-remove").show();
+                        for (var o = 0; o < orbGrpPrimaryList[g].length; o++) {
+                            $(this.tabId + " .orb_list .orb_row[number=" + orbGrpPrimaryList[g][o].i + "] .glyphicon-remove").show();
                         }
                     }
                 }
