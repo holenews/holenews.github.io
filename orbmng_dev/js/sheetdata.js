@@ -178,26 +178,45 @@
             var $container = $(".container");
 
             // メニューのtop座標を取得する
-            var offsetControl = $divOrbControl.offset().top;
-            var offsetPanel = $divOrbResult.offset().top;
+            var offsetControl = 0;
+            var offsetPanel = 0;
+            $(window).resize(function(){
+            	offsetControl = $divOrbControl.offset().top;
+            	offsetPanel = $divOrbResult.offset().top;
+            }).resize();
             var floatMenu = function () {
                 // スクロール位置がメニューのtop座標を超えたら固定にする
                 if ($(window).scrollTop() > offsetControl) {
                     $divOrbControl.addClass('fixed');
+                    $divOrbList.addClass('fixed_after');
                 } else {
                     $divOrbControl.removeClass('fixed');
+                    $divOrbList.removeClass('fixed_after');
                 }
                 if ($(window).scrollTop() > offsetPanel) {
                     $divOrbResult.addClass('fixed');
+                    
                 } else {
                     $divOrbResult.removeClass('fixed');
+                    
                 }
             };
             $(window).scroll(floatMenu);
             $('body').bind('touchmove', floatMenu);
+
         },
 
-
+		/**
+        * 石板グリッドを初期化する
+        */
+        displayLoading : function(visible){
+        	if(visible){
+        		$(".loading").show();
+        	}else{
+        		$(".loading").fadeOut();
+        	}
+        },
+        
         /**
         * 石板グリッドを初期化する
         */
@@ -491,6 +510,7 @@
         * @param sheetData SheetDataオブジェクト
         */
         loadSheetData: function (sheetData) {
+        	this.displayLoading(true);
             // 宝珠リストをリセット
             $(this.tabId + " .orb_list").empty();
 
@@ -635,6 +655,7 @@
         * 宝珠を配置する
         */
         startOrbDeploying: function () {
+        	this.displayLoading(true);
             // 配置された宝珠をクリアする
             this.clearDepoloyedOrb();
             // 配置できた・できなかった宝珠へのクラスを削除する
@@ -657,6 +678,7 @@
                 $(this.tabId + " .message_window_in").html(
                 "石板は　穴をあけなきゃ　意味がないぜ。<br/>" +
                 "石板を" + _tap + "して　穴を増やしましょう。");
+                this.displayLoading(false);
                 return;
             }
 
@@ -700,6 +722,7 @@
                 $(this.tabId + " .message_window_in").html(
                 "配置する宝珠が　ないみたいです。<br/>" +
                 "「宝珠の追加」ボタンを　押してみてください。");
+                this.displayLoading(false);
                 return;
             }
             // 仮の石板を作成し、配置可能な位置に手当たり次第に配置していく
@@ -843,6 +866,7 @@
             }
             // 配置された宝珠を描画する
             this.drawDeployedOrb(deployListAll);
+            this.displayLoading(false);
         }
     };
 

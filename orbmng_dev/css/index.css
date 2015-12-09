@@ -115,6 +115,7 @@
     z-index : 8;
 }
 
+
 .orb_row { clear : both; margin : 0 0; min-height : 42px; position :relative; }
 .orb_row .orb_list_cell { padding-left : 0px; padding-right : 10px; float : left; margin-bottom : 3px; height : 32px; }
 .orb_row .orb_cell_name { width : 250px; }
@@ -199,7 +200,8 @@ select.form-control { height : 32px; padding : 3px; }
     
     /* 宝珠リストコントロールパネル */
     .div_orb_control { width : auto; padding-top : 0px; position : static; margin-left : 0; }
-	.div_orb_control.fixed { left : 5px; top : 0px; }
+	.div_orb_control.fixed { left : 5px; width : 100%; top : 0px; height : 40px; }
+	.div_orb_control.fixed h2 { display : none; }
     .orb_list
     {
         width : auto;
@@ -207,8 +209,10 @@ select.form-control { height : 32px; padding : 3px; }
         padding : 10px;
         margin-top : 10px;
         margin-left : 0px;
-        margin-bottom : 100px;
     }
+    .orb_list.fixed_after { 
+		margin-top : 50px;
+	}
 }
 
 @media (max-width: 767px)  
