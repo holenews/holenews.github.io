@@ -32,7 +32,7 @@
             $(this.tabId + " .orb_list_add").on('tap', function () {
                 _this.addOrbRow(null);
                 $(_this.tabId + " .message_window_in").html(
-                    "宝珠の形ボタンを" + _tap + "すると　形を変えることができます。<br/>宝珠の　用意が出来たら　配置ボタンを" + _tap + "します。");
+                    "宝珠の形ボタンを" + _tap + "すると<br/>形を変えることができます。<br/>宝珠の　用意が出来たら　配置ボタンを" + _tap + "します。");
             });
             // 宝珠配置ボタンがクリックされたとき
             $(this.tabId + " .orb_list_deploy").on('tap', function () {
@@ -776,8 +776,8 @@
 	                            minSepalatePoint = holeState.sepPoint;
 	                            return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
 	                        }
-	                        retryCount++;
-	                        if(retryCount > 500) return true;
+	                        if (nowDeployedCount == maxDeployedCount && nowDeployedPoint == maxDeployedPoint) retryCount++;
+	                        if (retryCount > 500) return true;
 	                    }
 	                    return false;
 	                }
