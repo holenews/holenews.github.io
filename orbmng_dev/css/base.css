@@ -94,7 +94,7 @@ h2
 	position: fixed;
 	top: 0;
 	left: 0;
-	/*display : none;*/
+	display : none;
 	background-color: rgba(0,0,0,0.5);
 	background-image: url(../img/loading.gif);
 	background-position: center center;
