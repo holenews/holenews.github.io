@@ -733,15 +733,17 @@
 	            	// 縦横２玉がグループ内に存在するかチェックする
 	            	var hasType2 = false;
 	            	var hasType3 = false;
+	            	var newListInGroup = [];
 	            	for(var o = 0; o < orbGrpList[g].length; o++){
-	            		if(orbGrpList[g][o].t == 2) {
+	            		var orb = orbGrpList[g][o];
+	            		if(orb.t == 2 && hasType2 == false) {
 	            			hasType2 = true;
 	            		}
-	            		if(orbGrpList[g][o].t == 3) {
+	            		if(orb.t == 3 && hasType3 == false) {
 	            			hasType3 = true;
 	            		}
 	            	}
-	            	var newListInGroup = [];
+	            	
 	            	for(var o = 0; o < orbGrpList[g].length; o++){
 	            		var orb = orbGrpList[g][o];
 	            		if(orb.t != 2 && orb.t != 3){
@@ -796,11 +798,13 @@
 	            var maxDeployedPoint = 0;
 	            var minSepalatePoint = Number.MAX_VALUE;
 	            var retryCount = 0;
-	            var search = function (board, deployList, group) {
+	            var successAllDeploy = false;
+	            var search = function (board, deployList, group, compromise) {
 	                if (group >= orbGrpPrimaryList.length) {
 	                    // 最後のグループまで走査し終わったら終了
 	                    var nowDeployedCount = 0;
 	                    var nowDeployedPoint = 0;
+	                    if (compromise == false) successAllDeploy = true;
 	                    $.each(deployList, function (i, d) {
 	                        if (d) {
 	                            nowDeployedCount++;
@@ -857,7 +861,7 @@
 	                            deployList.length = group + 1;
 	                            deployList[group] = deployed;
 	                            // 次の宝珠をチェックする
-	                            complete = search(newBoard, deployList, group + 1);
+	                            complete = search(newBoard, deployList, group + 1, compromise);
 	                            if (complete == true) {
 	                                break;
 	                            }
@@ -868,9 +872,9 @@
 	                    }
 	                }
 	                // 配置に失敗しても、次の宝珠がある場合はそれを調査する
-	                if (deployed == null) {
+	                if (deployed == null && successAllDeploy == false) {
 	                    var newBoard = board.clone();
-	                    complete = search(newBoard, deployList, group + 1);
+	                    complete = search(newBoard, deployList, group + 1, true);
 	                }
 	                return complete;
 	            };

@@ -36,6 +36,7 @@
             if (a.p < b.p) return 1;
             if (a.p > b.p) return -1;
         };
+        var cellSize = [3, 3, 2, 2, 3, 3, 3, 3];
         newOrbList = newOrbList.sort(function (a, b) {
         	var ret = 0;
             if (sortMode == "name") {
@@ -48,6 +49,10 @@
                 if (ret == 0){
                 	ret = compareName(a, b);
                 }
+            }
+            if(ret == 0){
+            	if(cellSize[a.t] > cellSize[b.t]) ret = 1;
+            	if(cellSize[a.t] < cellSize[b.t]) ret = -1;
             }
             return ret;
         });
