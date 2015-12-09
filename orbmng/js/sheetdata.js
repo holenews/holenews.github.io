@@ -797,9 +797,11 @@
 	            var maxDeployedCount = 0;
 	            var maxDeployedPoint = 0;
 	            var minSepalatePoint = Number.MAX_VALUE;
+	            var maxHoleCount = 0;
 	            var retryCount = 0;
 	            var successAllDeploy = false;
 	            var search = function (board, deployList, group, compromise) {
+	            	var complete = false;
 	                if (group >= orbGrpPrimaryList.length) {
 	                    // 最後のグループまで走査し終わったら終了
 	                    var nowDeployedCount = 0;
@@ -812,19 +814,38 @@
 	                        }
 	                    });
 	                    if (nowDeployedCount >= maxDeployedCount && nowDeployedPoint >= maxDeployedPoint) {
-	                        var holeState = board.getCurrentHoleState();
-	                        if (holeState.sepPoint < minSepalatePoint) {
+	                    	var update = false;
+	                    	if(successAllDeploy == false){
+	                    		if(nowDeployedCount > maxDeployedCount || nowDeployedPoint > maxDeployedPoint){
+	                    			update = true;
+	                    		}
+	                    	}
+	                    	
+	                    	if(update == false){
+	                    		var holeState = board.getCurrentHoleState();
+	                    		if(successAllDeploy == true){
+	                    			if(maxHoleCount < holeState.holeCount){
+	                    				update = true;
+	                    				maxHoleCount = holeState.holeCount;
+	                    				complete = targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
+	                    			}
+	                    		}else{
+	                    			if (holeState.sepPoint < minSepalatePoint){
+		                    			update = true;
+		                    			minSepalatePoint = holeState.sepPoint;
+		                    		}
+	                    		}
+	                    	}
+	                        if (update == true) {
 	                            deployListAll = [].concat(deployList);
 	                            maxDeployedCount = nowDeployedCount;
 	                            maxDeployedPoint = nowDeployedPoint;
-	                            minSepalatePoint = holeState.sepPoint;
-	                            return targetHoleState.sepPoint == holeState.sepPoint && targetHoleState.holeCount == holeState.holeCount;
-	                        }
-	                        if (nowDeployedCount == maxDeployedCount && nowDeployedPoint == maxDeployedPoint) {
+	                            return complete;
+	                        }else{
 	                        	retryCount++;
 	                        	console.log(retryCount);
 	                        }
-	                        if (retryCount > 500) return true;
+	                        if (retryCount > 1000) return true;
 	                    }
 	                    return false;
 	                }
@@ -832,7 +853,7 @@
 	                var orbListInGroup = orbGrpPrimaryList[group];
 
 	                var deployed = null;
-	                var complete = false;
+	                complete = false;
 	                for (var gi = 0; gi < orbListInGroup.length; gi++) {
 	                    // グループ内の宝珠データを取得する
 	                    var orb = orbListInGroup[gi];
