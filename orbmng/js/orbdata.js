@@ -19,6 +19,46 @@
         p: 2,          // 優先度フラグ
         t: 0           // 形状種別
     };
+    
+    Orb.sort = function(orbList, sortMode){
+    	var newOrbList = [];
+        for (var i = 0; i < orbList.length; i++) {
+            if (sortMode == "name" && orbList[i].n < 0) continue;
+            newOrbList.push(orbList[i]);
+        }
+        var compareName = function(a, b){
+        	if (a.n == b.n) return 0;
+            if (a.n < b.n) return -1;
+            if (a.n > b.n) return 1;
+        };
+        var comparePrimary = function(a, b){
+        	if (a.p == b.p) return 0;
+            if (a.p < b.p) return 1;
+            if (a.p > b.p) return -1;
+        };
+        newOrbList = newOrbList.sort(function (a, b) {
+        	var ret = 0;
+            if (sortMode == "name") {
+            	ret = compareName(a, b);
+                if (ret == 0){
+                	ret = comparePrimary(a, b);
+                }
+            } else if (sortMode == "primary") {
+                ret = comparePrimary(a, b);
+                if (ret == 0){
+                	ret = compareName(a, b);
+                }
+            }
+            return ret;
+        });
+        if (sortMode == "name") {
+            for (var i = 0; i < orbList.length; i++) {
+                if (orbList[i].n > 0) continue;
+                newOrbList.push(orbList[i]);
+            }
+        }
+        return newOrbList;
+    };
 
     window.orbmng.Orb = Orb;
 

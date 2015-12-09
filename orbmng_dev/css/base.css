@@ -28,8 +28,7 @@ body
 	position : absolute;
 	top : 30px;
 	right: 10px;
-	color : #999;
-	text-decoration : underline;
+	font-weight : normal;
 }
 
 .fixed_panel

@@ -4,8 +4,7 @@
 #introduction
 {
     width : 929px;
-    top : 50px;
-    left : 50%;
+    margin : 10px auto;
 }
 
 #introduction .nav_menu_row
@@ -46,7 +45,7 @@
     margin-bottom : 10px;
 }
 
-.fixed_control_in
+.control_in
 {
     padding : 10px;
 }
@@ -55,7 +54,9 @@
 .div_orb_result
 {
     width : 400px;
-    
+    position : absolute;
+    left : 50%;
+    margin-left : -450px;
 }
 
 .div_orb_result .orb_panel
@@ -64,6 +65,7 @@
     display : block;
     margin-bottom : 10px;
     background : url(../img/panel.png);
+    /*visibility:hidden;*/
 }
 
 .div_orb_result .orb_panel_button
@@ -82,14 +84,38 @@
 .div_orb_control  
 {
     width : 529px; 
+    height: 70px;
     background : rgba(255,255,255,0.9); 
     box-shadow : 0 5px 5px 10px rgba(255,255,255,0.7); 
-    z-index : 9;
+    position : absolute;
+    left : 50%;
+    margin-left : -20px;
 }
 
-.div_orb_control .fixed_control_in { padding : 10px 10px 0 10px; }
+.div_orb_control .control_in 
+{
+	padding : 10px 10px 0 10px; 
+}
 
-.orb_list { width : 500px; position : absolute; padding-top : 20px; margin-bottom : 50px; }
+.fixed
+{
+	position : fixed!important;
+	top : 0;
+	z-index : 9;
+}
+
+.orb_list { 
+	width : 500px; 
+	min-height : 400px;
+	position : absolute; 
+	left : 50%;
+	margin-top : 100px;
+	margin-bottom : 50px; 
+    margin-left : -10px;
+    z-index : 8;
+}
+
+
 .orb_row { clear : both; margin : 0 0; min-height : 42px; position :relative; }
 .orb_row .orb_list_cell { padding-left : 0px; padding-right : 10px; float : left; margin-bottom : 3px; height : 32px; }
 .orb_row .orb_cell_name { width : 250px; }
@@ -163,28 +189,30 @@ select.form-control { height : 32px; padding : 3px; }
 
 @media (min-width: 950px) and (max-height: 650px)
 {
-    .fixed_panel { position : absolute; }
     .orb_list { position : absolute; }
 }
 
 @media (max-width: 950px)  
 {
     /* ナビゲーション */
-    #introduction { width : auto; }
-    
-    .div_orb_result, .div_orb_control { width : auto; }
-    
-    .fixed_control_in { padding : 5px; }
+    #introduction, .div_orb_result { width : auto; position : static!important; margin-left : auto; }
+    .control_in { padding : 5px; }
     
     /* 宝珠リストコントロールパネル */
-    .div_orb_control { padding-top : 0px; }
-
+    .div_orb_control { width : auto; padding-top : 0px; position : static; margin-left : 0; }
+	.div_orb_control.fixed { left : 5px; width : 100%; top : 0px; height : 40px; }
+	.div_orb_control.fixed h2 { display : none; }
     .orb_list
     {
         width : auto;
         position : static;
         padding : 10px;
+        margin-top : 10px;
+        margin-left : 0px;
     }
+    .orb_list.fixed_after { 
+		margin-top : 50px;
+	}
 }
 
 @media (max-width: 767px)  
