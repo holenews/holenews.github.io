@@ -729,6 +729,44 @@
 	                return;
 	            }
 	            
+	            for(var g = 0; g < orbGrpList.length; g++){
+	            	// 縦横２玉がグループ内に存在するかチェックする
+	            	var hasType2 = false;
+	            	var hasType3 = false;
+	            	for(var o = 0; o < orbGrpList[g].length; o++){
+	            		if(orbGrpList[g][o].t == 2) {
+	            			hasType2 = true;
+	            		}
+	            		if(orbGrpList[g][o].t == 3) {
+	            			hasType3 = true;
+	            		}
+	            	}
+	            	var newListInGroup = [];
+	            	for(var o = 0; o < orbGrpList[g].length; o++){
+	            		var orb = orbGrpList[g][o];
+	            		if(orb.t != 2 && orb.t != 3){
+		            		if(hasType2 == true){
+		            			// 横２玉がグループ内にある場合は、縦３玉以外の宝珠は除く
+		            			if(orb.t != 0) continue; 
+		            		}
+		            		if(hasType3 == true){
+		            			// 縦２玉がグループ内にある場合は、横３玉以外の宝珠は除く
+		            			if(orb.t != 1) continue; 
+		            		}
+		            	}
+	            		// 同じ形状の宝珠がグループ内に無いかチェックする
+	            		var find = false;
+	            		for(var o2 = 0; o2 < newListInGroup.length; o2++){
+	            			if(newListInGroup[o2].t == orb.t){
+	            				find = true;
+	            				break;
+	            			}
+	            		}
+	            		if(find == false) newListInGroup.push(orb);
+	            	}
+	            	orbGrpList[g] = newListInGroup;
+	            }
+	            
 	            // 仮の石板を作成し、配置可能な位置に手当たり次第に配置していく
 	            var copyBoard = baseBoard.clone();
 	            for (var i = 0; i < orbList.length; i++) {
