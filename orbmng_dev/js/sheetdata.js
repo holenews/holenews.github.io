@@ -763,7 +763,7 @@
                     var cells = typeTemplate[orb.t].cells;
                     var prevPlace = null;
                     for (var d = deployList.length - 1; d >= 0; d--) {
-                        if (deployList[d].t == orb.t) {
+                        if (deployList[d] && deployList[d].t == orb.t) {
                             prevPlace = deployList[d];
                             break;
                         }
