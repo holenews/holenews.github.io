@@ -28,6 +28,13 @@
         */
         initSheetEvent: function () {
             var _this = this;
+            
+            var $divOrbResult = $(_this.tabId + " .div_orb_result");
+            var $divOrbControl = $(_this.tabId + " .div_orb_control");
+            var $divOrbList = $(_this.tabId + " .orb_list");
+            var $intro = $("#introduction");
+            var $container = $(".container");
+            
             // 宝珠追加ボタンがクリックされたとき
             $(this.tabId + " .orb_list_add").on('tap', function () {
                 _this.addOrbRow(null);
@@ -37,6 +44,9 @@
             // 宝珠配置ボタンがクリックされたとき
             $(this.tabId + " .orb_list_deploy").on('tap', function () {
                 _this.startOrbDeploying();
+                if($divOrbResult.css("position") == "static"){
+                	window.scrollTo(0, offsetPanel);
+                }
             });
             // 宝珠リセットボタンがクリックされたとき
             $(this.tabId + " .orb_list_reset").on('tap', function () {
@@ -110,7 +120,6 @@
                 }
                 // 宝珠形状ボタンがクリックされたとき
                 if ($target.is(".orb_cell_img .orb_form")) {
-
                     $target.popover("toggle");
                     return false;
                 }
@@ -170,12 +179,6 @@
                 // 設定ロード
                 _this.loadSelectedSheetData(false);
             });
-
-            var $divOrbResult = $(_this.tabId + " .div_orb_result");
-            var $divOrbControl = $(_this.tabId + " .div_orb_control");
-            var $divOrbList = $(_this.tabId + " .orb_list");
-            var $intro = $("#introduction");
-            var $container = $(".container");
 
             // メニューのtop座標を取得する
             var offsetControl = 0;
@@ -532,10 +535,13 @@
                     }
                 }
             }
+            var _this = this;
             // 宝珠を自動配置する
-            this.startOrbDeploying();
-            this.stage.update();
-            $(this.tabId + " .message_window_in").html("データを読み込みました。<br/>宝珠を" + _tap + "すると　名前が分かりますよ。");
+            this.startOrbDeploying(function(){
+            	_this.stage.update();
+            	$(_this.tabId + " .message_window_in").html("データを読み込みました。<br/>宝珠を" + _tap + "すると　名前が分かりますよ。");
+            });
+            
         },
 
         /**
@@ -654,7 +660,7 @@
         /**
         * 宝珠を配置する
         */
-        startOrbDeploying: function () {
+        startOrbDeploying: function (callback) {
         	this.displayLoading(true);
         	var _this = this;
         	setTimeout(function () {
@@ -939,6 +945,7 @@
 	            // 配置された宝珠を描画する
 	            _this.drawDeployedOrb(deployListAll);
 	            _this.displayLoading(false);
+	            if(callback) callback();
             }, 10);
         }
     };
