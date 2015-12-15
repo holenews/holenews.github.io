@@ -509,9 +509,6 @@
             setTimeout(function () {
                 $("#modal_orb_load").modal('hide');
             }, 50);
-            
-            // URLを変更する
-            this.setCurrentUrl("./");
         },
         
         /**
