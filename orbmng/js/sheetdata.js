@@ -219,7 +219,7 @@
 				var sheetData = _this.getSheetData();
 				var latestData = orbmng.SheetData.encode(sheetData, true);
 				if(_this.currentData != latestData){
-					return "変更内容がセーブされていません！";
+					return "設定内容がセーブされていません！";
 				}
 				return;
 			});
