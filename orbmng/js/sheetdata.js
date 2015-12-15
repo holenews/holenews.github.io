@@ -13,6 +13,8 @@
         this.initOrbPanel();
         this.addOrbRow(null);
         $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
+        var sheetData = this.getSheetData();
+        this.currentData = orbmng.SheetData.encode(sheetData, true);
     }
 
     OrbPanel.prototype = {
@@ -23,6 +25,7 @@
         boardCells: null,
         orbNameList: [],
         currentKey: null,
+        currentData : null,
         /**
         * 宝珠シートを初期化する
         */
@@ -166,18 +169,22 @@
             $(this.tabId + " .btn_save_new").on('tap', function () {
                 // 新規登録時
                 _this.saveSheetData(true);
+                return false;
             });
             $(this.tabId + " .btn_save_over").on('tap', function () {
                 // 上書き保存時
                 _this.saveSheetData(false);
+                return false;
             });
             $(this.tabId + " .btn_load_delete").on('tap', function () {
                 // 設定削除
                 _this.removeSelectedSheetData(false);
+                return false;
             });
             $(this.tabId + " .btn_load_open").on('tap', function () {
                 // 設定ロード
                 _this.loadSelectedSheetData(false);
+                return false;
             });
 
             // メニューのtop座標を取得する
@@ -206,7 +213,16 @@
             };
             $(window).scroll(floatMenu);
             $('body').bind('touchmove', floatMenu);
-
+            
+            // 画面を抜けるとき
+			$(window).bind('beforeunload', function(){
+				var sheetData = _this.getSheetData();
+				var latestData = orbmng.SheetData.encode(sheetData, true);
+				if(_this.currentData != latestData){
+					return "変更内容がセーブされていません！";
+				}
+				return;
+			});
         },
 
 		/**
@@ -454,12 +470,18 @@
 
             var sheetData = this.getSheetData();
             // Cookieに保存する
-            orbmng.SheetData.saveToCookie(maxKey, title, sheetData);
+            var sheetStr = orbmng.SheetData.saveToCookie(maxKey, title, sheetData);
             setTimeout(function () {
                 $("#modal_orb_save").modal('hide');
+                $("#modal_orb_save .btn_save_over").show();
             }, 50);
-
+			
+			// 現在のキーを保存
+            this.currentKey = { key: maxKey, name: title };
+            this.currentData = sheetStr;
             $(this.tabId + " .message_window_in").html("宝珠の設定を　保存しました。<br/>ロード画面から　また読み込むことができます。");
+            // URLを変更する
+            this.setCurrentUrl("./");
         },
 
         /**
@@ -478,13 +500,28 @@
             }
             // 現在のキーを保存
             this.currentKey = { key: sheetData.key, name: sheetData.name };
+            this.currentData = sheetData.str;
             $("#modal_orb_save .btn_save_over").show();
             $("#modal_orb_save .save_title").val(sheetData.name);
             // データを表示する
             this.loadSheetData(sheetData.data);
+
             setTimeout(function () {
                 $("#modal_orb_load").modal('hide');
             }, 50);
+        },
+        
+        /**
+        * URLを設定する
+        */
+        setCurrentUrl : function(url){
+        	if(history){
+            	if(history.replaceState){
+            		history.replaceState(null, null, url);
+            	}else if(history.pushState){
+            		history.pushState(null, null, url);
+            	}
+            }
         },
 
         /**
@@ -540,8 +577,9 @@
             this.startOrbDeploying(function(){
             	_this.stage.update();
             	$(_this.tabId + " .message_window_in").html("データを読み込みました。<br/>宝珠を" + _tap + "すると　名前が分かりますよ。");
+            	// URLを変更する
+            	_this.setCurrentUrl("./");
             });
-            
         },
 
         /**

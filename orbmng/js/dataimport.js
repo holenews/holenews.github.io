@@ -568,7 +568,7 @@
                     var stringArr = string.split("@");
                     sheetData = SheetData.decode(stringArr[1], true);
                     name = stringArr[0];
-                    sheetDataList.push({ key: keyList[i], name: name, data: sheetData });
+                    sheetDataList.push({ key: keyList[i], name: name, data: sheetData, str:stringArr[1] });
                 }
                 
             }
@@ -587,8 +587,9 @@
     };
 
     SheetData.saveToCookie = function (key, name, sheetData) {
-        var sheetStr = name + "@" + SheetData.encode(sheetData, true);
-        $.cookie(key, sheetStr, { expires: 365 });
+    	var sheetStr = SheetData.encode(sheetData, true);
+        $.cookie(key, name + "@" + sheetStr, { expires: 365 });
+        return sheetStr;
     };
 
     SheetData.removeFromCookie = function (key) {

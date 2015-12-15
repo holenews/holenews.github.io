@@ -219,7 +219,7 @@
 				var sheetData = _this.getSheetData();
 				var latestData = orbmng.SheetData.encode(sheetData, true);
 				if(_this.currentData != latestData){
-					return "セーブされていない宝珠設定の変更があります。";
+					return "変更内容がセーブされていません！";
 				}
 				return;
 			});
