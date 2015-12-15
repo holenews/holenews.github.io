@@ -473,13 +473,15 @@
             var sheetStr = orbmng.SheetData.saveToCookie(maxKey, title, sheetData);
             setTimeout(function () {
                 $("#modal_orb_save").modal('hide');
+                $("#modal_orb_save .btn_save_over").show();
             }, 50);
 			
 			// 現在のキーを保存
             this.currentKey = { key: maxKey, name: title };
             this.currentData = sheetStr;
-            $("#modal_orb_save .btn_save_over").show();
             $(this.tabId + " .message_window_in").html("宝珠の設定を　保存しました。<br/>ロード画面から　また読み込むことができます。");
+            // URLを変更する
+            this.setCurrentUrl("./");
         },
 
         /**
@@ -503,9 +505,26 @@
             $("#modal_orb_save .save_title").val(sheetData.name);
             // データを表示する
             this.loadSheetData(sheetData.data);
+
             setTimeout(function () {
                 $("#modal_orb_load").modal('hide');
             }, 50);
+            
+            // URLを変更する
+            this.setCurrentUrl("./");
+        },
+        
+        /**
+        * URLを設定する
+        */
+        setCurrentUrl : function(url){
+        	if(history){
+            	if(history.replaceState){
+            		history.replaceState(null, null, url);
+            	}else if(history.pushState){
+            		history.pushState(null, null, url);
+            	}
+            }
         },
 
         /**
@@ -561,6 +580,8 @@
             this.startOrbDeploying(function(){
             	_this.stage.update();
             	$(_this.tabId + " .message_window_in").html("データを読み込みました。<br/>宝珠を" + _tap + "すると　名前が分かりますよ。");
+            	// URLを変更する
+            	_this.setCurrentUrl("./");
             });
         },
 
