@@ -171,7 +171,7 @@
     OrbMaster[3].push({ id: 0507, name: "ためる参の極意" });
     OrbMaster[3].push({ id: 0508, name: "一喝の極意" });
     OrbMaster[3].push({ id: 0509, name: "一喝の閃き" });
-    OrbMaster[3].push({ id: 0510, name: "無念無想の奇跡" });
+    OrbMaster[3].push({ id: 0510, name: "無念無想の奇跡" }); 
     OrbMaster[3].push({ id: 0601, name: "サプライズラッシュの極意" });
     OrbMaster[3].push({ id: 0602, name: "サプライズラッシュの技巧" });
     OrbMaster[3].push({ id: 0603, name: "お宝ハンターの閃き" });
