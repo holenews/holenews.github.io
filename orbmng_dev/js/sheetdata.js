@@ -398,7 +398,7 @@
             			$orbGrp = null;
             		}
             	}
-            	html += "<option value='" + this.orbNameList[i].id + "'>　" + this.orbNameList[i].name + "</option>";
+            	html += "<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>";
             }
             $orbNameSelect.html(html);
         },
