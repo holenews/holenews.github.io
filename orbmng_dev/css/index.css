@@ -123,7 +123,7 @@
 .orb_row .orb_cell_img {  }
 .orb_row .alert-inverse { background : #888; color :#CCC; }
 .orb_row option { color : #333; background : #FFF; }
-.orb_row optgroup { background : #DDD; font-weight : normal; font-style : normal; padding : 5px auto 5px 2px; color:#000; }
+.orb_row option[disabled] { background : #DDD; font-weight : normal; font-style : normal; padding : 5px auto 5px 2px; color:#000; }
 .orb_row .orb_cell_delete { margin-bottom : 15px; }
 .orb_row .dep_status { position : absolute; left : -7px; top : 9px; display : none; background : rgba(255,255,255,0.7); }
 .orb_row .dep_status.glyphicon-ok-circle { color : #5cb85c; }
@@ -144,7 +144,6 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_select { width : 130px; }
 .orb_select .orb_form { float: left; border : 1px solid #FFF; border-radius : 2px; }
 .orb_select .orb_form:hover { border : 1px solid #b94a48; }
-
 
 #modal_orb_save .modal-sm {  }
 #modal_orb_save .modal-body {  padding-top : 30px; padding-bottom : 10px; }

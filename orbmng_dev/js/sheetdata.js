@@ -393,7 +393,7 @@
             	if(grp < 0 || grp != this.orbNameList[i].grp){
             		var grp = this.orbNameList[i].grp;
             		if(orbmng.OrbGroup[this.orbType] && orbmng.OrbGroup[this.orbType][grp]){
-            			html += "<optgroup label='【" + orbmng.OrbGroup[this.orbType][grp] +"】'>";
+            			html += "<option disabled='disabled'>【" + orbmng.OrbGroup[this.orbType][grp] +"】</option>";
             		}else{
             			if($orbGrp != null){
             				html += "</optgroup>";
@@ -401,7 +401,7 @@
             			$orbGrp = null;
             		}
             	}
-            	html += "<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>";
+            	html += "<option value='" + this.orbNameList[i].id + "'>　" + this.orbNameList[i].name + "</option>";
             }
             $orbNameSelect.html(html);
         },
