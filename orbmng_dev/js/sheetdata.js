@@ -395,9 +395,6 @@
             		if(orbmng.OrbGroup[this.orbType] && orbmng.OrbGroup[this.orbType][grp]){
             			html += "<option disabled='disabled'>【" + orbmng.OrbGroup[this.orbType][grp] +"】</option>";
             		}else{
-            			if($orbGrp != null){
-            				html += "</optgroup>";
-            			}
             			$orbGrp = null;
             		}
             	}
