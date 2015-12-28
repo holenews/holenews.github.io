@@ -14,18 +14,18 @@
         this.addOrbRow(null);
         $(this.tabId + " .message_window_in").html("まずは　石板を" + _tap + "して　穴をあけましょう。");
         var sheetData = this.getSheetData();
-        this.currentData = orbmng.SheetData.encode(sheetData, true);
+        this.loadSelectedSheetData("tmpdt", true);
     }
 
     OrbPanel.prototype = {
         index: null,   // インデックス
         tabId: null,   // タブID
+        orbType : 0,   // 宝珠種別
         stage: null,
         deployList: null,
         boardCells: null,
         orbNameList: [],
         currentKey: null,
-        currentData : null,
         /**
         * 宝珠シートを初期化する
         */
@@ -70,8 +70,9 @@
                 var $target = $(this).parents(".orb_elem_type").find("button");
                 $target.children(".orb_elem_type_name").text(text);
                 $target.attr("value", val);
-
+                _this.orbType = val;
                 _this.orbNameList = orbmng.OrbMaster[parseInt(val, 10)];
+                
                 // 宝珠名リストを作成する
                 _this.setOrbNameList($(".orb_cell_name select"));
                 return;
@@ -183,7 +184,8 @@
             });
             $(this.tabId + " .btn_load_open").on('tap', function () {
                 // 設定ロード
-                _this.loadSelectedSheetData(false);
+                 var key = $("#modal_orb_load .saved_data_item.selected").attr("key");
+                _this.loadSelectedSheetData(key);
                 return false;
             });
 
@@ -217,12 +219,10 @@
             // 画面を抜けるとき
 			$(window).bind('beforeunload', function(){
 				var sheetData = _this.getSheetData();
-				var latestData = orbmng.SheetData.encode(sheetData, true);
-				if(_this.currentData != latestData){
-					return "設定内容がセーブされていません！";
-				}
+				orbmng.SheetData.saveToCookie("tmpdt", "一時データ", sheetData, true);
 				return;
 			});
+			
         },
 
 		/**
@@ -295,7 +295,7 @@
         * @param sortMode ソートモード
         */
         sortOrbRowList: function (sortMode) {
-            var newOrbList = orbmng.Orb.sort(this.getOrbListData(), sortMode);
+            var newOrbList = orbmng.Orb.sort(this.getOrbListData(), this.orbType, sortMode);
             var modeStr = sortMode == "name" ? "名前" : "優先度";
 
             // 宝珠リストをリセット
@@ -375,8 +375,24 @@
             // 宝珠名リストを作成する
             var $orbNameSelect = $target.empty();
             $orbNameSelect.append("<option value='-1'>宝珠名を選択してください</option>");
+            var $orbGrp = null;
+            var grp = -1;
             for (var i = 0; i < this.orbNameList.length; i++) {
-                $orbNameSelect.append("<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>");
+            	if(grp < 0 || grp != this.orbNameList[i].grp){
+            		var grp = this.orbNameList[i].grp;
+            		if(orbmng.OrbGroup[this.orbType] && orbmng.OrbGroup[this.orbType][grp]){
+            			$orbGrp = $("<optgroup label='" + orbmng.OrbGroup[this.orbType][grp] +"'></optgroup>");
+            			$orbNameSelect.append($orbGrp);
+            		}else{
+            			$orbGrp = null;
+            		}
+            	}
+            	var $option = $("<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>");
+            	if($orbGrp != null){
+            		$orbGrp.append($option);
+            	}else{
+            		$orbNameSelect.append($option);
+            	}
             }
         },
 
@@ -478,7 +494,6 @@
 			
 			// 現在のキーを保存
             this.currentKey = { key: maxKey, name: title };
-            this.currentData = sheetStr;
             $(this.tabId + " .message_window_in").html("宝珠の設定を　保存しました。<br/>ロード画面から　また読み込むことができます。");
             // URLを変更する
             this.setCurrentUrl("./");
@@ -486,10 +501,11 @@
 
         /**
         * ロード画面で選択された宝珠設定をロードする
+        * @param key 保存キー
+        * @param notDeployed 配置はしない
         */
-        loadSelectedSheetData: function () {
+        loadSelectedSheetData: function (key, notDeployed) {
             var sheetDataList = orbmng.SheetData.loadFromCookie(true);
-            var key = $("#modal_orb_load .saved_data_item.selected").attr("key");
             var sheetData = null;
             // キーが一致する設定を取得する
             for (var i = 0; i < sheetDataList.length; i++) {
@@ -498,13 +514,13 @@
                     break;
                 }
             }
+            if(sheetData == null) return;
             // 現在のキーを保存
             this.currentKey = { key: sheetData.key, name: sheetData.name };
-            this.currentData = sheetData.str;
             $("#modal_orb_save .btn_save_over").show();
             $("#modal_orb_save .save_title").val(sheetData.name);
             // データを表示する
-            this.loadSheetData(sheetData.data);
+            this.loadSheetData(sheetData.data, notDeployed);
 
             setTimeout(function () {
                 $("#modal_orb_load").modal('hide');
@@ -548,12 +564,12 @@
         /**
         * データを読み込む
         * @param sheetData SheetDataオブジェクト
+        * @param notDeployed 配置はしない
         */
-        loadSheetData: function (sheetData) {
+        loadSheetData: function (sheetData, notDeployed) {
         	this.displayLoading(true);
             // 宝珠リストをリセット
             $(this.tabId + " .orb_list").empty();
-
             $(this.tabId + " .orb_elem_type_item[value='" + sheetData.tp + "']").trigger("tap");
 
             // 宝珠リストを追加する
@@ -573,6 +589,13 @@
                 }
             }
             var _this = this;
+            if(notDeployed){
+            	this.displayLoading(false);
+            	_this.stage.update();
+            	$(_this.tabId + " .message_window_in").html(
+                    "宝珠の形ボタンを" + _tap + "すると<br/>形を変えることができます。<br/>宝珠の　用意が出来たら　配置ボタンを" + _tap + "します。");
+            	return;
+            }
             // 宝珠を自動配置する
             this.startOrbDeploying(function(){
             	_this.stage.update();
@@ -635,16 +658,16 @@
                 deployedOrb.onSelectChanged = function (orb) {
                     // リストから番号が一致する宝珠データを取得する
                     var orb = _this.getOrbDataByNumber(orb.i);
-                    var name = "名前が選択されていない宝珠";
+                    var name = "名前が選択されていない宝珠です。";
                     if (orb != null && orb.n > 0) {
                         for (var i = 0; i < orbNameList.length; i++) {
                             if (orbNameList[i].id == orb.n) {
-                                name = "「" + orbNameList[i].name + "」";
+                                name = "<b>" + orbNameList[i].name + "</b><br/>（" + orbNameList[i].desc + "）";
                                 break;
                             }
                         }
                     }
-                    $(tabId + " .message_window_in").html("" + name + "です。");
+                    $(tabId + " .message_window_in").html(name);
                 };
             }
             this.stage.update();
