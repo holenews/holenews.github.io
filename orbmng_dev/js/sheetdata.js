@@ -70,8 +70,8 @@
                 var $target = $(this).parents(".orb_elem_type").find("button");
                 $target.children(".orb_elem_type_name").text(text);
                 $target.attr("value", val);
-                _this.orbType = val;
-                _this.orbNameList = orbmng.OrbMaster[parseInt(val, 10)];
+                _this.orbType = parseInt(val, 10);
+                _this.orbNameList = orbmng.OrbMaster[_this.orbType];
                 
                 // 宝珠名リストを作成する
                 _this.setOrbNameList($(".orb_cell_name select"));
@@ -374,26 +374,24 @@
         setOrbNameList: function ($target) {
             // 宝珠名リストを作成する
             var $orbNameSelect = $target.empty();
-            $orbNameSelect.append("<option value='-1'>宝珠名を選択してください</option>");
             var $orbGrp = null;
             var grp = -1;
+            var html = "<option value='-1'>宝珠名を選択してください</option>";
             for (var i = 0; i < this.orbNameList.length; i++) {
             	if(grp < 0 || grp != this.orbNameList[i].grp){
             		var grp = this.orbNameList[i].grp;
             		if(orbmng.OrbGroup[this.orbType] && orbmng.OrbGroup[this.orbType][grp]){
-            			$orbGrp = $("<optgroup label='" + orbmng.OrbGroup[this.orbType][grp] +"'></optgroup>");
-            			$orbNameSelect.append($orbGrp);
+            			html += "<optgroup label='&lt;" + orbmng.OrbGroup[this.orbType][grp] +"&gt;'>";
             		}else{
+            			if($orbGrp != null){
+            				html += "</optgroup>";
+            			}
             			$orbGrp = null;
             		}
             	}
-            	var $option = $("<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>");
-            	if($orbGrp != null){
-            		$orbGrp.append($option);
-            	}else{
-            		$orbNameSelect.append($option);
-            	}
+            	html += "<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>";
             }
+            $orbNameSelect.html(html);
         },
 
 
@@ -662,7 +660,7 @@
                     if (orb != null && orb.n > 0) {
                         for (var i = 0; i < orbNameList.length; i++) {
                             if (orbNameList[i].id == orb.n) {
-                                name = "<b>" + orbNameList[i].name + "</b><br/>（" + orbNameList[i].desc + "）";
+                                name = "<b>" + orbNameList[i].name + "</b>です。<br/>（" + orbNameList[i].desc + "）";
                                 break;
                             }
                         }

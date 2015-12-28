@@ -17,7 +17,7 @@ body
 	height : 50px;
 	background : url(../img/title.png);
 	margin : 20px auto 10px 5px;
-	display : inline-block;
+	
 }
 
 .app_title .app_sub_title
@@ -26,9 +26,15 @@ body
 	margin-left : 10px;
 	font-size : 12px;
 	position : absolute;
-	top : 30px;
+	top : 15px;
 	right: 10px;
-	font-weight : normal;
+}
+
+.app_title .app_sub_title .current_update
+{
+	position : relative;
+	top : -5px;
+	margin-right : 10px;
 }
 
 .fixed_panel
