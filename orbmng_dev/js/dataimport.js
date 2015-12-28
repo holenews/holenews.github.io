@@ -54,7 +54,7 @@
     OrbMaster[1] = [];
     OrbGroup[1] = [];
     
-    OrbGroup[1][01] = "始まりの～";
+    OrbGroup[1][01] = "始まりの…";
     OrbMaster[1].push({ id: 0101, grp: 01, name: "始まりのラリホー", desc: "開戦時２％でラリホー" });
     OrbMaster[1].push({ id: 0102, grp: 01, name: "始まりのヘナトス", desc: "開戦時２％でヘナトス" });
     OrbMaster[1].push({ id: 0103, grp: 01, name: "始まりのルカニ", desc: "開戦時２％でルカニ" });
@@ -67,7 +67,7 @@
     OrbMaster[1].push({ id: 0110, grp: 01, name: "始まりのチャージタイム短縮", desc: "開戦時２％でチャージ時間－１０秒" });
     OrbMaster[1].push({ id: 0111, grp: 01, name: "始まりの移動速度アップ", desc: "開戦時１％で移動速度がアップ" });
 
-    OrbGroup[1][03] = "不滅の～";
+    OrbGroup[1][03] = "不滅の…";
     OrbMaster[1].push({ id: 0301, grp: 03, name: "不滅の回復呪文強化", desc: "死亡時３％で呪文の回復量アップがきえない" });
     OrbMaster[1].push({ id: 0302, grp: 03, name: "不滅の攻撃呪文強化", desc: "死亡時３％で呪文の威力アップが消えない" });
     OrbMaster[1].push({ id: 0303, grp: 03, name: "不滅のテンション", desc: "死亡時３％でテンション残り" });
@@ -101,21 +101,21 @@
     
     OrbMaster[2] = [];
     OrbGroup[2] = [];
-    OrbGroup[2][01] = "果てなき～";
+    OrbGroup[2][01] = "果てなき…";
     OrbMaster[2].push({ id: 0101, grp: 01, name: "果てなき攻撃力アップ", desc: "攻撃力アップの効果時間＋２秒" });
     OrbMaster[2].push({ id: 0102, grp: 01, name: "果てなき守備力アップ", desc: "守備力アップの効果時間＋２秒" });
     OrbMaster[2].push({ id: 0103, grp: 01, name: "果てなき攻撃呪文威力アップ", desc: "攻撃呪文威力アップの効果時間＋２秒" });
     OrbMaster[2].push({ id: 0104, grp: 01, name: "果てなき回復呪文威力アップ", desc: "回復呪文威力アップの効果時間＋２秒" });
     OrbMaster[2].push({ id: 0105, grp: 01, name: "果てなき聖女の守り", desc: "聖女のまもりの効果時間＋２秒" });
     
-    OrbGroup[2][02] = "禁断の～";
+    OrbGroup[2][02] = "禁断の…";
     OrbMaster[2].push({ id: 0201, grp: 02, name: "禁断のＭＰアップ", desc: "最大ＨＰ－２　最大ＭＰ＋２" });
     OrbMaster[2].push({ id: 0202, grp: 02, name: "禁断のちからアップ", desc: "みのまもり－５　ちから＋１" });
     OrbMaster[2].push({ id: 0203, grp: 02, name: "禁断のおもさアップ", desc: "移動速度－２％　おもさ＋１" });
     OrbMaster[2].push({ id: 0204, grp: 02, name: "禁断のこうげき魔力アップ", desc: "ＨＰを－３　こうげき魔力＋１" });
     OrbMaster[2].push({ id: 0205, grp: 02, name: "禁断のかいふく魔力アップ", desc: "ＭＰを－２　かいふく魔力＋２" });
     
-    OrbGroup[2][03] = "復讐の～";
+    OrbGroup[2][03] = "復讐の…";
     OrbMaster[2].push({ id: 0301, grp: 03, name: "復讐のバイシオン", desc: "味方死亡時３％でバイシオン" });
     OrbMaster[2].push({ id: 0302, grp: 03, name: "復讐のスカラ", desc: "味方死亡時３％でスカラ" });
     OrbMaster[2].push({ id: 0303, grp: 03, name: "復讐のテンションアップ", desc: "味方死亡時３％でテンションあげ" });
@@ -123,7 +123,7 @@
     OrbMaster[2].push({ id: 0305, grp: 03, name: "復讐の聖なる祈り", desc: "味方死亡時３％で聖なる祈り" });
     OrbMaster[2].push({ id: 0306, grp: 03, name: "復讐の聖女の守り", desc: "味方死亡時３％で聖女の守り" });
     
-    OrbGroup[2][02] = "鉄壁の～";
+    OrbGroup[2][02] = "鉄壁の…";
     OrbMaster[2].push({ id: 0501, grp: 05, name: "鉄壁の会心完全ガード", desc: "会心完全ガード＋２％" });
     OrbMaster[2].push({ id: 0502, grp: 05, name: "鉄壁のふっとびガード", desc: "ふっとびガード＋１％" });
 
@@ -692,7 +692,7 @@
     SheetData.saveToCookie = function (key, name, sheetData, isTemp) {
     	var sheetStr = SheetData.encode(sheetData, true);
     	var expireParam = { expires: 365 };
-    	if(isTemp){
+    	if(isTemp == true){
     		expireParam = null;
     	}
         $.cookie(key, name + "@" + sheetStr, expireParam);

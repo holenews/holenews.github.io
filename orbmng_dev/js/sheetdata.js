@@ -216,13 +216,25 @@
             $(window).scroll(floatMenu);
             $('body').bind('touchmove', floatMenu);
             
+            var isInnerLink = false;
             // 画面を抜けるとき
-			$(window).bind('beforeunload', function(){
-				var sheetData = _this.getSheetData();
-				orbmng.SheetData.saveToCookie("tmpdt", "一時データ", sheetData, true);
+			$("a").bind('tap', function(){
+				var href = $(this).attr("href");
+				var target = $(this).attr("target");
+				// サイト内移動時はCookieに保存する
+				if(href && href.indexOf("http", 0) != 0 && !target){
+					isInnerLink = true;
+				}
 				return;
 			});
-			
+			$(window).bind('beforeunload', function(){
+				if(isInnerLink){
+					var sheetData = _this.getSheetData();
+					orbmng.SheetData.saveToCookie("tmpdt", "一時データ", sheetData, true);
+				}else{
+					orbmng.SheetData.removeFromCookie("tmpdt");
+				}
+			});
         },
 
 		/**
@@ -381,7 +393,7 @@
             	if(grp < 0 || grp != this.orbNameList[i].grp){
             		var grp = this.orbNameList[i].grp;
             		if(orbmng.OrbGroup[this.orbType] && orbmng.OrbGroup[this.orbType][grp]){
-            			html += "<optgroup label='&lt;" + orbmng.OrbGroup[this.orbType][grp] +"&gt;'>";
+            			html += "<optgroup label='【" + orbmng.OrbGroup[this.orbType][grp] +"】'>";
             		}else{
             			if($orbGrp != null){
             				html += "</optgroup>";
@@ -409,6 +421,7 @@
 
             for (var i = 0; i < sheetDataList.length; i++) {
                 var sheetData = sheetDataList[i];
+                if(sheetData.key == "tmpdt") continue;
                 var type = "";
                 if (sheetData.data) {
                     type = typeList[parseInt(sheetData.data.tp, 10)];
