@@ -27,28 +27,24 @@
         for (var i = 0; i < orbList.length; i++) {
             if (sortMode == "name" && orbList[i].n < 0) continue;
             newOrbList.push(orbList[i]);
-            if(isNaN(orbNameOrdList[orbList.id]) == true){
+            if(isNaN(orbNameOrdList[orbList.id]) == false){
             	// ID<->順序変換表に登録されていれば何もしない
             	continue;
             }
             // 宝珠マスタからIDが一致する要素を取得する
             for(var n = 0; n < orbmng.OrbMaster[type].length; n++){
-            	if(orbmng.OrbMaster[type][n].id == orbList.id){
+            	if(orbmng.OrbMaster[type][n].id == orbList[i].n){
             		// ID<->順序変換表に登録する
-            		orbNameOrdList[orbList.id] = orbmng.OrbMaster[type][n].ord;
-            		orbGrpOrdList[orbList.id] = orbmng.OrbMaster[type][n].grp;
+            		orbNameOrdList[orbList[i].n] = orbmng.OrbMaster[type][n].ord;
+            		orbGrpOrdList[orbList[i].n] = orbmng.OrbMaster[type][n].grp;
             		break;
             	}
             }
         }
         
         var compareName = function(a, b){
-        	var ag = orbGrpOrdList[a.id];
-        	var bg = orbGrpOrdList[b.id];
-        	var ao = orbNameOrdList[a.id];
-        	var bo = orbNameOrdList[b.id];
-        	if (ag < bg) return -1;
-            if (ag > bg) return 1;
+        	var ao = orbNameOrdList[a.n].ord;
+        	var bo = orbNameOrdList[b.n].ord;
         	if (ao == bo) return 0;
             if (ao < bo) return -1;
             if (ao > bo) return 1;

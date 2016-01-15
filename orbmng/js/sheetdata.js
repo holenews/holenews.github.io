@@ -792,7 +792,7 @@
 	            }
 
 	            // 名前→優先度順にソートする
-	            var orbList = orbmng.Orb.sort(data.ol, "name");
+	            var orbList = orbmng.Orb.sort(data.ol, _this.orbType, "name");
 
 	            var orbGrpList = [];
 	            var orbCountList = [];

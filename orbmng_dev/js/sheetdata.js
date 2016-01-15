@@ -340,6 +340,7 @@
                 "           <option value='0'>無視</option>" +
                 "       </select>" +
                 "   </div>" +
+                "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default' title='削除'><span class='glyphicon glyphicon-trash'></span></button></div>" +
                 "</div>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list").append($row);
@@ -791,7 +792,7 @@
 	            }
 
 	            // 名前→優先度順にソートする
-	            var orbList = orbmng.Orb.sort(data.ol, "name");
+	            var orbList = orbmng.Orb.sort(data.ol, _this.orbType, "name");
 
 	            var orbGrpList = [];
 	            var orbCountList = [];

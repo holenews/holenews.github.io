@@ -2,8 +2,8 @@
 
     if (!window.orbmng) window.orbmng = {};
 
-    var OrbMaster = {};
-    var OrbGroup = {};
+    var OrbMaster = [];
+    var OrbGroup = [];
     
     OrbMaster[0] = [];
     OrbGroup[0] = [];
