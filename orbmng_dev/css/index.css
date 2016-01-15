@@ -79,6 +79,7 @@
 /* メッセージ */
 .div_orb_result .message_window { margin : 0;}
 .div_orb_result .message_window_in { min-height : 80px; }
+.div_orb_result .message_window .desc_level { color : #fef263; }
 
 /* 宝珠リストコントロールパネル */
 .div_orb_control  
@@ -145,6 +146,12 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_select .orb_form { float: left; border : 1px solid #FFF; border-radius : 2px; }
 .orb_select .orb_form:hover { border : 1px solid #b94a48; }
 
+footer { width : 100%; position : fixed; bottom : 0; background : #333; color : #FFF; z-index : 9999;  }
+footer .website_link .control_in { padding : 5px 10px; font-size : 0.85em; }
+footer .website_link ul { list-style-type : none; }
+footer .website_link li { display : inline-block; margin-right : 20px; }
+footer .website_link a { color : #fef263; }
+
 #modal_orb_save .modal-sm {  }
 #modal_orb_save .modal-body {  padding-top : 30px; padding-bottom : 10px; }
 #modal_orb_save label { margin-right : 10px; }
@@ -195,7 +202,7 @@ select.form-control { height : 32px; padding : 3px; }
 @media (max-width: 950px)  
 {
     /* ナビゲーション */
-    #introduction, .div_orb_result { width : auto; position : static!important; margin-left : auto; }
+    #introduction, .div_orb_result, footer { width : auto; position : static!important; margin-left : auto; }
     .control_in { padding : 5px; }
     
     /* 宝珠リストコントロールパネル */

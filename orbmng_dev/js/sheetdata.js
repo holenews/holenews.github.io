@@ -35,6 +35,7 @@
             var $divOrbResult = $(_this.tabId + " .div_orb_result");
             var $divOrbControl = $(_this.tabId + " .div_orb_control");
             var $divOrbList = $(_this.tabId + " .orb_list");
+            var $divSiteLink = $(_this.tabId + " .website_link");
             var $intro = $("#introduction");
             var $container = $(".container");
             
@@ -145,20 +146,7 @@
                 }
                 // 優先度が変更されたとき
                 if ($target.is(".orb_cell_level select")) {
-                    var type = $target.val();
-                    $target.removeClass("alert alert-success alert-warning alert-danger alert-inverse");
-                    var text = "優先度の高い宝珠から　配置していきます。<br/>";
-                    if (type == "0") {
-                        text += "無視にすると　宝珠を配置する候補から　外れます。";
-                        $target.addClass("alert alert-inverse");
-                    } else if (type == "1") {
-                        $target.addClass("alert alert-warning");
-                    } else if (type == "2") {
-                        $target.addClass("alert alert-success");
-                    } else if (type == "3") {
-                        $target.addClass("alert alert-danger");
-                    }
-                    $(tabId + " .message_window_in").html(text);
+                    _this.onLevelChanged($target);
                     return;
                 }
             });
@@ -207,10 +195,8 @@
                 }
                 if ($(window).scrollTop() > offsetPanel) {
                     $divOrbResult.addClass('fixed');
-                    
                 } else {
                     $divOrbResult.removeClass('fixed');
-                    
                 }
             };
             $(window).scroll(floatMenu);
@@ -328,9 +314,8 @@
             while ($(this.tabId + " .orb_list .orb_row[number=" + number + "]").length > 0) {
                 number++;
             }
-
             if (!orb) orb = new orbmng.Orb(number, "", 0);
-
+            
             var selectFormTag =
                 "<div class='orb_select'>" +
                 "   <p class='orb_form type0' name='0' /><p class='orb_form type1' name='1' /><p class='orb_form type2' name='2' /><p class='orb_form type3' name='3' />" +
@@ -355,7 +340,6 @@
                 "           <option value='0'>無視</option>" +
                 "       </select>" +
                 "   </div>" +
-                "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default' title='削除'><span class='glyphicon glyphicon-trash'></span></button></div>" +
                 "</div>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list").append($row);
@@ -377,6 +361,48 @@
             if (orb.n > 0) {
                 $row.find(".orb_cell_name select").val(orb.n).change();
             }
+            if($(this.tabId + " .orb_list .orb_row").size() > 1){
+            	$("footer").slideUp();
+            }else{
+            	$("footer").slideDown();
+            }
+        },
+        
+        /**
+        * 優先度が変更されたときの処理
+        * @param $target 対象のコンボボックス
+        */
+        onLevelChanged : function($target){
+        	var type = $target.val();
+            $target.removeClass("alert alert-success alert-warning alert-danger alert-inverse");
+            var text = "優先度の高い宝珠から　配置していきます。<br/>";
+            if (type == "0") {
+                text += "無視にすると　宝珠を配置する候補から　外れます。";
+                $target.addClass("alert alert-inverse");
+            } else if (type == "1") {
+                $target.addClass("alert alert-warning");
+            } else if (type == "2") {
+                $target.addClass("alert alert-success");
+            } else if (type == "3") {
+                $target.addClass("alert alert-danger");
+            }
+            $(this.tabId + " .message_window_in").html(text);
+            // 変更された行の宝珠名を取得する
+            var nameId = $target.parents(".orb_row").find(".orb_cell_name select").val();
+            // 名前が選択されているかチェック
+            if(nameId != "-1"){
+            	// 他の行をループする
+	            $(this.tabId + " .orb_list .orb_row").each(function(){
+	            	var rowName = $(this).find(".orb_cell_name select").val();
+	            	var $otherLevel = $(this).find(".orb_cell_level select");
+	            	var rowLevel = $otherLevel.val();
+	            	// 名称が一致すれば優先度を変更する
+	            	if(rowName == nameId && rowLevel != type){
+	            		$otherLevel.val(type);
+	            		$otherLevel.change();
+	            	}
+	            });
+            }
         },
 
         /**
@@ -390,19 +416,10 @@
             var grp = -1;
             var html = "<option value='-1'>宝珠名を選択してください</option>";
             for (var i = 0; i < this.orbNameList.length; i++) {
-            	if(grp < 0 || grp != this.orbNameList[i].grp){
-            		var grp = this.orbNameList[i].grp;
-            		if(orbmng.OrbGroup[this.orbType] && orbmng.OrbGroup[this.orbType][grp]){
-            			html += "<option disabled='disabled'>【" + orbmng.OrbGroup[this.orbType][grp] +"】</option>";
-            		}else{
-            			$orbGrp = null;
-            		}
-            	}
             	html += "<option value='" + this.orbNameList[i].id + "'>" + this.orbNameList[i].name + "</option>";
             }
             $orbNameSelect.html(html);
         },
-
 
         /**
         * 宝珠設定一覧をロードする
@@ -670,7 +687,9 @@
                     if (orb != null && orb.n > 0) {
                         for (var i = 0; i < orbNameList.length; i++) {
                             if (orbNameList[i].id == orb.n) {
-                                name = "<b>" + orbNameList[i].name + "</b>です。<br/>（" + orbNameList[i].desc + "）";
+                            	var desc = orbNameList[i].desc;
+                            	desc = desc.replace("[", "<span class='desc_level'>").replace("]", " </span>");
+                                name = "<b>" + orbNameList[i].name + "</b>です。<br/>" + desc + "";
                                 break;
                             }
                         }
