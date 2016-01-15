@@ -57,6 +57,7 @@
     position : absolute;
     left : 50%;
     margin-left : -450px;
+    margin-bottom : 60px;
 }
 
 .div_orb_result .orb_panel
@@ -107,7 +108,7 @@
 
 .orb_list { 
 	width : 500px; 
-	min-height : 400px;
+	min-height : 200px;
 	position : absolute; 
 	left : 50%;
 	margin-top : 100px;
@@ -146,7 +147,7 @@ select.form-control { height : 32px; padding : 3px; }
 .orb_select .orb_form { float: left; border : 1px solid #FFF; border-radius : 2px; }
 .orb_select .orb_form:hover { border : 1px solid #b94a48; }
 
-footer { width : 100%; position : fixed; bottom : 0; background : #333; color : #FFF; z-index : 9999;  }
+footer { width : 100%; position : fixed; bottom : 0; background : #007bbb; color : #FFF; z-index : 9999;  }
 footer .website_link .control_in { padding : 5px 10px; font-size : 0.85em; }
 footer .website_link ul { list-style-type : none; }
 footer .website_link li { display : inline-block; margin-right : 20px; }
@@ -218,13 +219,14 @@ footer .website_link a { color : #fef263; }
         margin-left : 0px;
     }
     .orb_list.fixed_after { 
-		margin-top : 50px;
+		margin-top : 60px;
 	}
 }
 
 @media (max-width: 767px)  
 {
     button .visible-xs { display : inline!important; }
+    .div_orb_result { margin-bottom : 10px; }
     .nav_menu .nav_menu_row { margin-bottom : 10px;	}
     #modal_orb_load .saved_data_item  
     {

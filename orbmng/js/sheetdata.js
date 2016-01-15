@@ -221,6 +221,17 @@
 					orbmng.SheetData.removeFromCookie("tmpdt");
 				}
 			});
+			$footer = $("footer");
+			var footerHeight = $footer.height();
+			var hideFooter = function(){
+				if($footer.css("position") == "fixed"){
+					$footer.animate({ height: "10px" }, 100);
+				}
+			};
+			$footer.hover(function(){
+				$footer.animate({ height: footerHeight + "px" }, 100);
+			}, hideFooter);
+			setTimeout(hideFooter, 3000);
         },
 
 		/**
@@ -361,11 +372,6 @@
             // 宝珠名称を設定する
             if (orb.n > 0) {
                 $row.find(".orb_cell_name select").val(orb.n).change();
-            }
-            if($(this.tabId + " .orb_list .orb_row").size() > 1){
-            	$("footer").slideUp();
-            }else{
-            	$("footer").slideDown();
             }
         },
         
