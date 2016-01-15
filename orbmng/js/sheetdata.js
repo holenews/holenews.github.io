@@ -340,6 +340,7 @@
                 "           <option value='0'>無視</option>" +
                 "       </select>" +
                 "   </div>" +
+                "   <div class='orb_list_cell orb_cell_delete'><button class='btn btn-default' title='削除'><span class='glyphicon glyphicon-trash'></span></button></div>" +
                 "</div>");
             var tabId = this.tabId;
             $(this.tabId + " .orb_list").append($row);
