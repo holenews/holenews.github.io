@@ -43,8 +43,8 @@
         }
         
         var compareName = function(a, b){
-        	var ao = orbNameOrdList[a.n].ord;
-        	var bo = orbNameOrdList[b.n].ord;
+        	var ao = orbNameOrdList[a.n];
+        	var bo = orbNameOrdList[b.n];
         	if (ao == bo) return 0;
             if (ao < bo) return -1;
             if (ao > bo) return 1;
