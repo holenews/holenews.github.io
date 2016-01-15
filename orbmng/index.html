@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>せいや！ 達人のオーブ配置サポートツール</title>
+    <title>せいや！ 達人のオーブ/宝珠 配置サポートツール</title>
     <link rel="shortcut icon" href="./img/favicon.ico">
     <meta name="description" content="石板の穴と宝珠のリストを指定すれば自動でハマる配置を考えてくれるツールです。">
     <meta name="keywords" content="ドラゴンクエスト10,ドラクエX,DQ10,DQX,達人のオーブ,達人の宝珠">
@@ -84,9 +84,14 @@
         <header>
         	<div class="app_title">
         		<a href="./"><h1>せいや！</h1></a>
-        		<a href="history.html" class="app_sub_title label label-warning">
-				  2015/12/15 更新
-				</a>
+        		<div class="app_sub_title">
+        			<a href="history.html" class="current_update"><time>2016/01/15</time> 更新</a>
+					<a href="https://twitter.com/share" class="twitter-share-button"{count} data-url="http://holenews.github.io/orbmng/">Tweet</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+   	
+        		</div>
+        		
+				
         	</div>
 			<nav class="dq_window" id="introduction">
                 <div class="dq_window_in">
@@ -95,16 +100,16 @@
                     石板の穴と　宝珠のリストを　指定すれば　<br class="visible-xs hidden-sm" />自動でハマる配置を考えてくれます。
                     <div class="nav_menu">
                     	<span class="nav_menu_row">
-                    		<a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方</a>
-                        	<a href="bookmark.html"><span class="glyphicon glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
+                    		<a href="howtouse.html"><span class="glyphicon glyphicon-chevron-right"></span> 使い方を見る</a>
+                        	<a href="bookmark.html"><span class="glyphicon glyphicon-chevron-right"></span> 冒険者の広場から読み込む</a>
                     	</span>
                         <span class="nav_menu_row">
 	                        <a href="#" class="btn_open_save">
-	                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> セーブ</a>
+	                            <span class="glyphicon glyphicon-chevron-right"></span> セーブ</a>
 	                        <a href="#" class="btn_open_load">
-	                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ロード</a>
+	                            <span class="glyphicon glyphicon-chevron-right"></span> ロード</a>
 	                        <a href="http://twitter.com/share?url=" rel="nofollow" class="btn_tweet" target="_tweet">
-	                            <span class="glyphicon glyphicon glyphicon-chevron-right"></span> ツイート</a>
+	                            <span class="glyphicon glyphicon-chevron-right"></span> 配置をURLに変換する</a>
 	                    </span>
                         <div class="clearfix"></div>
                     </div>
@@ -119,6 +124,7 @@
                     <div class="orb_panel_button">
                         <button type="button" class="btn btn-sm btn-default panel_reset"><span class="glyphicon glyphicon-erase"></span> 石板をリセット</button>
                         <button type="button" class="btn btn-sm btn-default orb_list_reset"><span class="glyphicon glyphicon-share-alt"></span> 宝珠を外す</button>
+                        
                     </div>
                 </div>
                 <div class="message_window dq_window col-md-12">
@@ -157,7 +163,7 @@
                                 <span class="visible-xs hidden-sm">並替</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="sort_type" value="name">名前順</a></li>
+                                <li><a class="sort_type" value="name">種類順</a></li>
                                 <li><a class="sort_type" value="primary">優先度順</a></li>
                             </ul>
                         </div>
@@ -228,6 +234,16 @@
             <div class="loading"><p>宝珠を配置中です<br/>がんばってます…ずっと…</p></div>
         </div>
     </div>
-  
+  	<footer>
+  		<div class="website_link">
+	    	<nav class="control_in">
+	            <h2><span class="glyphicon glyphicon-star"></span> ご紹介ありがとうございます！</h2>
+	            <ul>
+	    			<li><a href="dqclub24.blog.fc2.com/blog-entry-1072.html" target="_blank">ドラクエ倶楽部24-あどんちゃんの冒険日誌</a> 様</li>
+	    			<li><a href="disruption.blog.jp/archives/49808294.html" target="_blank">停車駅が混雑のため 運行が乱れているようです</a> 様</li>
+	    		</ul>
+	    	</nav>
+	    </div>
+    </footer>
 </body>
 </html>

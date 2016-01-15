@@ -20,16 +20,38 @@
         t: 0           // 形状種別
     };
     
-    Orb.sort = function(orbList, sortMode){
+    Orb.sort = function(orbList, type, sortMode){
     	var newOrbList = [];
+    	var orbNameOrdList = {};
+    	var orbGrpOrdList = {};
         for (var i = 0; i < orbList.length; i++) {
             if (sortMode == "name" && orbList[i].n < 0) continue;
             newOrbList.push(orbList[i]);
+            if(isNaN(orbNameOrdList[orbList.id]) == true){
+            	// ID<->順序変換表に登録されていれば何もしない
+            	continue;
+            }
+            // 宝珠マスタからIDが一致する要素を取得する
+            for(var n = 0; n < orbmng.OrbMaster[type].length; n++){
+            	if(orbmng.OrbMaster[type][n].id == orbList.id){
+            		// ID<->順序変換表に登録する
+            		orbNameOrdList[orbList.id] = orbmng.OrbMaster[type][n].ord;
+            		orbGrpOrdList[orbList.id] = orbmng.OrbMaster[type][n].grp;
+            		break;
+            	}
+            }
         }
+        
         var compareName = function(a, b){
-        	if (a.n == b.n) return 0;
-            if (a.n < b.n) return -1;
-            if (a.n > b.n) return 1;
+        	var ag = orbGrpOrdList[a.id];
+        	var bg = orbGrpOrdList[b.id];
+        	var ao = orbNameOrdList[a.id];
+        	var bo = orbNameOrdList[b.id];
+        	if (ag < bg) return -1;
+            if (ag > bg) return 1;
+        	if (ao == bo) return 0;
+            if (ao < bo) return -1;
+            if (ao > bo) return 1;
         };
         var comparePrimary = function(a, b){
         	if (a.p == b.p) return 0;
