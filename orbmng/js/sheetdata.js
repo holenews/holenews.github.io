@@ -439,7 +439,7 @@
             }
             var $table = $("#modal_orb_load .saved_data_list").empty();
             var typeList = ["炎", "水", "風", "光", "闇"];
-
+			var _this = this;
             for (var i = 0; i < sheetDataList.length; i++) {
                 var sheetData = sheetDataList[i];
                 if(sheetData.key == "tmpdt") continue;
@@ -454,8 +454,12 @@
                     "</li>"
                 );
                 $row.on('tap', function () {
-                    $("#modal_orb_load .saved_data_item").removeClass("selected");
-                    $(this).addClass("selected");
+                	if($(this).hasClass("selected")){
+                		 $(_this.tabId + " .btn_load_open").trigger('tap');
+                	}else{
+                		$("#modal_orb_load .saved_data_item").removeClass("selected");
+                    	$(this).addClass("selected");
+                	}
                 });
                 $row.attr("key", sheetData.key);
                 $row.find(".save_name").text(sheetData.name);
