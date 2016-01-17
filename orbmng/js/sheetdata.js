@@ -549,8 +549,10 @@
             if(sheetData == null) return;
             // 現在のキーを保存
             this.currentKey = { key: sheetData.key, name: sheetData.name };
-            $("#modal_orb_save .btn_save_over").show();
-            $("#modal_orb_save .save_title").val(sheetData.name);
+            if(key !== "tmpdt"){
+            	$("#modal_orb_save .btn_save_over").show();
+            	$("#modal_orb_save .save_title").val(sheetData.name);
+            }
             // データを表示する
             this.loadSheetData(sheetData.data, notDeployed);
 
