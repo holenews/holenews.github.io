@@ -1,0 +1,57 @@
+body 
+{
+    font-size: 14px;
+    line-height: 1.42857;
+}
+
+.form-horizontal
+{
+    border : 1px solid #CCC;
+    border-radius : 5px;
+}
+
+.form-inner
+{
+    margin : 10px auto;
+}
+
+.form-group
+{
+    margin-bottom : 5px;
+}
+
+.form-group .param_number
+{
+    width : 40%;
+    padding : 6px;
+}
+
+.form-group .param_select
+{
+    width : 80%;
+}
+
+.form-group .param_number input
+{
+    text-align : right;
+    padding-right : 5px;
+}
+
+.form-group .param_acs input
+{
+    width : 56px;
+    padding : 6px;
+    text-align : right;
+}
+
+.form-group .help-block
+{
+    margin-top : 2px;
+    margin-bottom : 3px;
+}
+
+@media (max-width: 950px)  
+{
+	
+}
+
