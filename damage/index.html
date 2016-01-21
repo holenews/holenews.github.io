@@ -38,7 +38,9 @@
     <div class="container">
         <div id="result_panel">
             <div id="result_power">
-                
+                <input type="number" id="damage_min"/>
+                <input type="number" id="damage_max"/>
+                <input type="number" id="damage_avg"/>
             </div>
         </div>
         <div id="calc_panel">
@@ -112,17 +114,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">攻撃アップ</label>
+                            <label class="col-sm-4 control-label">攻撃力増減</label>
                             <div class="col-sm-8">
-                                <label class="radio-inline">
-                                    <input type="radio" class="param_input" name="param_bicion" value="1" checked="checked"> なし
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" class="param_input" name="param_bicion" value="1.2"> バイシオン
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" class="param_input" name="param_bicion" value="1.4"> バイキルト
-                                </label>
+                                <select id="param_bicion" class="form-control param_input"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -172,17 +166,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">スクルト</label>
+                            <label class="col-sm-4 control-label">守備力増減</label>
                             <div class="col-sm-8">
-                                <label class="radio-inline">
-                                    <input type="radio" class="param_input" name="param_suku" value="1" checked="checked"> なし
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" class="param_input" name="param_suku" value="1.2"> 1段階
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" class="param_input" name="param_suku" value="1.4"> 2段階
-                                </label>
+                                <select id="param_suku" class="form-control param_input"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -193,7 +179,7 @@
                                         <td><select id="param_elem_guard" class="form-control param_input"></select></td>
                                         <td id="td_fb">
                                             <label class="checkbox-inline">
-                                                <input type="checkbox" class="param_fb"/> フォースブレイク中 (+100%)
+                                                <input type="checkbox" class="param_fb"/> フォースブレイク中
                                             </label>
                                         </td>
                                     </tr>
