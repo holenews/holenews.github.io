@@ -16,6 +16,11 @@ body
 	width : 150px;
 }
 
+.input-group-addon
+{
+    /*display : inline-block;*/
+}
+
 .form-inner
 {
     margin : 10px auto;
@@ -37,15 +42,19 @@ body
     width : 40%;
     padding : 6px;
 }
+
+.form-group th
+{
+	text-align : center;
+}
+
 #param_attack
 {
     width : 20%;
-    
 }
 #param_weapon
 {
-	width : 60px;
-	border-right : none;
+	
 }
 #param_renkin
 {
@@ -62,11 +71,11 @@ body
 
 #param_food_type
 {
-    width : 50%;
+    width : 45%;
 }
 #param_food_level
 {
-    width : 40%;
+    width : 45%;
 }
 
 .form-group .param_number input
@@ -81,14 +90,16 @@ body
 }
 .form-group .param_acs select
 {
-    width : 170px;
-    border-right : none;
+    /*width : 172px;*/
+    border-right : none
 }
 
 .form-group .param_acs input
 {
-   text-align : right;
-   border-left : none;
+    /*width : 50px;*/
+    text-align : right;
+    border-left : none;
+    padding : 6px;
 }
 
 .form-group .help-block
