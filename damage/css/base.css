@@ -4,11 +4,28 @@ body
     line-height: 1.42857;
 }
 
+#result_panel
+{
+    position : fixed;
+    z-index : 2;
+    height : 100px;
+    background : #EEE;
+    top : 0;
+    left : 0;
+    width : 100%;
+}
+
+#calc_panel
+{
+    margin-top : 110px;
+}
+
 .form-horizontal
 {
     border : 1px solid #CCC;
     border-radius : 5px;
     width : 500px;
+    margin : 10px;
 }
 
 .control-label
@@ -37,69 +54,60 @@ body
     display : inline;
 }
 
-.form-group .param_number input
+.form-group .param_number
 {
-    width : 40%;
     padding : 6px;
+    text-align : right;
 }
 
-.form-group th
-{
-	text-align : center;
-}
 
-#param_attack
+#param_power
 {
     width : 20%;
 }
-#param_weapon
+#td_skill_type
 {
-	
+    width : 45%;
 }
-#param_renkin
+#td_skill_level
 {
-	width : 50px;
+    width : 55%;
 }
-#param_skill_type
+#td_food_type
+{
+    width : 60%;
+}
+#td_food_level
 {
     width : 40%;
 }
-#param_skill_level
+
+.form-group table
 {
-    width : 50%;
+    width : 100%;
+}
+.form-group table td
+{
+    padding : 2px;
 }
 
-#param_food_type
+.form-group .table
 {
-    width : 45%;
-}
-#param_food_level
-{
-    width : 45%;
+    border : 1px solid #CCC;
+    margin-bottom : 0;
 }
 
-.form-group .param_number input
+.form-group .table th
 {
-    text-align : right;
-    padding-right : 5px;
+	text-align : center;
+	background : #EEE;
+	font-weight : normal;
+	padding : 2px;
 }
 
-.form-group .param_acs
+.form-group .table td
 {
-    margin-top  : 4px;
-}
-.form-group .param_acs select
-{
-    /*width : 172px;*/
-    border-right : none
-}
-
-.form-group .param_acs input
-{
-    /*width : 50px;*/
-    text-align : right;
-    border-left : none;
-    padding : 6px;
+    padding : 2px;
 }
 
 .form-group .help-block
@@ -108,8 +116,28 @@ body
     margin-bottom : 3px;
 }
 
+#attack_all
+{
+    border : none;
+    font-size : 2em;
+}
+
+#attack_base
+{
+    display : none;
+}
+
 @media (max-width: 950px)  
 {
-	
+    .form-horizontal
+    {
+        width : auto;
+        margin : 0;
+        border : none;
+    }
+	.form-inner
+    {
+        margin : 10px 0px;
+    }
 }
 

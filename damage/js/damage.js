@@ -44,7 +44,7 @@
         for (var key in values) {
             var point = values[key];
             sum += point;
-            list.push({ value: sum, name: '' + key + ' SP (攻撃力+' + sum + ')'});
+            list.push({ value: sum, name: '' + key + ' SP (攻撃力+' + sum + ')' });
         }
         return list;
     }
@@ -120,18 +120,20 @@
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+    * 値を数値として取りだすjQuery拡張メソッド
+    * @param defaultValue
+    */
+    $.fn.number = function (defaultValue) {
+        var number = parseInt(this.val(), 10);
+        if (defaultValue === undefined) {
+            defaultValue = 0;
+        }
+        if (isNaN(number)) {
+            return defaultValue;
+        }
+        return number;
+    };
 
     $(function () {
         // 料理のコンボボックスを作成する
@@ -162,7 +164,11 @@
             var name = $(this).attr('name');
             createSelectList($(this), acsList[name]);
         });
-        
+        $('#calc_attack .param_input').bind('keyup mouseup change', function () {
+            calcAttackPoint();
+        });
+        calcAttackPoint();
+
         $('[data-toggle="tooltip"]').tooltip({ html: true });
     });
 
@@ -180,6 +186,42 @@
                 $select.append('<option value="' + value + '">' + text + '</option>');
             });
         }
+    }
+
+    function getNumber() {
+
+    }
+
+    /**
+    * 攻撃力を計算する
+    */
+    function calcAttackPoint() {
+        // 力
+        var power = $('#param_power').number();
+        // スキル
+        var skill = $('#param_skill_level').number();
+        // 食べ物
+        var food = $('#param_food_level').number();
+        // 武器の基礎攻撃力
+        var weaponBase = $('#param_weapon').number();
+        // 武器の錬金効果
+        var weaponOpt = $('#param_renkin').number();
+        // アクセの基礎攻撃力
+        var acsBase = 0;
+        $('select.param_acs').each(function () {
+            acsBase += $(this).number();
+        });
+        // アクセの合成効果
+        var acsOpt = 0;
+        $('input.param_acs').each(function () {
+            acsOpt += $(this).number();
+        });
+        // バイシの影響を受ける攻撃力
+        var attackBase = power + weaponBase + acsBase;
+        // 攻撃力合計
+        var attackAll = attackBase + skill + food + weaponOpt + acsOpt;
+        $('#attack_base').val(attackBase);
+        $('#attack_all').val(attackAll);
     }
 
 })();
