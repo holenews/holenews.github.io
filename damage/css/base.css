@@ -1,6 +1,7 @@
 body 
 {
     font-size: 14px;
+    font-family : Meiryo UI;
     line-height: 1.42857;
 }
 
@@ -25,17 +26,19 @@ body
     border : 1px solid #CCC;
     border-radius : 5px;
     width : 500px;
-    margin : 10px;
+    margin : 10px 10px 20px 10px;
+}
+
+.form-horizontal h2
+{
+    font-weight : normal;
+    font-size : 1em;
+    margin-left : 30px;
 }
 
 .control-label
 {
 	width : 150px;
-}
-
-.input-group-addon
-{
-    /*display : inline-block;*/
 }
 
 .form-inner
@@ -61,7 +64,7 @@ body
 }
 
 
-#param_power
+#param_power, #param_guard
 {
     width : 20%;
 }
@@ -110,21 +113,31 @@ body
     padding : 2px;
 }
 
-.form-group .help-block
+.form-group .radio-inline, .form-group .checkbox-inline
 {
-    margin-top : 2px;
-    margin-bottom : 3px;
+    margin-bottom : 10px;
 }
 
-#attack_all
+.calc_panel_result
+{
+    font-size : 1.8em;
+}
+
+.calc_panel_result .control-label
+{
+    margin-top : 0;
+    padding-top : 0;
+}
+
+.calc_panel_result .calc_panel_result_input
 {
     border : none;
-    font-size : 2em;
+    border-bottom : 1px solid #000;
 }
 
-#attack_base
+#td_fb label
 {
-    display : none;
+    margin-bottom : 5px;
 }
 
 @media (max-width: 950px)  
@@ -135,9 +148,23 @@ body
         margin : 0;
         border : none;
     }
+    .form-horizontal h2
+    {
+        margin : 0;
+    }
 	.form-inner
     {
         margin : 10px 0px;
+    }
+    
+    .calc_panel_result .control-label, .calc_panel_result .col_result
+    {
+        text-align : right;
+        width : 100%;
+    }
+    .calc_panel_result .col_result input
+    {
+        text-align : right;
     }
 }
 

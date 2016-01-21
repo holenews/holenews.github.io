@@ -120,12 +120,24 @@
         }
     }
 
+    var elementRank = [
+        { value: '1.0', name: 'なし' },
+        { value: '1.1', name: '弱点' },
+        { value: '1.3', name: '大弱点' },
+		{ value: '0.75', name: '耐性' },
+        { value: '0.5', name: '強耐性' }
+    ];
+
+    for (var i = 0; i < elementRank.length; i++) {
+        elementRank[i].name += ' (x' + elementRank[i].value + ')';
+    }
+
     /**
     * 値を数値として取りだすjQuery拡張メソッド
     * @param defaultValue
     */
     $.fn.number = function (defaultValue) {
-        var number = parseInt(this.val(), 10);
+        var number = parseFloat(this.val(), 10);
         if (defaultValue === undefined) {
             defaultValue = 0;
         }
@@ -164,7 +176,9 @@
             var name = $(this).attr('name');
             createSelectList($(this), acsList[name]);
         });
-        $('#calc_attack .param_input').bind('keyup mouseup change', function () {
+        // 属性耐性のコンボボックスを作成する
+        createSelectList($('#param_elem'), elementRank);
+        $('#calc_attack .param_input').bind('keyup mouseup change click', function () {
             calcAttackPoint();
         });
         calcAttackPoint();
@@ -186,10 +200,6 @@
                 $select.append('<option value="' + value + '">' + text + '</option>');
             });
         }
-    }
-
-    function getNumber() {
-
     }
 
     /**
@@ -216,11 +226,14 @@
         $('input.param_acs').each(function () {
             acsOpt += $(this).number();
         });
+        // 攻撃力アップ
+        var bision = $('input[name=param_bicion]:checked').number();
+        // 戦鬼の乱れ舞
+        var senki = $('input[name=param_senki]:checked').number();
         // バイシの影響を受ける攻撃力
-        var attackBase = power + weaponBase + acsBase;
+        var attackBase = Math.ceil((power + weaponBase + acsBase) * bision);
         // 攻撃力合計
-        var attackAll = attackBase + skill + food + weaponOpt + acsOpt;
-        $('#attack_base').val(attackBase);
+        var attackAll = attackBase + skill + food + weaponOpt + acsOpt + senki;
         $('#attack_all').val(attackAll);
     }
 
