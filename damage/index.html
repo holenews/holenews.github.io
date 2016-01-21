@@ -42,167 +42,227 @@
             </div>
         </div>
         <div id="calc_panel">
-            <form class="form-horizontal" id="calc_attack">
-                <h2><span class="glyphicon glyphicon-th-large"></span> 自身のステータス</h2>
-                <div class="form-inner">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">ちから</label>
-                        <div class="col-sm-8">
-                            <div>
-                                <input type="number" class="form-control param_number param_input" id="param_power" value="150" min="0" max="999">
+            <div class="calc_panel_in" id="calc_attack">
+                <form class="form-horizontal">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> 自身のステータス</h2>
+                    <div class="form-inner">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">ちから</label>
+                            <div class="col-sm-8">
+                                <div>
+                                    <input type="number" class="form-control param_number param_input" id="param_power" value="150" min="0" max="999">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">武器スキル</label>
-                        <div class="col-sm-8">
-                            <table>
-                                <tr>
-                                    <td id="td_skill_type"><select id="param_skill_type" class="form-control param_input"></select></td>
-                                    <td id="td_skill_level"><select id="param_skill_level" class="form-control param_input"></select></td>
-                                </tr>
-                            </table>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">武器スキル</label>
+                            <div class="col-sm-8">
+                                <table>
+                                    <tr>
+                                        <td id="td_skill_type"><select id="param_skill_type" class="form-control param_input"></select></td>
+                                        <td id="td_skill_level"><select id="param_skill_level" class="form-control param_input"></select></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
                     
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">装備</label>
-                        <div class="col-sm-8">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th colspan="2">武器</th>
-                                </tr>
-                                <tr>
-                                    <th>基礎攻撃力(+できのよさ)</th>
-                                    <th>攻撃錬金</th>
-                                </tr>
-                                <tr>
-                                    <td><input type="number" class="form-control param_number param_input" id="param_weapon" value="0" min="0" max="999"></td>
-                                    <td><input type="number" class="form-control param_number param_input" id="param_renkin" value="0" min="0" max="27"></td>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">アクセサリ</th>
-                                </tr>
-                                <tr>
-                                    <th>種類</th>
-                                    <th>合成</th>
-                                </tr>
-                                <tr>
-                                    <td><select class="form-control param_input param_acs" name="顔"></select></td>
-                                    <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
-                                </tr>
-                                <tr>
-                                    <td><select class="form-control param_input param_acs" name="首"></select></td>
-                                    <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
-                                </tr>
-                                <tr>
-                                    <td><select class="form-control param_input param_acs" name="胸"></select></td>
-                                    <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
-                                </tr>
-                                <tr>
-                                    <td><select class="form-control param_input param_acs" name="札"></select></td>
-                                    <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
-                                </tr>
-                                <tr>
-                                    <td><select class="form-control param_input param_acs" name="他"></select></td>
-                                    <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
-                                </tr>
-                            </table>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">装備</label>
+                            <div class="col-sm-8">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th colspan="2">武器</th>
+                                    </tr>
+                                    <tr>
+                                        <th>基礎攻撃力(+できのよさ)</th>
+                                        <th>攻撃錬金</th>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="number" class="form-control param_number param_input" id="param_weapon" value="0" min="0" max="999"></td>
+                                        <td><input type="number" class="form-control param_number param_input" id="param_renkin" value="0" min="0" max="27"></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">アクセサリ</th>
+                                    </tr>
+                                    <tr>
+                                        <th>種類</th>
+                                        <th>合成</th>
+                                    </tr>
+                                    <tr>
+                                        <td><select class="form-control param_input param_acs" name="顔"></select></td>
+                                        <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><select class="form-control param_input param_acs" name="首"></select></td>
+                                        <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><select class="form-control param_input param_acs" name="胸"></select></td>
+                                        <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><select class="form-control param_input param_acs" name="札"></select></td>
+                                        <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><select class="form-control param_input param_acs" name="他"></select></td>
+                                        <td><input type="number" class="form-control param_acs param_number param_input" value="0" min="0" max="30"></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">攻撃アップ</label>
-                        <div class="col-sm-8">
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_bicion" value="1" checked="checked"> なし
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_bicion" value="1.2"> バイシオン
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_bicion" value="1.4"> バイキルト
-                            </label>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">攻撃アップ</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_bicion" value="1" checked="checked"> なし
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_bicion" value="1.2"> バイシオン
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_bicion" value="1.4"> バイキルト
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-4 control-label">料理</label>
-                        <div class="col-sm-8">
-                            <table>
-                                <tr>
-                                    <td id="td_food_type"><select id="param_food_type" class="form-control param_input"></select></td>
-                                    <td id="td_food_level"><select id="param_food_level" class="form-control param_input"></select></td>
-                                </tr>
-                            </table>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">料理</label>
+                            <div class="col-sm-8">
+                                <table>
+                                    <tr>
+                                        <td id="td_food_type"><select id="param_food_type" class="form-control param_input"></select></td>
+                                        <td id="td_food_level"><select id="param_food_level" class="form-control param_input"></select></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">戦鬼の乱れ舞</label>
-                        <div class="col-sm-8">
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_senki" value="0" checked="checked"> なし
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_senki" value="30"> 1段階
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_senki" value="60"> 2段階
-                            </label>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">戦鬼の乱れ舞</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_senki" value="0" checked="checked"> なし
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_senki" value="30"> 1段階
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_senki" value="60"> 2段階
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group calc_panel_result">
-                        <label class="col-sm-4 control-label">攻撃力</label>
-                        <div class="col-sm-8 col_result">
-                            <input type="text" class="calc_panel_result_input" id="attack_all" readonly="readonly"/>
-                        </div>
-                    </div>
-                </div>
-                
-            </form>
-        </div>
-        <div id="Div1">
-            <form class="form-horizontal" id="calc_monster">
-                <h2><span class="glyphicon glyphicon-th-large"></span> モンスター</h2>
-                <div class="form-inner">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">守備力</label>
-                        <div class="col-sm-8">
-                            <div>
-                                <input type="number" class="form-control param_number param_input" id="param_guard" value="100" min="0" max="9999">
+                        <div class="form-group calc_panel_result">
+                            <label class="col-sm-4 control-label">攻撃力</label>
+                            <div class="col-sm-8 col_result">
+                                <input type="text" class="calc_panel_result_input" id="attack_all" readonly="readonly"/>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">スクルト</label>
-                        <div class="col-sm-8">
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_suku" value="1" checked="checked"> なし
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_suku" value="1.2"> 1段階
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" class="param_input" name="param_suku" value="1.4"> 2段階
-                            </label>
+                </form>
+            </div>
+            <div class="calc_panel_in" id="calc_monster">
+                <form class="form-horizontal">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> モンスター</h2>
+                    <div class="form-inner">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">守備力</label>
+                            <div class="col-sm-8">
+                                <div>
+                                    <input type="number" class="form-control param_number param_input" id="param_guard" value="100" min="0" max="9999">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">スクルト</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_suku" value="1" checked="checked"> なし
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_suku" value="1.2"> 1段階
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" class="param_input" name="param_suku" value="1.4"> 2段階
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">属性耐性</label>
+                            <div class="col-sm-8">
+                                <table>
+                                    <tr>
+                                        <td><select id="param_elem_guard" class="form-control param_input"></select></td>
+                                        <td id="td_fb">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" class="param_fb"/> フォースブレイク中 (+100%)
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">属性耐性</label>
-                        <div class="col-sm-8">
-                            <table>
-                                <tr>
-                                    <td><select id="param_elem" class="form-control param_input"></select></td>
-                                    <td id="td_fb">
-                                        <label class="checkbox-inline">
-                                            <input type="checkbox" class="param_fb"/> フォースブレイク中 (+100%)
-                                        </label>
-                                    </td>
-                                </tr>
-                            </table>
+                </form>
+                <form class="form-horizontal">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> ダメージ補正</h2>
+                    <div class="form-inner">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">○系への攻撃</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control param_number param_input" id="param_type" value="0" min="0" max="100">
+                                    <div class="input-group-addon">%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">○属性の攻撃</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control param_number param_input" id="param_elem_opt" value="0" min="0" max="100">
+                                    <div class="input-group-addon">%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label">テンション</label>
+                            <div class="col-sm-5">
+                                <select id="param_tension" class="form-control param_input"></select>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+                <form class="form-horizontal">
+                    <h2><span class="glyphicon glyphicon-th-large"></span> 使用特技</h2>
+                    <div class="form-inner">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"></label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control param_number param_input" id="Number1" value="0" min="0" max="100">
+                                    <div class="input-group-addon">%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">○属性の攻撃</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="number" class="form-control param_number param_input" id="Number2" value="0" min="0" max="100">
+                                    <div class="input-group-addon">%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label">テンション</label>
+                            <div class="col-sm-5">
+                                <select id="Select1" class="form-control param_input"></select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+        
     </div>
     <footer>
     </footer>

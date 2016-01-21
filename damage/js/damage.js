@@ -132,6 +132,27 @@
         elementRank[i].name += ' (x' + elementRank[i].value + ')';
     }
 
+    var tensionList = [
+        { value: '1.0', name: 'なし' },
+        { value: '1.5', name: '1段階' },
+        { value: '2.0', name: '2段階' },
+		{ value: '2.5', name: '3段階' },
+        { value: '3.5', name: '4段階' }
+    ];
+
+    for (var i = 0; i < tensionList.length; i++) {
+        tensionList[i].name += ' (x' + tensionList[i].value + ')';
+    }
+
+    var specialList = [
+        { name: '通常攻撃', p: 1, sp: 1, sb: 0 },
+        { name: 'もろば切り', p: 3.2, sp: 1, sb: 0, custom: function (p) { return Math.floor(p * 0.35) + 'の反射ダメージ'; } },
+        { name: 'シールドアタック', p: 0.5, sp: 1, sb: 0 },
+        { name: '天使の矢', p: 0.9, sp: 1, sb: 0, custom: function (p) { return 'MPを' + Math.floor(p * 0.065) + "回復"; } },
+        { name: 'ミラクルソード', p: 1, sp: 1, sb: 0, custom: function (p) { return 'HPを' + (Math.floor(p * 0.25) + 20) + "回復"; } },
+        { name: 'ミラクルソード', p: 1, sp: 1, sb: 0, custom: function (p) { return 'HPを' + (Math.floor(p * 0.25) + 20) + "回復"; } },
+    ];
+
     /**
     * 値を数値として取りだすjQuery拡張メソッド
     * @param defaultValue
@@ -177,7 +198,11 @@
             createSelectList($(this), acsList[name]);
         });
         // 属性耐性のコンボボックスを作成する
-        createSelectList($('#param_elem'), elementRank);
+        createSelectList($('#param_elem_guard'), elementRank);
+        // テンションのコンボボックスを作成する
+        createSelectList($('#param_tension'), tensionList);
+
+        // 計算イベントを設定する
         $('#calc_attack .param_input').bind('keyup mouseup change click', function () {
             calcAttackPoint();
         });
