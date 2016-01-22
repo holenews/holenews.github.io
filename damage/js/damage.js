@@ -353,10 +353,7 @@
         $('#param_renkin').val(param.renkin);
         $('#param_skill_type').val(param.skillType);
         $('#param_skill_level').val(param.skillLv);
-        var acsParts = ['顔', '首', '胸', '指', '札', '他', '証'];
-        param.acs = {};
         for(var parts in param.acs){
-            var parts = acsParts[a];
             $('select.param_acs[name=' + parts + ']').val(param.acs[parts].base);
             $('input.param_acs[name=' + parts + ']').val(param.acs[parts].gousei);
         }
