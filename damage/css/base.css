@@ -6,6 +6,11 @@ body
     background : #fafafa;
 }
 
+h1
+{
+    font-size : 1.5em;
+}
+
 .container 
 {
    width : 1000px;
@@ -15,6 +20,7 @@ body
 #calc_panel
 {
     width : 1000px;
+    margin-top : 10px;
 }
 
 .calc_panel_in
@@ -135,6 +141,7 @@ body
 {
     border : none;
     border-bottom : 1px solid #000;
+    background : transparent;
 }
 
 #td_fb label
@@ -218,7 +225,7 @@ body
     }
     #calc_panel
     {
-        margin-top : 120px;
+        margin-bottom : 120px;
         width : 100%;
     }
     .calc_panel_in
@@ -257,11 +264,12 @@ body
         z-index : 2;
         border-bottom : 1px solid #666;
         background : #FFF;
-        box-shadow : 0px 2px 5px rgba(0,0,0,1); 
-        top : 0;
+        box-shadow : 0px -2px 5px rgba(0,0,0,5); 
+        bottom : 0;
         left : 0;
         width : 100%;
         border-radius : 0;
+        margin-bottom : 0px;
     }
     
     #calc_damage_result .progress_box

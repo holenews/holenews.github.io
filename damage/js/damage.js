@@ -520,7 +520,7 @@
             }
         }
         $('#damage_range').html('もろば切りのダメージ幅<br/>' + minSpDamage + '～' + maxSpDamage + ' (反射 ' + minSpRefl + '～' + maxSpRefl + ')');
-        var deadPerc = Math.floor(deadCount / damageRangeList.length) * 100;
+        var deadPerc = Math.floor(deadCount / damageRangeList.length * 100);
         $('#calc_damage_result .progress-bar').attr('aria-valuenow', deadPerc).css('width', deadPerc + '%');
         $('#dead_percent span').text(deadPerc + '%');
     }
