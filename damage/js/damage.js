@@ -288,13 +288,13 @@
         // アクセサリのコンボボックスを作成する
         $('.param_acs').each(function () {
             var name = $(this).attr('name');
-            createSelectList($(this), acsList[name]);
+            createSelectList($(this), acsList[name], '\s (+\d)');
         });
         // 属性耐性のコンボボックスを作成する
         createSelectList($('#param_elem_guard'), elementRank, '\s (x\d)');
         createSelectList($('#param_elem_break'), elementBreak, '\s (+\d%)');
         // テンションのコンボボックスを作成する
-        createSelectList($('#param_tension'), tensionList, '\s (x\d)');
+        createSelectList($('#param_tension'), tensionList);
         // 攻撃力増減のコンボボックスを作成する
         createSelectList($('#param_bicion'), bicionList, '\s (x\d)');
         // 守備力増減のコンボボックスを作成する
@@ -489,9 +489,10 @@
                     }
                     if (tensionData.bonus > 0) {
                         // テンションを加算する
-                        specialResult = Math.floor(specialResult * tensionData.value + tensionData.bonus);
+                        specialResult = Math.floor(specialResult * tensionData.perc + tensionData.bonus);
                     }
                 }
+                specialResult = specialResult > 1999 ? 1999 : specialResult;
                 damageRangeList.push(specialResult);
             }
         }
