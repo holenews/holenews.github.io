@@ -106,6 +106,11 @@
 		{ value: 5, name: 'パワーチャーム' }
 	];
 
+    acsList['証'] = [
+		{ value: 0, name: '証アクセ' },
+		{ value: 3, name: '魔人の勲章' }
+	];
+
     var elementRank = [
         { value: '1.0', name: 'なし' },
         { value: '1.1', name: '弱点' },
@@ -114,21 +119,116 @@
         { value: '0.5', name: '強耐性' }
     ];
 
-    var tensionList = [
-        { value: '1.0', name: 'なし' },
-        { value: '1.5', name: '1段階' },
-        { value: '2.0', name: '2段階' },
-		{ value: '2.5', name: '3段階' },
-        { value: '3.5', name: '4段階' }
+    var elementBreak = [
+        { value: 0, name: '耐性ダウン無し' },
+        { value: 50, name: '＊＊＊ステップ' },
+        { value: 100, name: 'フォースブレイク' },
     ];
 
-    var specialList = [
-        { name: '通常攻撃', p: 1, sp: 1, sb: 0 },
-        { name: 'もろば切り', p: 3.2, sp: 1, sb: 0, custom: function (p) { return Math.floor(p[0] * 0.35) + 'の反射ダメージ'; } },
-        { name: '天使の矢', p: 0.9, sp: 1, sb: 0, custom: function (p) { return 'MPを' + Math.floor(p[0] * 0.065) + '回復'; } },
-        { name: 'ミラクルソード', p: 1, sp: 1, sb: 0, custom: function (p) { return 'HPを' + (Math.floor(p[0] * 0.25) + 20) + '回復'; } },
-        { name: 'タイガークロー', p: [1.3, 1.2, 1.1], sp: 1, sb: 0 },
+    var tensionList = [
+        { value: 0, perc: 1.0, bonus: 00, name: 'なし' },
+        { value: 1, perc: 1.5, bonus: 10, name: '1段階 (x1.5)' },
+        { value: 2, perc: 2.0, bonus: 20, name: '2段階 (x2.0)' },
+		{ value: 3, perc: 2.5, bonus: 30, name: '3段階 (x2.5)' },
+        { value: 4, perc: 3.5, bonus: 40, name: '4段階 (x3.5)' }
     ];
+
+    /*var specialList = {};
+    specialList['未指定'] = [
+    { name: '通常攻撃', p: 1 }
+    ];
+    specialList['戦士'] = [
+    { name: 'ロストアタック', p: 1.1 },
+    { name: 'たいあたり', p: 1.25 },
+    { name: 'やいばくだき', p: 1.3 },
+    { name: 'チャージタックル', p: 2 },
+    { name: '真やいばくだき', r: [3.5, 3.7] }
+    ];
+    specialList['旅芸'] = [
+    { name: 'キラージャグリング', p: 0.5, c: 6 },
+    { name: 'ゴッドジャグリング', p: 0.5, c: 8 }
+    ];
+    specialList['バトルマスター'] = [
+    { name: 'とうこん打ち', p: 1 },
+    { name: 'もろば斬り', p: 3.2, o: function (d) { return Math.floor(d[0] * 0.35) + 'の反射ダメージ'; } },
+    { name: '天下無双', p: 0.5, c: 6 }
+    ];
+    specialList['魔法戦士'] = [
+    { name: 'フォースブレイク', p: 1.5 }
+    ];
+    specialList['まもの使い'] = [
+    { name: 'ブレスクラッシュ', p: 1.2 },
+    { name: 'スキルクラッシュ', p: 2 }
+    ];
+    specialList['踊り子'] = [
+    { name: 'つるぎの舞', r: [1.15, 1.25] }
+    ];
+    specialList['片手剣'] = [
+    { name: 'かえん斬り(*)', p : function (d) { return (d * 0.2) + 10; } },
+    { name: 'ドラゴン斬り', p: 1, s: function (d) { return d * 0.5 + 10; } },
+    { name: 'ミラクルソード', p: 1, o: function (d) { return 'HPを' + (Math.floor(d[0] * 0.25) + 20) + '回復'; } },
+    { name: 'はやぶさ斬り', p: 1, c: 2 },
+    { name: '超はやぶさ斬り', p: 0.75, c: 4 }
+    ];
+    specialList['両手剣'] = [
+    { name: 'ドラゴンスラッシュ', p: 1, s: function (d) { return d * 0.5 + 10; } },
+    { name: '渾身斬り', p: 2 },
+    { name: '全身全霊斬り', r : [3.9, 4.1] }
+    ];
+    specialList['オノ'] = [
+    { name: 'たいぼく斬', p: 1, s: function (d) { return d * 0.5 + 10; } },
+    { name: '蒼天魔斬', p: 3 },
+    { name: 'かぶと割り', p: 1.25 },
+    { name: 'オノむそう', r: [2, 2.3] },
+    { name: '鉄甲斬', p : 1.5 },
+    { name: '真・オノむそう', p : 1.9, c : 2 }
+    ];
+    specialList['ヤリ'] = [
+    { name: 'けもの突き', p: 1, s: function (d) { return d * 0.5 + 10; } },
+    { name: '雷鳴突き(*)', p: function (d) { return (d * 1.2) + 10; } },
+    { name: '狼牙突き', p: 2 },
+    { name: 'さみだれ突き(*)', p: function (d) { return (d * 0.9) + 10; }, c : 4 }
+    ];
+    specialList['スティック'] = [
+    { name: 'デビルンチャーム', p: 1, s: function (d) { return d * 1.5 + 10; } }
+    ];
+    specialList['棍'] = [
+    { name: '黄泉送り', p: 1, s: function (d) { return d * 1.5 + 10; } },
+    { name: 'なぎはらい', r: [1.3, 1.5] },
+    { name: '氷結らんげき', p: function (d) { return (d * 0.5) + 10; }, c: 4 },
+    { name: '奥義・棍閃殺', p: 3.15 }
+    ];
+    specialList['両手杖'] = [
+    { name: '悪魔ばらい', p: 1, s: function (d) { return d * 1.5 + 10; } }
+    ];
+    specialList['短剣'] = [
+    { name: 'キラーブーン', p: 1, s: function (d) { return d * 1.5 + 10; } },
+    { name: 'スリープダガー', p: 1.1 },
+    { name: 'ヒュプノスハント', p: 1.5, s: function (d) { return d * 2.55 + 10; } },
+    { name: 'ヴァイパーファング', p: 1.1 },
+    { name: 'タナトスハント', p: 1.5, s: function (d) { return d * 2.55 + 10; } },
+    { name: 'カオスエッジ', p: 1.5 },
+    { name: 'ナイトメアファング', p: 1.75 },
+    ];
+    specialList['ムチ'] = [
+    { name: 'らせん打ち', p: 1.2 },
+    { name: '愛のムチ', p: 1, s: function (d) { return d * 0.5 + 10; } },
+    { name: 'スパークショット', p: 1.3 },
+    { name: 'しばり打ち', p: 1.2 },
+    { name: '地ばしり打ち(*)', p: function (d) { return (d * 1.5) + 5; } },
+    { name: '双竜打ち', p: 2, c : 2 },
+    { name: '疾風迅雷(*)', p: function (d) { return (d * 3.2) + 5; } },
+    { name: '極竜打ち', p: 1.8, c : 3 }
+    ];
+    */
+
+    var specialList = [
+        { name: 'もろば切り', p: 3.2, custom: function (p) { return Math.floor(p[0] * 0.35) + 'の反射ダメージ'; } }
+    ];
+
+    for (var i = 0; i < specialList.length; i++) {
+        specialList[i].value = i;
+    }
 
     var guardList = [
         { value: '1.0', name: 'なし' },
@@ -192,6 +292,7 @@
         });
         // 属性耐性のコンボボックスを作成する
         createSelectList($('#param_elem_guard'), elementRank, '\s (x\d)');
+        createSelectList($('#param_elem_break'), elementBreak, '\s (+\d%)');
         // テンションのコンボボックスを作成する
         createSelectList($('#param_tension'), tensionList, '\s (x\d)');
         // 攻撃力増減のコンボボックスを作成する
@@ -203,9 +304,11 @@
         $('.param_input').bind('keyup mouseup change click', function () {
             calcAttackPoint();
             calcNormalDamage();
+            calcSpecialDamage();
         });
         calcAttackPoint();
         calcNormalDamage();
+        calcSpecialDamage();
 
         $('[data-toggle="tooltip"]').tooltip({ html: true });
     });
@@ -304,5 +407,123 @@
         $('#damage_max').val(maxDamage);
         $('#damage_avg').val(avgDamage);
     }
+
+    /**
+    * 特技ダメージを算出する
+    */
+    function calcSpecialDamage() {
+        // 通常ダメージを取得する
+        var minDamage = $('#damage_min').number();
+        var maxDamage = $('#damage_max').number();
+        var avgDamage = $('#damage_avg').number();
+        // 極意宝珠の倍率を取得する
+        var orbPerc = $('#param_elem_gokui').number() / 100.0;
+        // 系統特攻の倍率を取得する
+        var typePerc = $('#param_type').number() / 100.0;
+        // 属性ボーナスの倍率を取得する
+        var elemPerc = $('#param_type').number() / 100.0;
+        // 属性耐性の倍率を取得する
+        var elemGuard = $('#param_elem_guard').number();
+        // フォースブレイクの倍率を取得する
+        var elemBreak = $('#param_elem_break').number() / 100.0;
+        elemGuard += elemBreak;
+        elemGuard = elemGuard > 2 ? 2 : elemGuard; // 倍率2.0を超えていれば補正する
+        // テンションの倍率を取得する
+        var tensionData = tensionList[$('#param_tension').number()];
+
+        // ダメージ幅を求める
+        var damageList = [];
+        for (var d = minDamage; d <= maxDamage; d++) {
+            damageList.push({ normal: d });
+        }
+
+        // 使用特技を取得する
+        var special = specialList[0];
+        // 特技基礎ダメージを求める
+        for (var d = 0; d < damageList.length; d++) {
+            var bdamage = damageList[d].normal;
+            var specialDamageList = [];
+            var sdamage = 0;
+            if (special.r != undefined) {
+                // 基礎倍率に範囲がある場合
+                for (var r = 0; r < special.r.length; r++) {
+                    sdamage = bdamage * special.r[r];
+                    specialDamageList.push(Math.floor(sdamage));
+                }
+            } else {
+                if (typeof special.p === 'function') {
+                    // 計算式で基礎倍率を求める場合
+                    sdamage = special.p(bdamage);
+                } else {
+                    // 基礎倍率が固定の場合
+                    sdamage = bdamage * special.p;
+                }
+                specialDamageList.push(Math.floor(sdamage));
+            }
+            damageList[d].specialList = specialDamageList;
+        }
+        var damageRangeList = [];
+        for (var d = 0; d < damageList.length; d++) {
+            var specialDamageList = damageList[d].specialList;
+            for (var s = 0; s < specialDamageList.length; s++) {
+                // 特技基礎ダメージ
+                var specialBase = specialDamageList[s];
+                var specialResult = specialBase;
+                if (elemGuard > 0) {
+                    specialResult = specialBase;
+                    // 属性耐性の補正結果を加算する
+                    specialResult += Math.floor(specialBase * (elemGuard - 1.0));
+                    if (specialResult > 0) {
+                        // 極意宝珠の補正結果を加算する
+                        specialResult += Math.floor(specialBase * orbPerc);
+                        if (special.s) {
+                            // 特攻ボーナスがあれば加算する
+                            specialResult += Math.floor(special.s(specialBase));
+                        }
+                        // 系統特攻の補正結果を加算する
+                        specialResult += Math.floor(specialBase * typePerc);
+                        // 属性特攻の補正結果を加算する
+                        specialResult += Math.floor(specialBase * elemPerc);
+                    }
+                    if (tensionData.bonus > 0) {
+                        // テンションを加算する
+                        specialResult = Math.floor(specialResult * tensionData.value + tensionData.bonus);
+                    }
+                }
+                damageRangeList.push(specialResult);
+            }
+        }
+        // HPを取得する
+        var hp = $('#param_hp').number();
+        var deadCount = 0;
+        var maxSpDamage = Number.MIN_VALUE;
+        var minSpDamage = Number.MAX_VALUE;
+        var maxSpRefl = Number.MIN_VALUE;
+        var minSpRefl = Number.MAX_VALUE;
+        for (var d = 0; d < damageRangeList.length; d++) {
+            var damage = damageRangeList[d];
+            var refl = Math.floor(damage * 0.35);
+            if (refl > maxSpRefl) {
+                maxSpRefl = refl;
+            }
+            if (refl < minSpRefl) {
+                minSpRefl = refl;
+            }
+            if (damage > maxSpDamage) {
+                maxSpDamage = damage;
+            }
+            if (damage < minSpDamage) {
+                minSpDamage = damage;
+            }
+            if (refl > hp) {
+                deadCount++;
+            }
+        }
+        $('#damage_range').html('もろば切りのダメージ幅<br/>' + minSpDamage + '～' + maxSpDamage + ' (反射 ' + minSpRefl + '～' + maxSpRefl + ')');
+        var deadPerc = Math.floor(deadCount / damageRangeList.length) * 100;
+        $('#calc_damage_result .progress-bar').attr('aria-valuenow', deadPerc).css('width', deadPerc + '%');
+        $('#dead_percent span').text(deadPerc + '%');
+    }
+
 
 })();
