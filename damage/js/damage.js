@@ -499,9 +499,9 @@
         // HPを取得する
         var hp = $('#param_hp').number();
         var deadCount = 0;
-        var maxSpDamage = Number.MIN_VALUE;
+        var maxSpDamage = -1;
         var minSpDamage = Number.MAX_VALUE;
-        var maxSpRefl = Number.MIN_VALUE;
+        var maxSpRefl = -1;
         var minSpRefl = Number.MAX_VALUE;
         for (var d = 0; d < damageRangeList.length; d++) {
             var damage = damageRangeList[d];
