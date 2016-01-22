@@ -261,6 +261,28 @@
         return number;
     };
 
+    var inputValue = {
+        hp: 500,
+        power: 300,
+        wepon: 0,
+        renkin: 0,
+        skillType: 0,
+        skillLv: 0,
+        acs: { '顔': { base: 0, gousei: 0} },
+        bicion: 0,
+        foodType: 0,
+        foodLv: 0,
+        senki: 0,
+        guard: 0,
+        suku: 0,
+        elemGuard: 0,
+        elemBreak: 0,
+        tension: 0,
+        optType: 0,
+        optElem: 0,
+        optOrb: 0
+    };
+
     $(function () {
         // 料理のコンボボックスを作成する
         createSelectList($('#param_food_type'), foodList);
@@ -286,7 +308,7 @@
             createSelectList($('#param_skill_level'), skillList[value]);
         }).change();
         // アクセサリのコンボボックスを作成する
-        $('.param_acs').each(function () {
+        $('select.param_acs').each(function () {
             var name = $(this).attr('name');
             createSelectList($(this), acsList[name], '\s (+\d)');
         });
@@ -299,7 +321,7 @@
         createSelectList($('#param_bicion'), bicionList, '\s (x\d)');
         // 守備力増減のコンボボックスを作成する
         createSelectList($('#param_suku'), guardList, '\s (x\d)');
-
+        setInputParam();
         // 計算イベントを設定する
         $('.param_input').bind('keyup mouseup change click', function () {
             calcAttackPoint();
@@ -312,8 +334,80 @@
         $('input.param_input').focus(function () {
             $(this).select();
         });
+
+        $(window).bind('beforeunload', function () {
+            var param = getInputParam();
+            var string = JSON.stringify(param);
+            $.cookie('autosave', string, { expires: 365 });
+        });
         $('[data-toggle="tooltip"]').tooltip({ html: true });
     });
+
+    function setInputParam() {
+        var paramstr = $.cookie('autosave');
+        if(!paramstr) return;
+        var param = JSON.parse(paramstr);
+        $('#param_hp').val(param.hp);
+        $('#param_power').val(param.power);
+        $('#param_weapon').val(param.wepon);
+        $('#param_renkin').val(param.renkin);
+        $('#param_skill_type').val(param.skillType);
+        $('#param_skill_level').val(param.skillLv);
+        var acsParts = ['顔', '首', '胸', '指', '札', '他', '証'];
+        param.acs = {};
+        for(var parts in param.acs){
+            var parts = acsParts[a];
+            $('select.param_acs[name=' + parts + ']').val(param.acs[parts].base);
+            $('input.param_acs[name=' + parts + ']').val(param.acs[parts].gousei);
+        }
+        $('#param_bicion').val(param.bicion);
+        $('#param_food_type').val(param.foodType);
+        $('#param_food_level').val(param.foodLv);
+        $('#param_food_type').val(param.foodType);
+        $('input[name=param_senki]').val([param.senki]);
+        $('#param_guard').val(param.guard);
+        $('#param_suku').val(param.suku);
+        $('#param_elem_guard').val(param.elemGuard);
+        $('#param_elem_break').val(param.elemBreak);
+        $('#param_tension').val(param.tension);
+        $('#param_type').val(param.optType);
+        $('#param_elem_opt').val(param.optElem);
+        $('#param_elem_gokui').val(param.optOrb);
+        return param;
+    }
+
+    function getInputParam() {
+        var param = {};
+        param.hp = $('#param_hp').number();
+        param.power = $('#param_power').number();
+        param.wepon = $('#param_weapon').number();
+        param.renkin = $('#param_renkin').number();
+        param.skillType = $('#param_skill_type').number();
+        param.skillLv = $('#param_skill_level').number();
+        var acsParts = ['顔', '首', '胸', '指', '札', '他', '証'];
+        param.acs = {};
+        for(var a = 0; a < acsParts.length; a++){
+            var parts = acsParts[a];
+            param.acs[parts] = {
+                base : $('select.param_acs[name=' + parts + ']').number(),
+                gousei : $('input.param_acs[name=' + parts + ']').number()
+            };
+        }
+        param.bicion = $('#param_bicion').number();
+        param.foodType = $('#param_food_type').number();
+        param.foodLv = $('#param_food_level').number();
+        param.foodType = $('#param_food_type').number();
+        param.senki = $('input[name=param_senki]:checked').number();
+        param.guard = $('#param_guard').number();
+        param.suku = $('#param_suku').number();
+        param.elemGuard = $('#param_elem_guard').number();
+        param.elemBreak = $('#param_elem_break').number();
+        param.tension = $('#param_tension').number();
+        param.optType = $('#param_type').number();
+        param.optElem = $('#param_elem_opt').number();
+        param.optOrb = $('#param_elem_gokui').number();
+        return param;
+    }
 
     /**
     * コンボボックスリストを作成する
