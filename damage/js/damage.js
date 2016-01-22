@@ -309,7 +309,9 @@
         calcAttackPoint();
         calcNormalDamage();
         calcSpecialDamage();
-
+        $('input.param_input').focus(function () {
+            $(this).select();
+        });
         $('[data-toggle="tooltip"]').tooltip({ html: true });
     });
 
