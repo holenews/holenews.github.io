@@ -514,7 +514,7 @@
         // 系統特攻の倍率を取得する
         var typePerc = $('#param_type').number() / 100.0;
         // 属性ボーナスの倍率を取得する
-        var elemPerc = $('#param_type').number() / 100.0;
+        var elemPerc = $('#param_elem_opt').number() / 100.0;
         // 属性耐性の倍率を取得する
         var elemGuard = $('#param_elem_guard').number();
         // フォースブレイクの倍率を取得する
