@@ -70,8 +70,17 @@ h1
     text-align : right;
 }
 
+.form-group th
+{
+    text-align : right;
+    padding-right : 10px;
+}
 
-#param_hp, #param_power, #param_guard
+#param_hp, #param_power
+{
+    
+}
+#param_guard
 {
     width : 20%;
 }
@@ -85,11 +94,11 @@ h1
 }
 #td_food_type
 {
-    width : 60%;
+    width : 45%;
 }
 #td_food_level
 {
-    width : 40%;
+    width : 55%;
 }
 
 .form-group table
