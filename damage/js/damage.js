@@ -45,19 +45,19 @@
     var skillList = {};
     skillList['片手剣'] = createSkillList({ '7': 5, '42': 10, '88': 15, '150': 10 });
     skillList['両手剣'] = createSkillList({ '7': 10, '42': 15, '88': 20, '110': 10, '150': 10 });
-    skillList['オノ'] = createSkillList({ '3': 5, '13': 10, '35': 15, '88': 20, '110': 10, '150': 10 });
+    //skillList['オノ'] = createSkillList({ '3': 5, '13': 10, '35': 15, '88': 20, '110': 10, '150': 10 });
     skillList['ハンマー'] = createSkillList({ '13': 12, '58': 10, '88': 15, '110': 10 });
     skillList['格闘'] = createSkillList({ '3': 10, '25': 20, '77': 40, '150': 50 });
-    skillList['両手杖'] = createSkillList({});
-    skillList['スティック'] = createSkillList({});
-    skillList['短剣'] = createSkillList({ '7': 5, '42': 10, '88': 15, '130': 5 });
-    skillList['ムチ'] = createSkillList({ '7': 5, '22': 5, '58': 5, '110': 10, '150': 10 });
-    skillList['ヤリ'] = createSkillList({ '3': 10, '58': 15, '88': 20, '150': 10 });
-    skillList['棍'] = createSkillList({ '3': 10, '35': 15, '88': 20, '150': 10 });
-    skillList['ツメ'] = createSkillList({ '7': 5, '42': 5, '88': 5, '150': 5 });
-    skillList['扇'] = createSkillList({ '3': 5, '35': 10, '88': 15, '130': 10, '150': 10 });
-    skillList['弓'] = createSkillList({ '3': 5, '35': 10, '88': 15, '110': 10, '150': 10 });
-    skillList['ブーメラン'] = createSkillList({ '7': 5, '22': 5, '76': 5, '110': 5, '150': 10 });
+    //skillList['両手杖'] = createSkillList({});
+    //skillList['スティック'] = createSkillList({});
+    //skillList['短剣'] = createSkillList({ '7': 5, '42': 10, '88': 15, '130': 5 });
+    //skillList['ムチ'] = createSkillList({ '7': 5, '22': 5, '58': 5, '110': 10, '150': 10 });
+    //skillList['ヤリ'] = createSkillList({ '3': 10, '58': 15, '88': 20, '150': 10 });
+    //skillList['棍'] = createSkillList({ '3': 10, '35': 15, '88': 20, '150': 10 });
+    //skillList['ツメ'] = createSkillList({ '7': 5, '42': 5, '88': 5, '150': 5 });
+    //skillList['扇'] = createSkillList({ '3': 5, '35': 10, '88': 15, '130': 10, '150': 10 });
+    //skillList['弓'] = createSkillList({ '3': 5, '35': 10, '88': 15, '110': 10, '150': 10 });
+    //skillList['ブーメラン'] = createSkillList({ '7': 5, '22': 5, '76': 5, '110': 5, '150': 10 });
 
     var skillTypeList = [];
     for (var key in skillList) {
@@ -379,7 +379,7 @@
         param.power = $('#param_power').number();
         param.wepon = $('#param_weapon').number();
         param.renkin = $('#param_renkin').number();
-        param.skillType = $('#param_skill_type').number();
+        param.skillType = $('#param_skill_type').val();
         param.skillLv = $('#param_skill_level').number();
         var acsParts = ['顔', '首', '胸', '指', '札', '他', '証'];
         param.acs = {};
@@ -390,16 +390,16 @@
                 gousei : $('input.param_acs[name=' + parts + ']').number()
             };
         }
-        param.bicion = $('#param_bicion').number();
+        param.bicion = $('#param_bicion').val();
         param.foodType = $('#param_food_type').number();
         param.foodLv = $('#param_food_level').number();
         param.foodType = $('#param_food_type').number();
         param.senki = $('input[name=param_senki]:checked').number();
         param.guard = $('#param_guard').number();
-        param.suku = $('#param_suku').number();
-        param.elemGuard = $('#param_elem_guard').number();
+        param.suku = $('#param_suku').val();
+        param.elemGuard = $('#param_elem_guard').val();
         param.elemBreak = $('#param_elem_break').number();
-        param.tension = $('#param_tension').number();
+        param.tension = $('#param_tension').val();
         param.optType = $('#param_type').number();
         param.optElem = $('#param_elem_opt').number();
         param.optOrb = $('#param_elem_gokui').number();
