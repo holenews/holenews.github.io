@@ -321,6 +321,10 @@
     OrbMaster[3].push({ id: 1614, grp: 16, name: "つるぎの舞の極意", desc: "つるぎの舞の威力が　[３]％アップします。" });
     OrbMaster[3].push({ id: 1615, grp: 16, name: "戦鬼の乱れ舞の瞬き", desc: "戦鬼の乱れ舞の発動速度が　[５]％アップします。" });
     OrbMaster[3].push({ id: 1616, grp: 16, name: "荒神の舞の閃き", desc: "必殺チャージ率が　[０.５]％アップします。" });
+    
+	OrbGroup[3][17] = "占い師";
+	OrbMaster[3].push({ id: 1701, grp: 17, name: "ゾディアックコードの閃き", desc: "必殺チャージ率が　[０.５]％アップします。" });
+    OrbMaster[3].push({ id: 1702, grp: 17, name: "果てなき魅惑の水晶球", desc: "果てなき魅惑の水晶球の効果時間が　[２]秒アップします。" });
 
     OrbMaster[4] = [];
     OrbGroup[4] = [];
@@ -332,6 +336,7 @@
     OrbMaster[4].push({ id: 0105, grp: 01, name: "ばくれつけんの極意", desc: "ばくれつけんの威力が　[６]％アップします。" });
     OrbMaster[4].push({ id: 0106, grp: 01, name: "岩石おとしの極意", desc: "岩石おとしの威力が　[５]％アップします。" });
     OrbMaster[4].push({ id: 0107, grp: 01, name: "せいけん爆撃の極意", desc: "せいけん爆撃の威力が[３]％、会心率が[１]％アップします。" });
+    OrbMaster[4].push({ id: 0108, grp: 01, name: "しんくうはの極意", desc: "しんくうはの威力が　[５]％アップします。" });
     
     OrbGroup[4][02] = "片手剣";
     OrbMaster[4].push({ id: 0201, grp: 02, name: "かえん斬りの極意", desc: "かえん斬りの威力が　[１５]％アップします。" });
@@ -341,6 +346,7 @@
     OrbMaster[4].push({ id: 0205, grp: 02, name: "ギガスラッシュの極意", desc: "ギガスラッシュの威力が　[５]％アップします。" });
     OrbMaster[4].push({ id: 0206, grp: 02, name: "超はやぶさ斬りの極意", desc: "超はやぶさ斬りの威力が　[６]％アップします。" });
     OrbMaster[4].push({ id: 0207, grp: 02, name: "ギガブレイクの極意", desc: "ギガブレイクの威力が　[５]％アップします。" });
+    OrbMaster[4].push({ id: 0208, grp: 02, name: "不死鳥天舞の極意", desc: "不死鳥天舞の威力が　[５]％アップします。" });
     
     OrbGroup[4][03] = "両手剣";
     OrbMaster[4].push({ id: 0301, grp: 03, name: "果てなきブレードガード", desc: "ブレードガードの効果時間が　[３]秒アップします。" });
@@ -350,6 +356,7 @@
     OrbMaster[4].push({ id: 0305, grp: 03, name: "渾身斬りの極意", desc: "渾身斬りの威力が　[５]％アップします。" });
     OrbMaster[4].push({ id: 0306, grp: 03, name: "ビッグバンの極意", desc: "ビッグバンの威力が　[５]％アップします。" });
     OrbMaster[4].push({ id: 0307, grp: 03, name: "全身全霊斬りの極意", desc: "渾身斬りの威力が　[３]％アップします。" });
+    OrbMaster[4].push({ id: 0308, grp: 03, name: "プラズマブレードの極意", desc: "プラズマブレードの威力が　[８]％アップします。" });
     
     OrbGroup[4][04] = "短剣";
     OrbMaster[4].push({ id: 0401, grp: 04, name: "キラーブーンの極意", desc: "キラーブーンの威力が　[２５]％アップします。" });
@@ -361,16 +368,19 @@
     OrbMaster[4].push({ id: 0407, grp: 04, name: "タナトスハントの極意", desc: "タナトスハントの毒マヒ中の威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 0408, grp: 04, name: "カオスエッジの極意", desc: "カオスエッジの威力が　[８]％アップします。" });
     OrbMaster[4].push({ id: 0409, grp: 04, name: "ナイトメアファングの極意", desc: "ナイトメアファングの威力が　[５]％アップします。" });
+    OrbMaster[4].push({ id: 0410, grp: 04, name: "オネロスハントの極意", desc: "オネロスハントの威力が　[５]％アップします。" });
     
     OrbGroup[4][05] = "スティック";
     OrbMaster[4].push({ id: 0501, grp: 05, name: "果てなきマジステッキ", desc: "マジステッキの効果時間が　[３]秒アップします。" });
     OrbMaster[4].push({ id: 0502, grp: 05, name: "デビルンチャームの極意", desc: "デビルンチャームの威力が[２０]％、魅了成功率が[２]％アップします。" });
     OrbMaster[4].push({ id: 0503, grp: 05, name: "パニパニハニーの技巧", desc: "パニパニハニーの混乱の成功率が　[１０]％アップします。" });
+    OrbMaster[4].push({ id: 0504, grp: 05, name: "ホップスティックの戦域", desc: "ホップスティックの効果範囲が　[０.５]ｍアップします。" });
     
     OrbGroup[4][06] = "両手杖";
     OrbMaster[4].push({ id: 0601, grp: 06, name: "悪魔ばらいの極意", desc: "悪魔ばらいの威力が[２０]％、マヒ成功率が[２]％アップします。" });
     OrbMaster[4].push({ id: 0602, grp: 06, name: "果てなき早詠みの杖", desc: "早詠みの杖の効果時間が　[２]秒アップします。" });
     OrbMaster[4].push({ id: 0603, grp: 06, name: "しゅくふくの杖の奇跡", desc: "しゅくふくの杖の回復量が　[１０]％アップします。" });
+    OrbMaster[4].push({ id: 0604, grp: 06, name: "果てなき活命の杖", desc: "活命の杖の効果時間が　[３]秒アップします。" });
     
     OrbGroup[4][07] = "槍";
     OrbMaster[4].push({ id: 0701, grp: 07, name: "けもの突きの極意", desc: "けもの突きの威力が　[３５]％アップします。" });
@@ -379,6 +389,8 @@
     OrbMaster[4].push({ id: 0704, grp: 07, name: "狼牙突きの極意", desc: "狼牙突きの威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 0705, grp: 07, name: "さみだれ突きの極意", desc: "さみだれ突きの威力が　[４]％アップします。" });
     OrbMaster[4].push({ id: 0706, grp: 07, name: "ジゴスパークの極意", desc: "ジゴスパークの威力が　[５]％アップします。" });
+    OrbMaster[4].push({ id: 0707, grp: 07, name: "武神の護法の極意", desc: "武神の護法の威力が　[５]％アップします。" });
+    OrbMaster[4].push({ id: 0708, grp: 07, name: "武神の護法の技巧", desc: "武神の護法の成功率が　[２]％アップします。" });
     
     OrbGroup[4][08] = "オノ";
     OrbMaster[4].push({ id: 0801, grp: 08, name: "たいぼく斬の極意", desc: "たいぼく斬の威力が　[３５]％アップします。" });
@@ -388,6 +400,7 @@
     OrbMaster[4].push({ id: 0805, grp: 08, name: "オノむそうの極意", desc: "オノむそうの威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 0806, grp: 08, name: "鉄甲斬の極意", desc: "鉄甲斬の威力が　[８]％アップします。" });
     OrbMaster[4].push({ id: 0807, grp: 08, name: "真・オノむそうの極意", desc: "真・オノむそうの威力が　[３]％アップします。" });
+    OrbMaster[4].push({ id: 0808, grp: 08, name: "降魔紅蓮斬の極意", desc: "降魔紅蓮斬の威力が　[４]％アップします。" });
     
     OrbGroup[4][09] = "ハンマー";
     OrbMaster[4].push({ id: 0901, grp: 09, name: "ウェイトブレイクの極意", desc: "ウェイトブレイクの威力が　[５]％アップします。" });
@@ -399,6 +412,7 @@
     OrbMaster[4].push({ id: 0907, grp: 09, name: "ランドインパクトの極意", desc: "ランドインパクトの威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 0908, grp: 09, name: "スタンショットの技巧", desc: "スタンショットの成功率が　[１]％アップします。" });
     OrbMaster[4].push({ id: 0909, grp: 09, name: "プレートインパクトの極意", desc: "プレートインパクトの威力が　[３]％アップします。" });
+    OrbMaster[4].push({ id: 0910, grp: 09, name: "デビルクラッシュの極意", desc: "デビルクラッシュの威力が　[８]％アップします。" });
     
     OrbGroup[4][10] = "棍";
     OrbMaster[4].push({ id: 1001, grp: 10, name: "足ばらいの技巧", desc: "足ばらいの転びの成功率が　[５]％アップします。" });
@@ -406,6 +420,7 @@
     OrbMaster[4].push({ id: 1003, grp: 10, name: "なぎはらいの極意", desc: "なぎはらいの威力が　[２]％アップします。" });
     OrbMaster[4].push({ id: 1004, grp: 10, name: "氷結らんげきの極意", desc: "氷結らんげきの威力が　[４]％アップします。" });
     OrbMaster[4].push({ id: 1005, grp: 10, name: "奥義・棍閃殺の極意", desc: "奥義・棍閃殺の威力が　[３]％アップします。" });
+    OrbMaster[4].push({ id: 1006, grp: 10, name: "断空なぎはらいの極意", desc: "断空なぎはらいの威力が　[３]％アップします。" });
     
     OrbGroup[4][11] = "ツメ";
     OrbMaster[4].push({ id: 1101, grp: 11, name: "ウィングブロウの極意", desc: "ウィングブロウの威力が　[５]％アップします。" });
@@ -415,6 +430,7 @@
     OrbMaster[4].push({ id: 1105, grp: 11, name: "ゴールドフィンガーの極意", desc: "ゴールドフィンガーの威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 1106, grp: 11, name: "サイクロンアッパーの極意", desc: "サイクロンアッパーの威力が　[５]％アップします。" });
     OrbMaster[4].push({ id: 1107, grp: 11, name: "ライガークラッシュの極意", desc: "ライガークラッシュの威力が　[１]％アップします。" });
+    OrbMaster[4].push({ id: 1108, grp: 11, name: "果てなき牙神昇誕", desc: "牙神昇誕の効果時間が　[３]秒アップします。" });
     
     OrbGroup[4][12] = "扇";
     OrbMaster[4].push({ id: 1201, grp: 12, name: "花ふぶきの技巧", desc: "花ふぶきの幻惑の成功率が　[８]％アップします。" });
@@ -423,6 +439,7 @@
     OrbMaster[4].push({ id: 1204, grp: 12, name: "アゲハ乱舞の極意", desc: "アゲハ乱舞の威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 1205, grp: 12, name: "ピンクタイフーンの極意", desc: "ピンクタイフーンの威力が　[６]％アップします。" });
     OrbMaster[4].push({ id: 1206, grp: 12, name: "百花繚乱の極意", desc: "百花繚乱のダメージが　[３]％アップします。" });
+    OrbMaster[4].push({ id: 1207, grp: 12, name: "風斬りの舞の戦域", desc: "風斬りの舞の効果範囲が　[０.５]ｍアップします。" });
     
     OrbGroup[4][13] = "ムチ";
     OrbMaster[4].push({ id: 1301, grp: 13, name: "らせん打ちの極意", desc: "らせん打ちの威力が　[８]％アップします。" });
@@ -436,6 +453,7 @@
     OrbMaster[4].push({ id: 1309, grp: 13, name: "双竜打ちの極意", desc: "双竜打ちの威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 1310, grp: 13, name: "疾風迅雷の極意", desc: "疾風迅雷の威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 1311, grp: 13, name: "極竜打ちの極意", desc: "極竜打ちの威力が　[３]％アップします。" });
+    OrbMaster[4].push({ id: 1312, grp: 13, name: "バイキルショットの極意", desc: "バイキルショットの威力が　[３]％アップします。" });
     
     OrbGroup[4][14] = "ブーメラン";
     OrbMaster[4].push({ id: 1401, grp: 14, name: "スライムブロウの極意", desc: "スライムブロウの威力が　[２５]％アップします。" });
@@ -445,6 +463,7 @@
     OrbMaster[4].push({ id: 1405, grp: 14, name: "デュアルカッターの極意", desc: "デュアルカッターの威力が　[３]％アップします。" });
     OrbMaster[4].push({ id: 1406, grp: 14, name: "フローズンバードの極意", desc: "フローズンバードの威力が　[２]％アップします。" });
     OrbMaster[4].push({ id: 1407, grp: 14, name: "デュアルブレイカーの極意", desc: "デュアルブレイカーの威力が　[３]％アップします。" });
+    OrbMaster[4].push({ id: 1408, grp: 14, name: "レボルスライサーの極意", desc: "レボルスライサーの威力が　[３]％アップします。" });
     
     OrbGroup[4][15] = "弓";
     OrbMaster[4].push({ id: 1501, grp: 15, name: "マジックアローの極意", desc: "マジックアローの威力が　[８]％アップします。" });
@@ -456,7 +475,8 @@
     OrbMaster[4].push({ id: 1507, grp: 15, name: "シャイニングボウの極意", desc: "シャイニングボウのダメージが　[２]％アップします。" });
     OrbMaster[4].push({ id: 1508, grp: 15, name: "弓聖の守り星の戦域", desc: "弓聖の守り星の効果範囲が　[０.３]ｍアップします。" });
     OrbMaster[4].push({ id: 1509, grp: 15, name: "ダークネスショットの極意", desc: "ダークネスショットの威力が　[３]％アップします。" });
-
+	OrbMaster[4].push({ id: 1510, grp: 15, name: "ロストスナイプの極意", desc: "ロストスナイプの威力が　[５]％アップします。" });
+	
     
     for(var ot = 0; ot < OrbMaster.length; ot++){
     	for(var on = 0; on < OrbMaster[ot].length; on++){
